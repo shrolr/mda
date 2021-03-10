@@ -1,11 +1,11 @@
 import React, { useContext, useReducer } from 'react';
-import { User } from '../models';
+import { IUserResponse } from '../interfaces';
 import { reducer, Action } from './reducer';
 
 export interface StateContext {
   isAuthenticated: boolean;
   token?: string;
-  user?:User;
+  user?:IUserResponse;
 }
 
 export interface Store {

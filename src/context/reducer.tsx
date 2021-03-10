@@ -1,4 +1,4 @@
-import { User } from "../models";
+import { IUserResponse } from "../interfaces";
 import { StateContext } from "./state";
 export enum ActionType {
   SIGN_IN = 'Log out',
@@ -6,7 +6,7 @@ export enum ActionType {
 }
 
 export type Action =
-  | { type: ActionType.SIGN_IN, payload: { user: User } }
+  | { type: ActionType.SIGN_IN, payload: { user: IUserResponse } }
   | { type: ActionType.SIGN_OUT }
 
 

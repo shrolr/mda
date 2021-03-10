@@ -1,27 +1,43 @@
 import React, { useState } from 'react'
 import { View, Text, ImageBackground, Image } from 'react-native'
 import Colors from '../constants/Colors';
-import { Button, Input, Item } from 'native-base';
+import { Button, Input, Item, Toast } from 'native-base';
 
 import { AuthNavProps } from '../Routes/AuthStackNavigator/AuthParamList';
 import ApiCalls from '../network/ApiCalls';
 import { LoginRequest } from '../types/post/LoginRequest';
+import { NetworkResponseFail } from '../models';
+import { useStateContext } from '../context/state';
+import { ActionType } from '../context/reducer';
 
 
 export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
 
-  const [state, setstate] = useState({ password: "", email: "" })
-  const onChangeText = (email: string) => {
-    setstate({email,password:state.password})
+  const [state, setstate] = useState({} as LoginRequest)
+  const {  dispatch } = useStateContext();
+  const onChangeText = (identifier: string) => {
+    setstate({ identifier, password: state.password })
   }
   const onPasswordChange = (password: string) => {
-    setstate({email:state.email,password})
+    setstate({ identifier: state.identifier, password })
   }
-  const onLoginPress = () => {
-    let LoginRequest:LoginRequest = {identifier:state.email,password:state.password}
-    ApiCalls.login(LoginRequest).then((result)=> {
-      console.log(result)
+  const onLoginPress = async () => {
+    ApiCalls.login(state).then((response) => {
+      if (response instanceof NetworkResponseFail) {
+        // show error
+        Toast.show({text: 'Wrong password!',buttonText: 'Okay',type:"danger",})
+      }
+      else {
+        if (response.data.isAuthenticated) {
+          console.log(response.data.isAuthenticated)
+          dispatch!({type:ActionType.SIGN_IN,payload:{user:response.data}})
+        }
+        else {
+          Toast.show({text: 'Wrong password!',buttonText: 'Okay',type:"danger",})
+        }
+      }
     })
+
   }
   return (
     <View style={{ justifyContent: "center", flex: 1 }}>
@@ -34,7 +50,7 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
           <View style={{ height: 0.01, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
           <Text style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}>Giriş yap</Text>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 30 }} rounded>
-            <Input autoCapitalize="none" autoCorrect={false} keyboardType="email-address"  onChangeText={onChangeText} placeholder='E-mail' />
+            <Input autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder='E-mail' />
           </Item>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
             <Input onChangeText={onPasswordChange} secureTextEntry placeholder='Password' />

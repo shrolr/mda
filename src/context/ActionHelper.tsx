@@ -1,8 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
-import { NetworkResponse, User } from "../models";
-import ApiCalls from "../network/ApiCalls";
+import { NetworkResponse } from "../models";
 import { AuthParamList } from "../Routes/AuthStackNavigator/AuthParamList";
-import { AXIOS_OK, SERVER_AUTH_FAILED, SERVER_REGISTER_FAILED } from "../utilities/constants";
 import { Action, ActionType } from "./reducer";
 
 class ActionHelper {

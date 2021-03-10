@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React  from "react";
 import { Routes } from "./Routes";
 import { StateProvider } from "./context/state";
+import { Root } from "native-base";
+
 interface ProvidersProps { }
 
 export const Providers: React.FC<ProvidersProps> = ({ }) => {
   return (
-    <StateProvider>
-      <Routes />
-    </StateProvider>
+    <Root>
+      <StateProvider>
+        <Routes />
+      </StateProvider>
+    </Root>
   );
 };
