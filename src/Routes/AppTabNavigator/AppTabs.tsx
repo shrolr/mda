@@ -23,7 +23,7 @@ const AppTabNavigator = () => {
     <Tabs.Navigator
       screenOptions={({ route }) => ({
 
-        tabBarIcon: ({  color }) => {
+        tabBarIcon: ({ color }) => {
           let IconComponent = Icon;
           let iconName;
           let IconType: IconTypes = "Entypo"
@@ -64,9 +64,12 @@ const AppTabNavigator = () => {
 }
 
 export const AppTabs: React.FC<AppTabsProps> = ({ }) => {
-  
+
   return (
-    <Drawer.Navigator drawerContent={(props) => <SideBar  />}>
+    <Drawer.Navigator drawerStyle={{
+      backgroundColor: 'transparent',
+      width: 180,
+    }} overlayColor="transparent" drawerContent={(props) => <SideBar />}>
       <Drawer.Screen name="Homex" component={AppTabNavigator} />
 
     </Drawer.Navigator>

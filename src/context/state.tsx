@@ -13,7 +13,7 @@ export interface Store {
   dispatch?: React.Dispatch<Action>;
 }
 
-const defaultState: StateContext = { isAuthenticated: false, };
+const defaultState: StateContext = { isAuthenticated: true, };
 const myContext = React.createContext<Store>({ context: defaultState });
 
 export const useStateContext = () => useContext(myContext);

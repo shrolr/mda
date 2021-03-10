@@ -17,11 +17,15 @@ export default {
     tabIconSelected: tintColorDark,
   },
   common: {
-    lightBlue:'#3498db',
-    white:'#fff',
-    black:'#000',
-    gray:'gray',
-    textOrange:'#f09345',
-    loginButton:'#1d1d1b',
+    lightBlue: '#3498db',
+    white: '#fff',
+    sideBarGrayBg : "#303030",
+    black: '#000',
+    gray: 'gray',
+    textOrange: '#f09345',
+    loginButton: '#1d1d1b',
+    statusBarColor: '#272724',
+    menuBackgroundColor: '#f7ba2d'
   }
+
 };

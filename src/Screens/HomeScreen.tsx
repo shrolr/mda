@@ -1,16 +1,24 @@
+import { View } from "native-base";
 import React, { useState } from "react";
-import { Text } from "react-native";
+import { StatusBar, Text } from "react-native";
+import { TopBar } from "../components/TopBar";
+import Colors from "../constants/Colors";
 import { HomeStackNavProps } from "../Routes/HomeStackNavigator/HomeParamList";
-import { Coin } from "../models";
 
 
 function HomeScreen({ navigation }: HomeStackNavProps<"Home">) {
-
-   
- 
-
   return (
-    <Text>Home</Text>
+    <View>
+      <StatusBar
+        animated={true}
+        backgroundColor={Colors.common.statusBarColor}
+        barStyle="light-content"
+        showHideTransition="slide"
+      />
+      <TopBar />
+      <Text>Home</Text>
+
+    </View>
   )
 }
 
