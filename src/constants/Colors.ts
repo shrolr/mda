@@ -25,7 +25,14 @@ export default {
     textOrange: '#f09345',
     loginButton: '#1d1d1b',
     statusBarColor: '#272724',
-    menuBackgroundColor: '#f7ba2d'
+    chartBlackBg:'#2e2e2f',
+    menuBackgroundColor: '#f7ba2d',
+    cardHeader:'#aae6d8',
+    cardHeaderAlt:'#72eafd',
+    cardHeaderAlt2:'#ffbcbc',
+    walletHeader:"#5ed5a5",
+    walletTabBg:"#ffbf2e",
+    orangered:"#ff3b1d",
   }
 
 };

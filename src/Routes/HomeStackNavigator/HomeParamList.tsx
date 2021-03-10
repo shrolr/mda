@@ -3,6 +3,8 @@ import { RouteProp } from "@react-navigation/native";
 
 export type HomeParamList = {
   Home: undefined;
+  Wallet: undefined;
+  WalletInfoScreen:undefined;
 };
 
 export type HomeStackNavProps<T extends keyof HomeParamList> = {

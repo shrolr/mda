@@ -9,6 +9,9 @@ import { MarketStack } from "../VideoStackNavigator/MarketStack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SideBar } from "../../components";
 import { SettingsStack } from "../SettingsStackNavigator/SettingsStack";
+import { StatusBar } from "react-native";
+import { TopBar } from "../../components/TopBar";
+import Colors from "../../constants/Colors";
 
 interface AppTabsProps { }
 
@@ -66,12 +69,17 @@ const AppTabNavigator = () => {
 export const AppTabs: React.FC<AppTabsProps> = ({ }) => {
 
   return (
-    <Drawer.Navigator drawerStyle={{
-      backgroundColor: 'transparent',
-      width: 180,
-    }} overlayColor="transparent" drawerContent={(props) => <SideBar />}>
-      <Drawer.Screen name="Homex" component={AppTabNavigator} />
+    <>
 
-    </Drawer.Navigator>
+      <Drawer.Navigator drawerStyle={{
+        backgroundColor: 'transparent',
+        width: 180,
+      }} overlayColor="transparent" drawerContent={(props) => <SideBar />}>
+
+        <Drawer.Screen name="Homex" component={AppTabNavigator} />
+
+      </Drawer.Navigator>
+
+    </>
   );
 };
