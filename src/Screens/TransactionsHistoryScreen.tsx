@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Text } from 'react-native';
 import { Coin } from '../models';
-import { MarketStackNavProps } from '../Routes/VideoStackNavigator/MarketParamList';
+import { AccountStackNavProps } from '../Routes/AccountStackNavigator/AccountParamList';
 
-export default function TransactionsHistoryScreen({ navigation }: MarketStackNavProps<"Market">) {
+export default function TransactionsHistoryScreen({ navigation }: AccountStackNavProps<"Account">) {
 
     const initPage = () => {
         fetchUserTranscationsHistory()

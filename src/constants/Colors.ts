@@ -33,6 +33,9 @@ export default {
     walletHeader:"#5ed5a5",
     walletTabBg:"#ffbf2e",
     orangered:"#ff3b1d",
+    buttonOrange:"#fac32e",
+    buttonMistyRose:"#ffe1d9",
+    mediumseagreen:"#3ca078",
   }
 
 };

@@ -5,13 +5,11 @@ import { AppParamList } from "./AppParamList";
 import { HomeStack } from "../HomeStackNavigator/HomeStack";
 
 import { Icon } from "native-base";
-import { MarketStack } from "../VideoStackNavigator/MarketStack";
+import { AccountStack } from "../AccountStackNavigator/AccountStack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SideBar } from "../../components";
 import { SettingsStack } from "../SettingsStackNavigator/SettingsStack";
-import { StatusBar } from "react-native";
-import { TopBar } from "../../components/TopBar";
-import Colors from "../../constants/Colors";
+ 
 
 interface AppTabsProps { }
 
@@ -52,6 +50,7 @@ const AppTabNavigator = () => {
         inactiveTintColor: 'gray',
         inactiveBackgroundColor: '#fff',
         activeBackgroundColor: '#fff',
+        keyboardHidesTabBar: true,
         style: {
           backgroundColor: "#fff",
           borderTopWidth: 0,
@@ -59,7 +58,7 @@ const AppTabNavigator = () => {
       }}
     >
       <Tabs.Screen name="AnaSayfa" component={HomeStack} />
-      <Tabs.Screen name="Hesaplarim" component={MarketStack} />
+      <Tabs.Screen name="Hesaplarim" component={AccountStack} />
       <Tabs.Screen name="ParaCekme" component={SettingsStack} />
 
     </Tabs.Navigator>
