@@ -1,6 +1,5 @@
 import React from 'react'
 import { View } from 'react-native';
-import { Icon } from 'native-base';
 
 interface IExample {
     item: any;

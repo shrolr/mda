@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text } from 'react-native';
-import { Icon } from 'native-base';
+import { View  } from 'react-native';
 import Colors from '../constants/Colors';
+import { Text } from './atomix';
 
 interface IWalletHistoryListItem {
     index: number;

@@ -36,6 +36,8 @@ export default {
     buttonOrange:"#fac32e",
     buttonMistyRose:"#ffe1d9",
     mediumseagreen:"#3ca078",
+    borderOrange:"#F7B12B",
+    cancelGray:'#707070',
   }
 
 };

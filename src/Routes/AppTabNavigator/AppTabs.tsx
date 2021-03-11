@@ -1,14 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppParamList } from "./AppParamList";
-
+import { Image } from 'react-native'
 import { HomeStack } from "../HomeStackNavigator/HomeStack";
 
 import { Icon } from "native-base";
 import { AccountStack } from "../AccountStackNavigator/AccountStack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SideBar } from "../../components";
-import { SettingsStack } from "../SettingsStackNavigator/SettingsStack";
+import { DepositStack } from "../DepositStackNavigator/DepositStack";
  
 
 interface AppTabsProps { }
@@ -29,27 +29,27 @@ const AppTabNavigator = () => {
           let iconName;
           let IconType: IconTypes = "Entypo"
           if (route.name === "AnaSayfa") {
-            iconName = `home`;
-            IconType = "FontAwesome";
+            return <Image source={require("../../../assets/images/icons/home.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+
           }
           else if (route.name === "Hesaplarim") {
-            iconName = `line-chart`;
-            IconType = "FontAwesome";
+            return <Image source={require("../../../assets/images/icons/bank.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+
           }
           else if (route.name === "ParaCekme") {
             iconName = `comment`;
             IconType = "FontAwesome";
           }
-          return <IconComponent type={IconType} name={iconName} style={{ fontSize: 25, marginTop: 5, color: color }} />;
+          return <Image source={require("../../../assets/images/icons/deposit.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
 
         },
         header: null,
       })}
       tabBarOptions={{
-        activeTintColor: '#008ccc',
-        inactiveTintColor: 'gray',
+        activeTintColor: '#000',
+        inactiveTintColor: '#737576',
         inactiveBackgroundColor: '#fff',
-        activeBackgroundColor: '#fff',
+        activeBackgroundColor: '#f4f4f4',
         keyboardHidesTabBar: true,
         style: {
           backgroundColor: "#fff",
@@ -59,7 +59,7 @@ const AppTabNavigator = () => {
     >
       <Tabs.Screen name="AnaSayfa" component={HomeStack} />
       <Tabs.Screen name="Hesaplarim" component={AccountStack} />
-      <Tabs.Screen name="ParaCekme" component={SettingsStack} />
+      <Tabs.Screen name="ParaYatirma" component={DepositStack} />
 
     </Tabs.Navigator>
   )

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { View, Image, Text, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Image,  LayoutAnimation, Platform, UIManager } from 'react-native';
 import { Icon } from 'native-base';
 import Colors from '../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
 import { DrawerActions } from '@react-navigation/native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useIsDrawerOpen } from '@react-navigation/drawer'
+import { Text } from './atomix';
 
 interface ITopBar {
 
@@ -15,14 +16,14 @@ export const TopBar: React.FC<ITopBar> = () => {
     const navigation = useNavigation();
     if (Platform.OS === 'android') {
         if (UIManager.setLayoutAnimationEnabledExperimental) {
-          UIManager.setLayoutAnimationEnabledExperimental(true);
+            UIManager.setLayoutAnimationEnabledExperimental(true);
         }
-      }
+    }
     const isOpen: boolean = useIsDrawerOpen()
-     const toggleNavigation = () => {
+    const toggleNavigation = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
-         navigation.dispatch(DrawerActions.toggleDrawer())
+        navigation.dispatch(DrawerActions.toggleDrawer())
     }
     return (
         <View>
@@ -43,16 +44,17 @@ export const TopBar: React.FC<ITopBar> = () => {
                 </View>
 
                 <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Image source={{ uri: "https://i.hizliresim.com/TtqzTs.png" }} resizeMode="contain" style={{ marginLeft: 10, height: 50, width: 100 }} />
+                    <Image source={require("../../assets/images/icons/logo.png")} resizeMode="contain" style={{ marginLeft: 10, height: 50, width: 100 }} />
                 </View>
-                <View style={{ alignSelf: "center", justifyContent: "center", width: 30, borderRadius: 15, height: 30, backgroundColor: Colors.common.menuBackgroundColor }}>
-                    <Icon style={{ fontSize: 16, color: "black", alignSelf: "center" }} type="AntDesign" name="download" />
+                <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
+                    <Image source={require("../../assets/images/icons/download_orange.png")} resizeMode="contain" style={{   height: 22, width: 22 }} />
                 </View>
-                <View style={{ marginLeft: 10, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Icon style={{ fontSize: 16, color: "black", alignSelf: "center" }} type="Feather" name="bell" />
+
+                <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
+                    <Image source={require("../../assets/images/icons/bell.png")} resizeMode="contain" style={{ marginLeft: 5, height: 20, width: 20 }} />
                 </View>
-                <View style={{ marginLeft: 10, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image resizeMode="contain" style={{ marginRight: 10, height: 20, width: 20 }} source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/United-kingdom_flag_icon_round.svg/1200px-United-kingdom_flag_icon_round.svg.png" }} />
+                <View style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
+                <Image source={require("../../assets/images/icons/flag_uk.png")} resizeMode="contain" style={{ marginRight: 5, height: 20, width: 20 }} />
                     <Text>EN</Text>
                 </View>
             </View>

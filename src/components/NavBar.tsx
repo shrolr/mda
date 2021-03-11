@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, Text } from 'react-native';
+import { View  } from 'react-native';
 import { Icon } from 'native-base';
 import Colors from '../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
+import { Text } from './atomix';
 
 interface INavBar {
     title: string

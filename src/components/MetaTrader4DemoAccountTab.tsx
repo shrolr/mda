@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View,   TouchableOpacity } from 'react-native';
 import { Button, Card, Icon, Toast } from 'native-base';
 import Colors from '../constants/Colors';
 import Clipboard from 'expo-clipboard';
+import { Text } from './atomix';
 
 interface IMetaTrader4DemoAccountTab {
 

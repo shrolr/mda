@@ -20,6 +20,7 @@ export const Providers: React.FC<ProvidersProps> = ({ }) => {
     });
     setLoading(true);
   }
+
   return (
     <Root>
       <StateProvider>

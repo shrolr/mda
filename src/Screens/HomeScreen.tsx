@@ -2,7 +2,6 @@ import { Card, Icon, View } from "native-base";
 import React, { useState } from "react";
 import { ScrollView, StatusBar, Text } from "react-native";
 import { ChartCard, GraphCard } from "../components";
-import DecoratorExample from "../components/LineChart";
 import { TopBar } from "../components/TopBar";
 import Colors from "../constants/Colors";
 import { HomeStackNavProps } from "../Routes/HomeStackNavigator/HomeParamList";
