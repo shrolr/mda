@@ -8,13 +8,25 @@ interface IMenuCard {
     isTouchable: boolean;
     title: string;
     imageUri: ImageSourcePropType;
-    onMenuItemClick?: () => void
+    onMenuItemClick?: () => void;
+    shouldNavigate: boolean;
+    isActive?: boolean;
 }
-export const MenuCard: React.FC<IMenuCard> = ({ onMenuItemClick, isTouchable, imageUri, title }) => {
+export const MenuCard: React.FC<IMenuCard> = ({ isActive, shouldNavigate, onMenuItemClick, isTouchable, imageUri, title }) => {
+    if (!shouldNavigate) {
+        return (
+            <TouchableOpacity onPress={onMenuItemClick} style={{ flex: 1 }}>
+                <View style={{ backgroundColor: isActive ? Colors.common.walletTabBg : Colors.common.white, borderColor: isActive ? Colors.common.walletTabBg : Colors.common.borderOrange, justifyContent: "center", alignItems: "center", marginLeft: 10, flex: 1, borderWidth: 2, borderRadius: 5 }}>
+                    <Image source={imageUri} resizeMode="contain" style={{ tintColor: Colors.common.black, height: 25, width: 25 }} />
+                    <Text style={{ marginTop: 10, textAlign: "center", color: Colors.common.black, fontSize: 11, fontWeight: "bold" }}>{title}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
     if (isTouchable) {
         return (
             <TouchableOpacity onPress={onMenuItemClick} style={{ flex: 1 }}>
-                <View style={{ justifyContent: "center", alignItems: "center", marginLeft: 10, flex: 1, borderWidth: 2, backgroundColor: Colors.common.white, borderColor: Colors.common.borderOrange, borderRadius: 5 }}>
+                <View style={{ backgroundColor: Colors.common.white, borderColor: Colors.common.borderOrange, justifyContent: "center", alignItems: "center", marginLeft: 10, flex: 1, borderWidth: 2, borderRadius: 5 }}>
                     <Image source={imageUri} resizeMode="contain" style={{ tintColor: Colors.common.black, height: 25, width: 25 }} />
                     <Text style={{ marginTop: 10, textAlign: "center", color: Colors.common.black, fontSize: 11, fontWeight: "bold" }}>{title}</Text>
                 </View>

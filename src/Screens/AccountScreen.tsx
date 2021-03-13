@@ -26,8 +26,8 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
             <NavBar name="wallet" type="Ionicons" title="Hesaplar" />
             <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
-                    <MenuCard imageUri={require("../../assets/images/icons/wallet.png")} title="HESAP" isTouchable={false} />
-                    <MenuCard onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../assets/images/icons/settings.png")} title="GERÇEK HESAP TALEBİ" isTouchable={true} />
+                    <MenuCard shouldNavigate imageUri={require("../../assets/images/icons/wallet.png")} title="HESAP" isTouchable={false} />
+                    <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../assets/images/icons/settings.png")} title="GERÇEK HESAP TALEBİ" isTouchable={true} />
                 </View>
  
                 <View style={{ paddingLeft: 30, paddingTop: 20, paddingBottom: 20, marginTop: 20, paddingRight: 30, flexDirection: "row", backgroundColor: "#e9e9e9", height: 100 }}>
