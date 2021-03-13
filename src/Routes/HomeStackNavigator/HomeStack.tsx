@@ -4,6 +4,7 @@ import { HomeParamList } from "./HomeParamList";
 import HomeScreen from "../../Screens/HomeScreen";
 import WalletScreen from "../../Screens/WalletScreen";
 import WalletInfoScreen from "../../Screens/WalletInfoScreen";
+import ProfileScreen from "../../Screens/ProfileScreen";
 
 interface HomeStackProps { }
 
@@ -26,7 +27,9 @@ export const HomeStack: React.FC<HomeStackProps> = ({ }) => {
         headerBackTitle: "Geri"
 
       }}
-      initialRouteName="Home">
+      initialRouteName="ProfileScreen">
+      <Stack.Screen options={{ headerShown: false }} name="ProfileScreen" component={ProfileScreen} />
+
       <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Wallet" component={WalletScreen} />
       <Stack.Screen options={{ headerShown: false }} name="WalletInfoScreen" component={WalletInfoScreen} />

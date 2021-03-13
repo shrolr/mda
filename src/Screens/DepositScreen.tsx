@@ -8,12 +8,15 @@ import { DepositsStackNavProps } from '../Routes/DepositStackNavigator/DepositPa
 import { Card } from 'native-base'
 
 
-export default function DepositScreen({ navigation }: DepositsStackNavProps<"Deposits">) {
+export default function DepositScreen({ navigation }: DepositsStackNavProps<"NewDeposit">) {
 
     const navigateToDepositsHistory = ( )=>{
         navigation.navigate("DepositsHistory")
     }
 
+    const navigateToNewDepositScreen = ( )=>{
+        navigation.navigate("NewDeposit")
+    }
     return (
         <View style={{ flex: 1 }}>
             <StatusBar
@@ -24,9 +27,9 @@ export default function DepositScreen({ navigation }: DepositsStackNavProps<"Dep
             />
             <TopBar />
             <NavBar name="wallet" type="Ionicons" title="Para Yatırma" />
-                 <View style={{ flexDirection: "row", height: 100, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
+                 <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
                     <MenuCard imageUri={require("../../assets/images/icons/bank.png")} title="Para Yatırma" isTouchable={false}  />
-                    <MenuCard imageUri={require("../../assets/images/icons/newdeposit.png")} title="Yeni Para Yatırma" isTouchable={true}  />
+                    <MenuCard onMenuItemClick={navigateToNewDepositScreen} imageUri={require("../../assets/images/icons/newdeposit.png")} title="Yeni Para Yatırma" isTouchable={true}  />
                     <MenuCard onMenuItemClick={navigateToDepositsHistory} imageUri={require("../../assets/images/icons/wall-clock.png")} title="Yatırım Geçmişi" isTouchable={true}  />
                 </View>
                 <Card style={{paddingLeft:20,paddingRight:20,paddingTop:20,paddingBottom:20, marginLeft: 10, marginTop: 15, marginRight: 10, borderRadius: 10, overflow: "hidden" }}>

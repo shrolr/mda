@@ -3,11 +3,11 @@ import { View, StatusBar } from 'react-native'
 import { NavBar } from '../components'
 import { TopBar } from '../components/TopBar'
 import Colors from '../constants/Colors'
-import { DepositsStackNavProps } from '../Routes/DepositStackNavigator/DepositParamList'
 import { DepositsHistoryListItem } from '../components/DepositsHistoryListItem'
+import { WithdrawStackNavProps } from '../Routes/WithdrawStackNavigator/WithdrawParamList'
 
 
-export default function DepositHistoryScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {
+export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavProps<"WithdrawHistory">) {
  
 
     return (
@@ -19,7 +19,7 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
                 showHideTransition="slide"
             />
             <TopBar />
-            <NavBar name="wallet" type="Ionicons" title="Transfer Geçmişi" />
+            <NavBar name="wallet" type="Ionicons" title="Çekimler" />
             <View style={{ flex: 1, paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
                 <DepositsHistoryListItem index={0} />

@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { DepositsParamList } from "./DepositParamList";
 import DepositScreen from "../../Screens/DepositScreen";
 import DepositHistoryScreen from "../../Screens/DepositHistoryScreen";
+import NewDepositScreen from "../../Screens/NewDepositScreen";
 
 
 interface DepositStackProps { }
@@ -25,6 +26,7 @@ export const DepositStack: React.FC<DepositStackProps> = ({ }) => {
     }} initialRouteName="Deposits">
       <Stack.Screen   options={{headerShown: false}} name="Deposits" component={DepositScreen} />
       <Stack.Screen   options={{headerShown: false}} name="DepositsHistory" component={DepositHistoryScreen} />
+      <Stack.Screen   options={{headerShown: false}} name="NewDeposit" component={NewDepositScreen} />
 
     </Stack.Navigator>
   );

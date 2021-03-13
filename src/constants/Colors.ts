@@ -38,6 +38,11 @@ export default {
     mediumseagreen:"#3ca078",
     borderOrange:"#F7B12B",
     cancelGray:'#707070',
+    fontGray:'#707070',
+    cardInActive:'#f7f7f6',
+    transferCardBg:'#f9f9f9',
+    contentDivider:'#ddd',
+
   }
 
 };

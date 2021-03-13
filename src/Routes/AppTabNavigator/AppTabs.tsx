@@ -9,6 +9,7 @@ import { AccountStack } from "../AccountStackNavigator/AccountStack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SideBar } from "../../components";
 import { DepositStack } from "../DepositStackNavigator/DepositStack";
+import { WithdrawStack } from "../WithdrawStackNavigator/WithdrawStack";
  
 
 interface AppTabsProps { }
@@ -37,8 +38,8 @@ const AppTabNavigator = () => {
 
           }
           else if (route.name === "ParaCekme") {
-            iconName = `comment`;
-            IconType = "FontAwesome";
+            return <Image source={require("../../../assets/images/icons/atm.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+
           }
           return <Image source={require("../../../assets/images/icons/deposit.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
 
@@ -60,6 +61,7 @@ const AppTabNavigator = () => {
       <Tabs.Screen name="AnaSayfa" component={HomeStack} />
       <Tabs.Screen name="Hesaplarim" component={AccountStack} />
       <Tabs.Screen name="ParaYatirma" component={DepositStack} />
+      <Tabs.Screen name="ParaCekme" component={WithdrawStack} />
 
     </Tabs.Navigator>
   )
