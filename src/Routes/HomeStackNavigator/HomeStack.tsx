@@ -27,12 +27,11 @@ export const HomeStack: React.FC<HomeStackProps> = ({ }) => {
         headerBackTitle: "Geri"
 
       }}
-      initialRouteName="ProfileScreen">
-      <Stack.Screen options={{ headerShown: false }} name="ProfileScreen" component={ProfileScreen} />
-
+      initialRouteName="Home">
       <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Wallet" component={WalletScreen} />
       <Stack.Screen options={{ headerShown: false }} name="WalletInfoScreen" component={WalletInfoScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="ProfileScreen" component={ProfileScreen} />
 
 
 
