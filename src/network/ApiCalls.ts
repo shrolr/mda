@@ -1,8 +1,12 @@
 import axios from 'axios';
+import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { LoginNetworkResponse, NetworkResponse, NetworkResponseFail } from '../models';
+import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse } from '../models';
+import { AccountListApiModel, Accounts } from '../models/ApiModels/Account/AccountListApiModel';
+import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
-import { ServerLink, SERVER_AUTH_FAILED, SERVER_REGISTER_FAILED } from '../utilities/constants';
+import { NewAccountRequest } from '../types/post/NewAccountRequest';
+import { Authenticated_Server_Link, ServerLink, SERVER_AUTH_FAILED, SERVER_REGISTER_FAILED } from '../utilities/constants';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -20,24 +24,32 @@ interface IApiCalls { }
 
 class ApiCalls implements IApiCalls {
   private server_link: string;
+  private authenticated_server_link: string;
+
   private AXIOS_ERROR: number;
   private AXIOS_OK: number;
   private AXIOS_NO_DATA: number;
   constructor() {
     this.server_link = ServerLink;
+    this.authenticated_server_link = Authenticated_Server_Link
     this.AXIOS_ERROR = 0;
     this.AXIOS_OK = 1;
     this.AXIOS_NO_DATA = 2;
   }
 
-
-
+  setToken = async (token: string) => {
+    httpClient.interceptors.request.use(function (config) {
+      config.headers.Authorization = token ? `Bearer ${token}` : '';
+      return config;
+    });
+  }
 
   login = (LoginRequest: LoginRequest) => {
-    return httpClient.post(this.server_link + "login", LoginRequest).then((result) => {
+
+    return httpClient.post(this.server_link + Endpoints.auth, LoginRequest).then((result) => {
       let user: IUserResponse = result.data
       let status = result.status
-      let NetworkResponse = new LoginNetworkResponse(status,user)
+      let NetworkResponse = new LoginNetworkResponse(status, user)
 
       return NetworkResponse;
     }).catch(() => {
@@ -47,8 +59,77 @@ class ApiCalls implements IApiCalls {
 
   }
 
+  getNotificationInfo = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.notification.info + urlSuffix).then((result) => {
+      let data: GetCustomerNotificationInfoResponseModel = result.data
+      let status = result.status
+      let _networkResponse = new NotificationNetworkResponse(status, data);
 
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  getWalletInfo = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.wallet.customer + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      console.log(_networkResponse)
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  getCustomerAccounts = (customerId: number) => {
+    let urlSuffix = `/${customerId}`
+
+    return httpClient.get(this.authenticated_server_link + Endpoints.account.customer + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new AccountListNetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  postAccount = (payload:NewAccountRequest) => {
+    console.log("netwrok payload",payload)
+    return httpClient.post(this.authenticated_server_link + Endpoints.account.main,payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  getAccountTypes = () => {
+
+    return httpClient.get(this.authenticated_server_link + Endpoints.account.types).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new AccountTypesNetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
 
 }
+
+
 
 export default new ApiCalls();

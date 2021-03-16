@@ -14,7 +14,7 @@ import { ActionType } from '../context/reducer';
 export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
 
   const [state, setstate] = useState({} as LoginRequest)
-  const {  dispatch } = useStateContext();
+  const { dispatch } = useStateContext();
   const onChangeText = (identifier: string) => {
     setstate({ identifier, password: state.password })
   }
@@ -25,15 +25,14 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
     ApiCalls.login(state).then((response) => {
       if (response instanceof NetworkResponseFail) {
         // show error
-        Toast.show({text: 'Wrong password!',buttonText: 'Okay',type:"danger",})
+        Toast.show({ text: 'Wrong password!', buttonText: 'Okay', type: "danger", })
       }
       else {
         if (response.data.isAuthenticated) {
-          console.log(response.data.isAuthenticated)
-          dispatch!({type:ActionType.SIGN_IN,payload:{user:response.data}})
+          dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
         }
         else {
-          Toast.show({text: 'Wrong password!',buttonText: 'Okay',type:"danger",})
+          Toast.show({ text: 'Wrong password!', buttonText: 'Okay', type: "danger", })
         }
       }
     })
@@ -50,10 +49,10 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
           <View style={{ height: 0.01, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
           <Text style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}>Giriş yap</Text>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 30 }} rounded>
-            <Input autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder='E-mail' />
+            <Input defaultValue="serhat@mdasocial.com" autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder='E-mail' />
           </Item>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-            <Input onChangeText={onPasswordChange} secureTextEntry placeholder='Password' />
+            <Input defaultValue="Monk9562" onChangeText={onPasswordChange} secureTextEntry placeholder='Password' />
           </Item>
           <View style={{ marginTop: 30, marginBottom: 30, flexDirection: "row" }}>
             <Text style={{ color: Colors.common.lightBlue }}>Beni Hatırla</Text>

@@ -3,20 +3,21 @@ import { View,   TouchableOpacity } from 'react-native';
 import { Button, Card, Icon, Input, Item, Toast } from 'native-base';
 import Colors from '../constants/Colors';
 import { Text } from './atomix';
+import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
 
-interface IMetaTrader4RealAccountTab {
+interface IMetaTraderRealAccountTab {
+    Account:Accounts
 
 }
 
-export const MetaTrader4RealAccountTab: React.FC<IMetaTrader4RealAccountTab> = () => {
+export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({Account}) => {
     const [visible, setvisible] = useState(false)
     const [passwordVisible, setpasswordVisible] = useState(false)
     const [passwordConfirmVisible, setpasswordConfirmVisible] = useState(false)
     const [password, setpassword] = useState("")
     const [passwordConfirmation, setpasswordConfirmation] = useState("")
 
-    const createMetaTrader4DemoAccount = () => { }
-    const changeAccountPassword = () => {
+     const changeAccountPassword = () => {
         setvisible(true)
     }
     const cancelPasswordChange = () => {
@@ -77,23 +78,23 @@ export const MetaTrader4RealAccountTab: React.FC<IMetaTrader4RealAccountTab> = (
                     <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, }}>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#fff", alignItems: "center", flexDirection: "row" }}>
                             <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Bakiye</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>1010$</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.balance}$</Text>
                         </View>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
                             <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Free margin</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>0$</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.freeMargin}$</Text>
                         </View>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#fff", alignItems: "center", flexDirection: "row" }}>
                             <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Tipi</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>Standart</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.type}</Text>
                         </View>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
                             <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Kaldıraç</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>1:100</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.leverage}</Text>
                         </View>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#fff", alignItems: "center", flexDirection: "row" }}>
                             <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Para Birimi</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>USD</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.currency}</Text>
                         </View>
                     </View>
                     <Button onPress={changeAccountPassword} style={{ height: 50, marginLeft: 20, marginRight: 20, marginTop: 10, marginBottom: 20, backgroundColor: Colors.common.buttonMistyRose }} full>
@@ -108,17 +109,12 @@ export const MetaTrader4RealAccountTab: React.FC<IMetaTrader4RealAccountTab> = (
     }
     return (
         <View style={{ marginBottom: 20 }}>
-            <Button onPress={createMetaTrader4DemoAccount} style={{ height: 50, marginLeft: 20, marginRight: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
-                <Icon style={{ color: "black" }} name="pluscircleo" type="AntDesign" />
-                <Text style={{ color: Colors.common.black, fontWeight: "bold", fontSize: 16 }}>MetaTrader 4 gerçek hesap aç</Text>
-            </Button>
-
             <Card style={{ marginLeft: 10, marginTop: 15, marginRight: 10, borderRadius: 5, overflow: "hidden" }}>
                 <View style={{ paddingLeft: 20, height: 40, backgroundColor: Colors.common.walletHeader, alignItems: "center", flexDirection: "row" }}>
                     <View style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: Colors.common.white, borderRadius: 15, borderWidth: 1, borderColor: Colors.common.mediumseagreen, marginRight: 10 }}>
-                        <Text style={{ fontWeight: "bold", color: Colors.common.walletHeader, fontSize: 16 }}>MT4</Text>
+                        <Text style={{ fontWeight: "bold", color: Colors.common.walletHeader, fontSize: 16 }}>{Account.tradingPlatform === "MetaTrader5" ? "MT5" : "MT4"}</Text>
                     </View>
-                    <Text style={{ flex: 1, textAlign: "left", color: Colors.common.white, fontWeight: "bold", fontSize: 16 }}>{"3002"}</Text>
+                    <Text style={{ flex: 1, textAlign: "left", color: Colors.common.white, fontWeight: "bold", fontSize: 16 }}>{Account.user}</Text>
                 </View>
                 {renderAccountCard()}
                 {renderAccountInfo()}

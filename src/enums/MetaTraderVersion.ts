@@ -1,5 +1,5 @@
 
 export enum MetaTraderVersion {
-    MetaTrader4 = 0,
+    MetaTrader4 = 1,
     MetaTrader5
 }

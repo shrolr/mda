@@ -5,6 +5,7 @@ import { ChartCard, GraphCard } from "../components";
 import { TopBar } from "../components/TopBar";
 import Colors from "../constants/Colors";
 import { HomeStackNavProps } from "../Routes/HomeStackNavigator/HomeParamList";
+import { TestComponent } from "../test";
 
 function HomeScreen({ navigation }: HomeStackNavProps<"Home">) {
   return (
@@ -16,6 +17,7 @@ function HomeScreen({ navigation }: HomeStackNavProps<"Home">) {
         showHideTransition="slide"
       />
       <TopBar />
+      <TestComponent />
       <ScrollView style={{flex:1}}>
         <ChartCard />
         <GraphCard title="Cüzdan" color={Colors.common.cardHeader} />
