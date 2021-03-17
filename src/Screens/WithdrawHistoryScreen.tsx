@@ -22,9 +22,7 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
             <NavBar name="wallet" type="Ionicons" title="Çekimler" />
             <View style={{ flex: 1, paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
-                <DepositsHistoryListItem index={0} />
-                <DepositsHistoryListItem index={1} />
-                <DepositsHistoryListItem index={2} />
+             
             </View>
         </View>
     )

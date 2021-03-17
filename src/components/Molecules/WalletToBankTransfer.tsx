@@ -17,6 +17,7 @@ interface IWalletToBankTransfer {
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
+// TO DO NEED TO STORE WALLET INFO
 const throttle = require('lodash.throttle');
 
 export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
@@ -60,14 +61,15 @@ export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
         if (sourceAccount && amount && currency !== "") {
 
             let transferAccountToAccountRequest: TransferWalletToAccountRequest = {
-                sourceAccountId: sourceAccount,
-                targetAccountId: null,
+                sourceAccountId: null,
+                targetAccountId: sourceAccount,
                 currency: currency,
-                walletId: null,
+                walletId: 3,
                 typeId: TransferTypeEnum.WalletToAccount,
                 amount: amount,
                 customerId: context.user!.customerAccountInfo.id,
             }
+            console.log(transferAccountToAccountRequest)
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
                     console.log("success", response.data)

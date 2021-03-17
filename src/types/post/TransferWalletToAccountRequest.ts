@@ -1,10 +1,10 @@
 export type TransferWalletToAccountRequest = {
-    sourceAccountId: number;
-    targetAccountId: null;
+    sourceAccountId: null;
+    targetAccountId: number;
     currency:        string;
     typeId:          number;
     amount:          number;
-    walletId:        null;
+    walletId:        number;
     customerId:      number;
 }
 
