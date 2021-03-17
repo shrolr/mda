@@ -25,7 +25,7 @@ export const AccountInfo: React.FC<IAccountInfo> = () => {
     }
     const onUpdateUserInfo = () => {
         // TO DO handle UpdateUserInfo
-        console.log(phone,email)
+         
     }
     const onPhoneChange = (phone: string) => {
         setPhone(phone)

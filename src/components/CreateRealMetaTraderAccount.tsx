@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Input, Item } from 'native-base';
+import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
 import React, { createRef, useState } from 'react'
 import Colors from '../constants/Colors';
 import { MetaTraderVersion } from '../enums';
@@ -7,39 +7,94 @@ import ActionSheet from "react-native-actions-sheet";
 import { View, Image, Pressable } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useStateContext } from '../context/state';
+import { NewAccountRequest } from '../types/post/NewAccountRequest';
+import { DropDownPickerList, NetworkResponse } from '../models';
+import ApiCalls from '../network/ApiCalls';
 
 interface ICreateRealMetaTraderAccount {
 
     version: MetaTraderVersion
 }
 const actionSheetRef = createRef<ActionSheet>();
-const dummyData = [
-    { label: 'USA', value: 'usa' },
-    { label: 'UK', value: 'uk', },
-    { label: 'France', value: 'france' },
-]
+let newDemoAccountRequest: NewAccountRequest = {} as NewAccountRequest;
+
 export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount> = ({ version }) => {
     let { context } = useStateContext()
-    const [currencies, setcurrencies] = useState<{ label: string; value: string; }[]>(dummyData)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     const [passwordVisible, setpasswordVisible] = useState(false)
     const togglePasswordVisible = () => {
         setpasswordVisible(!passwordVisible)
     }
-
+    const onChangeAccountType = (item: DropDownPickerList, index: number) => {
+        if (typeof item.value === "number") {
+            newDemoAccountRequest.typeId = item.value
+        }
+        else {
+            newDemoAccountRequest.typeId = parseInt(item.value)
+        }
+    }
+    const onChangeCurrency = (item: DropDownPickerList, index: number) => {
+        newDemoAccountRequest.currency = item.value.toString()
+    }
     const onPasswordChange = (password: string) => {
-        //setpassword(password)
+        setPassword(password)
+    }
+    const onUserNameChange = (username: string) => {
+        setUsername(username)
     }
     const onPress = () => {
-        // handle logic
+        newDemoAccountRequest.customerId = context.user!.customerInfo.id
+        newDemoAccountRequest.tradingPlatformId = version
+        newDemoAccountRequest.isDemo = true
+        newDemoAccountRequest.statusId = 2
+        newDemoAccountRequest.username = null;
+        newDemoAccountRequest.password = null;
+        newDemoAccountRequest.leverageId = undefined;
+        newDemoAccountRequest.typeId = undefined;
+        newDemoAccountRequest.initialDeposit = undefined;
+        newDemoAccountRequest.currency = undefined;
+
         actionSheetRef.current?.setModalVisible(true)
     }
     const cancelActionSheet = () => {
         actionSheetRef.current?.setModalVisible(false)
-        // reset state
+
+    }
+    const onClose = () => {
+        setLoading(false)
+        setError(false)
+        setPassword("")
+        setUsername("")
+    }
+    const updateAccountList = () => {
+        // TO DO FETCH ACC LİST
     }
     const newAccount = () => {
-        console.log("NewAccount", "MetaTrader", version === MetaTraderVersion.MetaTrader4 ? "4" : "5")
+        if (newDemoAccountRequest.currency === undefined || username == "" || newDemoAccountRequest.typeId === undefined || password === "") {
+            // TO DO SHOW USER INFO ABOUT empty inputs
+            return
+        }
+        setLoading(true)
+        
+        ApiCalls.postAccount(newDemoAccountRequest).then((response) => {
+            setLoading(false)
+            actionSheetRef.current?.setModalVisible(false)
+
+            if (response instanceof NetworkResponse) {
+                // success
+                Toast.show({ type: "success", text: "başarılı", buttonText: "ok" })
+                updateAccountList()
+
+            }
+            else {
+                // show error alert
+                Toast.show({ type: "warning", text: "hata", buttonText: "ok" })
+            }
+        })
     }
     const renderForRealAccount = () => {
         return (
@@ -49,6 +104,7 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
                 </View>
                 <View style={{ height: 40, paddingLeft: 20, paddingRight: 20, marginTop: 20, }}>
                     <DropDownPicker
+                        onChangeItem={onChangeAccountType}
                         items={context.accountTpyes!}
                         placeholder="Tipi"
                         containerStyle={{ height: 40 }}
@@ -61,6 +117,7 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
                 </View>
                 <View style={{ height: 40, paddingLeft: 20, paddingRight: 20, marginTop: 20, }}>
                     <DropDownPicker
+                        onChangeItem={onChangeCurrency}
                         items={context.CurrenciesDefault}
                         placeholder="Para Birimi"
                         containerStyle={{ height: 40 }}
@@ -73,8 +130,8 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
                 </View>
                 <View style={{ height: 40, paddingLeft: 20, paddingRight: 20, marginTop: 20, }}>
                     <Item style={{ height: 40, paddingLeft: 10, borderRadius: 10, }} rounded>
-                        <Input onChangeText={onPasswordChange} placeholder='Kullanıcı Adı *' />
-                        <Icon onPress={togglePasswordVisible} style={{ fontSize: 18, color: Colors.common.gray }} name={"ios-person"} type="Ionicons" />
+                        <Input onChangeText={onUserNameChange} placeholder='Kullanıcı Adı *' />
+                        <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"ios-person"} type="Ionicons" />
                     </Item>
                 </View>
                 <View style={{ height: 40, paddingLeft: 20, paddingRight: 20, marginTop: 20, }}>
@@ -86,11 +143,11 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
                     </Item>
                 </View>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center",paddingTop:5,paddingBottom:5, marginTop: 30 }}>
-                    <Pressable style={{ paddingLeft:10,paddingRight:10, paddingBottom:5,paddingTop:5}} onPress={cancelActionSheet}>
+                <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", paddingTop: 5, paddingBottom: 5, marginTop: 30 }}>
+                    <Pressable style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }} onPress={cancelActionSheet}>
                         <Image source={require("../../assets/images/icons/cancelx.png")} resizeMode="contain" style={{ tintColor: "gray", height: 20, width: 20 }} />
                     </Pressable>
-                    <Pressable style={{ paddingLeft:10,paddingRight:10, paddingBottom:5,paddingTop:5}} onPress={newAccount}>
+                    <Pressable style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }} onPress={newAccount}>
                         <Image source={require("../../assets/images/icons/check.png")} resizeMode="contain" style={{ height: 20, width: 20 }} />
                     </Pressable>
                 </View>
@@ -98,7 +155,16 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
             </Card>
         )
     }
-
+    const renderLoading = () => {
+        return (
+            <View  >
+                <Spinner />
+                <Text style={{textAlign:"center",fontWeight:"bold",fontSize:12,marginBottom:30}}>
+                    Account creation in progress
+                </Text>
+            </View>
+        )
+    }
 
     return (
         <>
@@ -106,10 +172,10 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
                 <Icon style={{ color: "black" }} name="pluscircleo" type="AntDesign" />
                 <Text style={{ color: Colors.common.black, fontWeight: "bold", fontSize: 16 }}>MetaTrader gerçek hesap aç</Text>
             </Button>
-            <ActionSheet ref={actionSheetRef}>
+            <ActionSheet onClose={onClose} ref={actionSheetRef}>
 
                 {
-                    renderForRealAccount()
+                   loading ? renderLoading() :  renderForRealAccount()
                 }
 
             </ActionSheet>

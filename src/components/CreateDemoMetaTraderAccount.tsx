@@ -66,7 +66,9 @@ export const CreateDemoMetaTraderAccount: React.FC<ICreateDemoMetaTraderAccount>
     }
     const cancelActionSheet = () => {
         actionSheetRef.current?.setModalVisible(false)
-        // reset state
+    }
+    const updateAccountList = () => {
+        // TO DO FETCH ACC LİST
     }
     const newAccount = () => {
         if (newDemoAccountRequest.currency === undefined || newDemoAccountRequest.leverageId === undefined || newDemoAccountRequest.typeId === undefined || newDemoAccountRequest.initialDeposit === undefined) {
@@ -74,13 +76,15 @@ export const CreateDemoMetaTraderAccount: React.FC<ICreateDemoMetaTraderAccount>
             return
         }
         setLoading(true)
-        return
+         
         ApiCalls.postAccount(newDemoAccountRequest).then((response) => {
+            actionSheetRef.current?.setModalVisible(false)
+
             setLoading(false)
             if (response instanceof NetworkResponse) {
                 // success
                 Toast.show({type:"success",text:"başarılı",buttonText:"ok"})
-
+                updateAccountList()
             }
             else {
                 // show error alert

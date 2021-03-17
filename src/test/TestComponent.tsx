@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { View } from 'react-native';
 import { ActionType } from '../context/reducer';
 import { useStateContext } from '../context/state';
-import { DropDownPickerList, AccountTypesNetworkResponse } from '../models';
+import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail } from '../models';
 import ApiCalls from '../network/ApiCalls';
+import NetworkDataHelper from '../network/NetworkDataHelper';
 
 interface ITestComponent {
 
@@ -14,7 +15,6 @@ export const TestComponent: React.FC<ITestComponent> = () => {
     useEffect(() => {
         ApiCalls.setToken(context.user!.token)
         ApiCalls.getNotificationInfo(context.user!.customerInfo.id)
-        ApiCalls.getCustomerAccounts(context.user!.customerInfo.id)
         loadToContext()
     }, [])
     const loadToContext = () => {
@@ -31,6 +31,17 @@ export const TestComponent: React.FC<ITestComponent> = () => {
                 dispatch!({ type: ActionType.SET_ACCOUNT_TYPES, payload: { accountTpyes } })
             }
         })
+        ApiCalls.getCustomerAccounts(context.user!.customerInfo.id).then((response) => {
+            if (response instanceof NetworkResponseFail) {
+
+            } else {
+                let accounts = response.data;
+                dispatch!({ type: ActionType.SET_USER_ACCOUNTS, payload: { accounts } })
+            }
+        })
+
+
+
     }
     return <View />
 

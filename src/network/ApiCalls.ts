@@ -1,12 +1,14 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse } from '../models';
-import { AccountListApiModel, Accounts } from '../models/ApiModels/Account/AccountListApiModel';
-import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from '../models/ApiModels/Notifications/NotificationApiModel';
+import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse } from '../models';
+import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
-import { Authenticated_Server_Link, ServerLink, SERVER_AUTH_FAILED, SERVER_REGISTER_FAILED } from '../utilities/constants';
+import { TransferAccountToAccountRequest } from '../types/post/TransferAccountToAccountRequest';
+import { Authenticated_Server_Link, ServerLink, SERVER_REQUEST_FAILED, SERVER_REGISTER_FAILED } from '../constants/constants';
+import { TransferAccountToWalletRequest } from '../types/post/TransferAccountToWalletRequest';
+import { TransferWalletToAccountRequest } from '../types/post/TransferWalletToAccountRequest';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -53,7 +55,7 @@ class ApiCalls implements IApiCalls {
 
       return NetworkResponse;
     }).catch(() => {
-      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       return networkResponse;
     })
 
@@ -68,7 +70,7 @@ class ApiCalls implements IApiCalls {
 
       return _networkResponse;
     }).catch((err) => {
-      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       console.log("fail", err)
       return networkResponse;
     })
@@ -82,7 +84,7 @@ class ApiCalls implements IApiCalls {
       console.log(_networkResponse)
       return _networkResponse;
     }).catch((err) => {
-      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       console.log("fail", err)
       return networkResponse;
     })
@@ -96,21 +98,43 @@ class ApiCalls implements IApiCalls {
       let _networkResponse = new AccountListNetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
-      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       console.log("fail", err)
       return networkResponse;
     })
   }
-  postAccount = (payload:NewAccountRequest) => {
-    console.log("netwrok payload",payload)
-    return httpClient.post(this.authenticated_server_link + Endpoints.account.main,payload).then((result) => {
+  postAccount = (payload: NewAccountRequest) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.account.main, payload).then((result) => {
       let data = result.data
       let status = result.status
       let _networkResponse = new NetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
-      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  postTransfer = (payload: TransferAccountToAccountRequest | TransferAccountToWalletRequest | TransferWalletToAccountRequest) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.transfer.main, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  getTransferList = (customerId: number) => {
+    let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.transfer.customer + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new TransferListNetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       return networkResponse;
     })
   }
@@ -122,8 +146,7 @@ class ApiCalls implements IApiCalls {
       let _networkResponse = new AccountTypesNetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
-      let networkResponse = new NetworkResponseFail(SERVER_AUTH_FAILED)
-      console.log("fail", err)
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       return networkResponse;
     })
   }

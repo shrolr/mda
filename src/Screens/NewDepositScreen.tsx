@@ -15,7 +15,7 @@ export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"
         setselectedOption(depositOptions)
     }
     return (
-        <ScrollView style={{ flex: 1 }}>
+        <View style={{flex:1}}>
             <StatusBar
                 animated={true}
                 backgroundColor={Colors.common.statusBarColor}
@@ -24,21 +24,25 @@ export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"
             />
             <TopBar />
             <NavBar name="wallet" type="Ionicons" title="Yeni Transfer" />
-            <View style={{ paddingLeft: 20, paddingTop: 20, paddingRight: 20 }}>
-                <DepositCards onMenuItemClick={onMenuItemClick} id={DepositOptions.walletToBank} isActive={selectedOption === DepositOptions.walletToBank} title={"Cüzdandan Hesaba Transfer"} transferFrom="wallet" transferTo="bank" />
-                <DepositCards onMenuItemClick={onMenuItemClick} id={DepositOptions.bankToWallet} isActive={selectedOption === DepositOptions.bankToWallet} title={"Hesaptan Cüzdana Transfer"} transferFrom="bank" transferTo="wallet" />
-                <DepositCards onMenuItemClick={onMenuItemClick} id={DepositOptions.bankToBank} isActive={selectedOption === DepositOptions.bankToBank} title={"Hesaptan Hesaba Transfer"} transferFrom="bank" transferTo="bank" />
 
-            </View>
-            {
-                selectedOption === DepositOptions.walletToBank && <WalletToBankTransfer />
-            }
-            {
-                selectedOption === DepositOptions.bankToWallet && <BankToWalletTransfer />
-            }
-            {
-                selectedOption === DepositOptions.bankToBank && <BankToBankTransfer />
-            }
-        </ScrollView>
+            <ScrollView style={{ flex: 1 }}>
+
+                <View style={{ paddingLeft: 20, paddingTop: 20, paddingRight: 20 }}>
+                    <DepositCards onMenuItemClick={onMenuItemClick} id={DepositOptions.walletToBank} isActive={selectedOption === DepositOptions.walletToBank} title={"Cüzdandan Hesaba Transfer"} transferFrom="wallet" transferTo="bank" />
+                    <DepositCards onMenuItemClick={onMenuItemClick} id={DepositOptions.bankToWallet} isActive={selectedOption === DepositOptions.bankToWallet} title={"Hesaptan Cüzdana Transfer"} transferFrom="bank" transferTo="wallet" />
+                    <DepositCards onMenuItemClick={onMenuItemClick} id={DepositOptions.bankToBank} isActive={selectedOption === DepositOptions.bankToBank} title={"Hesaptan Hesaba Transfer"} transferFrom="bank" transferTo="bank" />
+
+                </View>
+                {
+                    selectedOption === DepositOptions.walletToBank && <WalletToBankTransfer />
+                }
+                {
+                    selectedOption === DepositOptions.bankToWallet && <BankToWalletTransfer />
+                }
+                {
+                    selectedOption === DepositOptions.bankToBank && <BankToBankTransfer />
+                }
+            </ScrollView>
+        </View>
     )
 }

@@ -19,3 +19,7 @@ Yeni banka hesabı ekle tasarımları eksik
 currency endpointini bulamadım
 
 demo account oluşturmadaki statusId ve 
+gerçek hesap şifre değiştirme
+yatırım geçmişi kaydırma çubuğunda padding var
+
+cüzdandan hesaba transfer çalişmiyo 

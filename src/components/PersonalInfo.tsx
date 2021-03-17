@@ -21,7 +21,7 @@ export const PersonalInfo: React.FC<IPersonalInfo> = () => {
     }
     const onUpdateUserInfo = () => {
         // TO DO handle UpdateUserInfo
-        console.log(phone, email)
+         
     }
     const onPhoneChange = (phone: string) => {
         setPhone(phone)

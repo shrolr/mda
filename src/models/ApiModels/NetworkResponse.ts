@@ -1,7 +1,8 @@
-import { AccountTypes, AccountTypesApiModel } from "..";
+import { AccountTypes, AccountTypesApiModel, TransferListAPIModel } from "..";
 import { IUserResponse } from "../../interfaces";
 import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
 import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
+import { TransferListData } from "./Transfer/TransferListApiModel";
 
 interface INetworkResponse {
     status?: number;
@@ -70,6 +71,14 @@ export class AccountTypesNetworkResponse implements AccountTypesApiModel {
     status: number;
     data: AccountTypes[];
     constructor(status:number,data:AccountTypes[]) {
+        this.status = status;
+        this.data = data;
+    }
+}
+export class TransferListNetworkResponse implements TransferListAPIModel {
+    status: number;
+    data: TransferListData;
+    constructor(status:number,data:TransferListData) {
         this.status = status;
         this.data = data;
     }

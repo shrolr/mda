@@ -1,9 +1,14 @@
-import { Button, Card, Icon, Input, Item } from 'native-base';
-import React, { useState } from 'react'
+import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Text } from '../atomix';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useStateContext } from '../../context/state';
+import { DropDownPickerList, NetworkResponse } from '../../models';
+import { TransferAccountToWalletRequest } from '../../types/post/TransferAccountToWalletRequest';
+import { TransferTypeEnum } from '../../enums';
+import ApiCalls from '../../network/ApiCalls';
 
 interface IBankToWalletTransfer {
 
@@ -11,25 +16,100 @@ interface IBankToWalletTransfer {
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
-const dummyData = [
-    { label: 'USA', value: 'usa' },
-    { label: 'UK', value: 'uk', },
-    { label: 'France', value: 'france' },
-]
+const throttle = require('lodash.throttle');
+
 export const BankToWalletTransfer: React.FC<IBankToWalletTransfer> = () => {
-    const [accounts, setaccounts] = useState<{ label: string; value: string; }[]>(dummyData)
-    const [currencies, setcurrencies] = useState<{ label: string; value: string; }[]>(dummyData)
-    const onTransferRequest = () => {
+    const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
+    const { context } = useStateContext()
+    const [progressing, setprogressing] = useState(false)
+    const [sourceAccount, setsourceAccount] = useState<number>()
+
+    const [currency, setCurrency] = useState("")
+    const [amount, setamount] = useState<number>()
+    useEffect(() => {
+        let mtRealAccounts = context.mt4RealAccounts.concat(context.mt5RealAccounts)
+        let AccountList: DropDownPickerList[] = []
+        mtRealAccounts.forEach((account) => {
+            let newAccount: DropDownPickerList = {} as DropDownPickerList;
+            newAccount.disabled = !account.isActive
+            newAccount.label = account.accountName! + " " + account.user
+            newAccount.value = account.id
+            newAccount.hidden = false
+            AccountList.push(newAccount)
+        })
+        setaccounts(AccountList)
+    }, [context.mt4RealAccounts, context.mt5RealAccounts])
+    const onChangeSourceAccounts = (item: DropDownPickerList, index: number) => {
+        accounts.forEach((account) => account.hidden = false)
+        item.hidden = true
+        if (typeof item.value === "number") {
+            setsourceAccount(item.value)
+        }
+        else {
+            setsourceAccount(parseInt(item.value))
+        }
+    }
+
+    const onChangeCurrency = (item: DropDownPickerList, index: number) => {
+        setCurrency(item.value.toString())
+    }
+
+    const TransferRequest = () => {
+
+        if (sourceAccount && amount && currency !== "") {
+
+            let transferAccountToAccountRequest: TransferAccountToWalletRequest = {
+                sourceAccountId: sourceAccount,
+                targetAccountId: null,
+                currency: currency,
+                typeId: TransferTypeEnum.AccountToWallet,
+                amount: amount,
+                customerId: context.user!.customerAccountInfo.id,
+            }
+            ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
+                if (response instanceof NetworkResponse) {
+                    console.log("success", response.data)
+                }
+                else {
+                    console.log("failure")
+                }
+                setprogressing(false)
+
+            })
+        }
+        else {
+            // show error
+            Toast.show({ text: "error", type: "warning" })
+            setprogressing(false)
+
+        }
 
     }
+    let transferRequest = throttle(TransferRequest, 2000)
+    const onTransferRequest = () => {
+        setprogressing(true)
+        transferRequest()
+    }
+
+    const onAmountChange = ((amount: string) => {
+        try {
+            setamount(parseInt(amount))
+        } catch (error) {
+            // show warning amount must be number
+            Toast.show({ text: "amount must be number", type: "warning" })
+
+        }
+    })
     return (
         <View style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, backgroundColor: Colors.common.transferCardBg }}>
             <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Cüzdan Hesaba Transfer</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Hesaptan Cüzdana Transfer</Text>
                 <View style={{ height: 3, backgroundColor: Colors.common.contentDivider, marginTop: 20, marginBottom: 20 }} />
+
                 <DropDownPicker
                     items={accounts}
                     placeholder="Kaynak Hesap"
+                    onChangeItem={onChangeSourceAccounts}
 
                     containerStyle={{ height: 40 }}
                     style={{ backgroundColor: '#fafafa' }}
@@ -40,7 +120,9 @@ export const BankToWalletTransfer: React.FC<IBankToWalletTransfer> = () => {
                 />
                 <View style={{ marginTop: 10, marginBottom: 10 }} />
                 <DropDownPicker
-                    items={currencies}
+                    onChangeItem={onChangeCurrency}
+
+                    items={context.CurrenciesDefault}
                     placeholder="Para Birimi"
                     containerStyle={{ height: 40 }}
                     style={{ backgroundColor: '#fafafa' }}
@@ -51,14 +133,16 @@ export const BankToWalletTransfer: React.FC<IBankToWalletTransfer> = () => {
                 />
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                    <Input placeholder='Miktar *' />
+                    <Input onChangeText={onAmountChange} keyboardType="numeric" placeholder='Miktar *' />
                     <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"bar-chart"} type="Feather" />
                 </Item>
+                {
+                    progressing ? <Spinner /> : <Button onPress={onTransferRequest} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
+                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>TRANSFER ET</Text>
 
-                <Button onPress={onTransferRequest} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
-                    <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>TRANSFER ET</Text>
-
-                </Button>
+                    </Button>
+                }
+              
             </Card>
         </View>
     )

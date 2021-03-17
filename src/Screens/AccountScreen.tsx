@@ -14,33 +14,8 @@ import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
 
 export default function AccountScreen({ navigation }: AccountStackNavProps<"Account">) {
     let { context } = useStateContext()
-    useEffect(() => {
-        fetchAccounts()
-    }, [])
-    const [accounts, setaccounts] = useState<Accounts[]>([])
-    const [mt4Realaccounts, setmt4Realaccounts] = useState<Accounts[]>([])
-    const [mt4Demoaccounts, setmt4Demoaccounts] = useState<Accounts[]>([])
-    const [mt5Realaccounts, setmt5Realaccounts] = useState<Accounts[]>([])
-    const [mt5Demoaccounts, setmt5Demoaccounts] = useState<Accounts[]>([])
-
-    const fetchAccounts = () => {
-        ApiCalls.getCustomerAccounts(context.user!.customerInfo.id).then((response) => {
-            if (response instanceof NetworkResponseFail) {
-
-            } else {
-                let accounts = response.data;
-                setmt4Realaccounts(accounts.filter((item) => item.tradingPlatform === "MetaTrader4" && item.isDemo === false))
-                setmt4Demoaccounts(accounts.filter((item) => item.tradingPlatform === "MetaTrader4" && item.isDemo === true))
-                setmt5Demoaccounts(accounts.filter((item) => item.tradingPlatform === "MetaTrader5" && item.isDemo === true))
-                setmt5Realaccounts(accounts.filter((item) => item.tradingPlatform === "MetaTrader5" && item.isDemo === false))
-                setaccounts(response.data)
-            }
-
-        })
-    }
     const [activeTab, setactiveTab] = useState<MetaTraderTabs>(MetaTraderTabs.RealAccount)
     const [version, setVersion] = useState<MetaTraderVersion>(MetaTraderVersion.MetaTrader4)
-
     const setVersionToMetaTrader5 = () => {
         setVersion(MetaTraderVersion.MetaTrader5)
     }
@@ -60,7 +35,6 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
         }
 
     }
-    const createMetaTrader4DemoAccount = () => { }
 
     const _renderRealAccounts: ListRenderItem<Accounts> = ({ item }) => (
         <MetaTraderRealAccountTab Account={item} />
@@ -68,7 +42,7 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
     const _renderDemoAccounts: ListRenderItem<Accounts> = ({ item }) => (
         <MetaTraderDemoAccountTab Account={item} />
     )
-
+         
     return (
         <View style={{ flex: 1 }}>
             <StatusBar
@@ -104,7 +78,7 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
 
                             <FlatList
                                 ListHeaderComponent={<CreateRealMetaTraderAccount version={version} />}
-                                data={version === MetaTraderVersion.MetaTrader4 ? mt4Realaccounts : mt5Realaccounts}
+                                data={version === MetaTraderVersion.MetaTrader4 ? context.mt4RealAccounts : context.mt5RealAccounts}
                                 renderItem={_renderRealAccounts}
                                 keyExtractor={(item) => item.user.toString()}
 
@@ -115,7 +89,7 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
 
                             <FlatList
                                 ListHeaderComponent={<CreateDemoMetaTraderAccount version={version} />}
-                                data={version === MetaTraderVersion.MetaTrader4 ? mt4Demoaccounts : mt5Demoaccounts}
+                                data={version === MetaTraderVersion.MetaTrader4 ? context.mt4DemoAccounts : context.mt5DemoAccounts}
                                 renderItem={_renderDemoAccounts}
                                 keyExtractor={(item) => item.user.toString()}
 
