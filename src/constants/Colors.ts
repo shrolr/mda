@@ -17,6 +17,7 @@ export default {
     tabIconSelected: tintColorDark,
   },
   common: {
+    sidebarActiveMenu:'#F7B92D',
     lightBlue: '#3498db',
     white: '#fff',
     sideBarGrayBg : "#303030",

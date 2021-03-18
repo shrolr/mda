@@ -88,6 +88,33 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  // getUserWithdrawAccounts
+  // axios.get(`${domain}${ApiUrls['gateway-route']}${ApiUrls['withdraw']['customer-withdraw-account-customer']}/${customerId}`,
+
+  getUserWithdrawList = (customerId: number,) => {
+    let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.withdraw['withdraw-list'] + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  getUserWithdrawAccounts = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.withdraw['customer-withdraw-account-customer'] + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   updateAccountPassword = (payload: MetatraderAccountChangePassword) => {
     return httpClient.put(this.authenticated_server_link + Endpoints.account['change-password'], payload).then((result) => {
       let data = result.data
