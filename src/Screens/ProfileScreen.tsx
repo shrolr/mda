@@ -2,13 +2,13 @@ import { Card, Icon, View } from "native-base";
 import React, { useState } from "react";
 import { ScrollView, StatusBar, Text, Image, ImageBackground, SafeAreaView } from "react-native";
 import { AccountInfo, ChartCard, GraphCard, MenuCard, NavBar, PersonalInfo } from "../components";
-import { TopBar } from "../components/TopBar";
+import { TopBar } from "../components/Organisms/TopBar";
 import Colors from "../constants/Colors";
 import { Tabs } from "../enums";
 import { HomeStackNavProps } from "../Routes/HomeStackNavigator/HomeParamList";
 
 function ProfileScreen({ navigation }: HomeStackNavProps<"ProfileScreen">) {
-  const [tabState, setTabState] = useState<Tabs>(Tabs.PersonalInfo)
+  const [tabState, setTabState] = useState<Tabs>(Tabs.AccountInfo)
   const switchToPersonalInfoTab = () => {
     setTabState(Tabs.PersonalInfo)
   }

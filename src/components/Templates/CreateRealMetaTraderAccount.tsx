@@ -1,15 +1,15 @@
 import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
 import React, { createRef, useState } from 'react'
-import Colors from '../constants/Colors';
-import { MetaTraderVersion } from '../enums';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { MetaTraderVersion } from '../../enums';
+import { Text } from '../atom';
 import ActionSheet from "react-native-actions-sheet";
 import { View, Image, Pressable } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { useStateContext } from '../context/state';
-import { NewAccountRequest } from '../types/post/NewAccountRequest';
-import { DropDownPickerList, NetworkResponse } from '../models';
-import ApiCalls from '../network/ApiCalls';
+import { useStateContext } from '../../context/state';
+import { NewAccountRequest } from '../../types/post/NewAccountRequest';
+import { DropDownPickerList, NetworkResponse } from '../../models';
+import ApiCalls from '../../network/ApiCalls';
 
 interface ICreateRealMetaTraderAccount {
 

@@ -2,9 +2,9 @@ import { DrawerContentComponentProps, DrawerContentOptions } from '@react-naviga
 import { Button, Icon } from 'native-base';
 import React from 'react'
 import { View, Image, Pressable, SafeAreaView, ScrollView } from 'react-native';
-import Colors from '../constants/Colors';
-import { useStateContext } from '../context/state';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { useStateContext } from '../../context/state';
+import { Text } from '../atom';
 
 interface ISideBar {
     DrawerNavigation: DrawerContentComponentProps<DrawerContentOptions>
@@ -13,22 +13,24 @@ interface ISideBar {
 export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const { context } = useStateContext();
     const onPress = () => {
-        DrawerNavigation.navigation.navigate("Wallet")
+        DrawerNavigation.navigation.navigate("ProfileScreen")
     }
     return (
-        <View style={{ flex: 1, marginTop: 70,  backgroundColor: 'rgba(25, 25, 25, 0.98)', }}>
+        <View style={{ flex: 1, marginTop: 70, backgroundColor: 'rgba(25, 25, 25, 0.98)', }}>
             <SafeAreaView style={{ flex: 1, marginTop: 40 }}>
-                <ScrollView contentContainerStyle={{paddingLeft: 20, paddingRight: 20,paddingBottom:20}} style={{ flex: 1, }}>
-                    <View style={{ paddingLeft: 10, paddingRight: 10, flexDirection: "row" }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontFamily: "Roboto", fontSize: 12, fontWeight: "bold", textAlign: "right", color: Colors.common.white }}>{context.user!.customerAccountInfo.displayName}</Text>
-                            <Text style={{ fontSize: 9, textAlign: "right", color: Colors.common.gray }}>IB Hesabı</Text>
-                        </View>
-                        <View style={{ alignItems: "flex-end", }}>
-                            <Image source={{ uri: "https://www.peterbe.com/avatar.random.png" }} resizeMode="contain" style={{ marginLeft: 10, height: 30, width: 30 }} />
+                <ScrollView contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }} style={{ flex: 1, }}>
+                    <Pressable onPress={onPress}>
+                        <View style={{ paddingLeft: 10, paddingRight: 10, flexDirection: "row" }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ fontFamily: "Roboto", fontSize: 12, fontWeight: "bold", textAlign: "right", color: Colors.common.white }}>{context.user!.customerAccountInfo.displayName}</Text>
+                                <Text style={{ fontSize: 9, textAlign: "right", color: Colors.common.gray }}>IB Hesabı</Text>
+                            </View>
+                            <View style={{ alignItems: "flex-end", }}>
+                                <Image source={{ uri: "https://www.peterbe.com/avatar.random.png" }} resizeMode="contain" style={{ marginLeft: 10, height: 30, width: 30 }} />
 
+                            </View>
                         </View>
-                    </View>
+                    </Pressable>
                     <View style={{ height: 0.5, marginTop: 10, marginBottom: 30, backgroundColor: Colors.common.white }} />
                     <View style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
@@ -70,7 +72,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                             </View>
                         </View>
                     </View>
-                    
+
                     <View style={{ marginTop: 25, paddingLeft: 10, paddingRight: 10 }}>
                         <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                             <Image source={require("../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />

@@ -1,9 +1,9 @@
 import React from 'react'
 import { View  } from 'react-native';
-import Colors from '../constants/Colors';
-import { WalletTransactionApiModel } from '../models/ApiModels/Wallet/WalletInfoApiModel';
-import { convertUTCDateToLocalDate } from '../utilities/functions';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { WalletTransactionApiModel } from '../../models/ApiModels/Wallet/WalletInfoApiModel';
+import { convertUTCDateToLocalDate } from '../../utilities/functions';
+import { Text } from '../atom';
 
 interface IWalletHistoryListItem {
     index: number;

@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Image } from 'react-native';
-import Colors from '../constants/Colors';
-import { TransferList } from '../models';
-import { convertUTCDateToLocalDate } from '../utilities/functions';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { TransferList } from '../../models';
+import { convertUTCDateToLocalDate } from '../../utilities/functions';
+import { Text } from '../atom';
 
 interface IDepositsHistoryListItem {
     index: number;

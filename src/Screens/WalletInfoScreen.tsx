@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatList, ListRenderItem, SafeAreaView, StatusBar, View } from 'react-native';
 import { NavBar, WalletHistoryListItem } from '../components';
-import { TopBar } from '../components/TopBar';
+import { TopBar } from '../components/Organisms/TopBar';
 import Colors from '../constants/Colors';
 import { useStateContext } from '../context/state';
 import { WalletTransactionApiModel } from '../models/ApiModels/Wallet/WalletInfoApiModel';

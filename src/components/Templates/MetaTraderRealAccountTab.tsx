@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, TouchableOpacity } from 'react-native';
 import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
 import Colors from '../../constants/Colors';
-import { Text } from '../atomix';
+import { Text } from '../atom';
 import { Accounts } from '../../models/ApiModels/Account/AccountListApiModel';
 import { MetatraderAccountChangePassword } from '../../types/post/MetatraderAccountChangePassword';
 import ApiCalls from '../../network/ApiCalls';

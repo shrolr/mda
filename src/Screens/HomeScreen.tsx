@@ -2,7 +2,7 @@ import { Card, Icon, View } from "native-base";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StatusBar, Text } from "react-native";
 import { ChartCard, GraphCard } from "../components";
-import { TopBar } from "../components/TopBar";
+import { TopBar } from "../components/Organisms/TopBar";
 import Colors from "../constants/Colors";
 import { HomeStackNavProps } from "../Routes/HomeStackNavigator/HomeParamList";
 import { TestComponent } from "../test";

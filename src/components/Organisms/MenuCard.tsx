@@ -1,8 +1,8 @@
 import { Icon } from 'native-base';
 import React from 'react'
 import { TouchableOpacity, View, Image, ImageSourcePropType } from 'react-native';
-import Colors from '../constants/Colors';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { Text } from '../atom';
 
 interface IMenuCard {
     isTouchable: boolean;

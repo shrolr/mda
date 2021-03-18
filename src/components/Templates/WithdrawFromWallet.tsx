@@ -2,7 +2,7 @@ import { Button, Card, Icon, Input, Item } from 'native-base';
 import React, { useState } from 'react'
 import { View, Image } from 'react-native';
 import Colors from '../../constants/Colors';
-import { Text } from '../atomix';
+import { Text } from '../atom';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 interface IWithdrawFromWallet {

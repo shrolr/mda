@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { View,   TouchableOpacity } from 'react-native';
 import { Button, Card, Icon, Toast } from 'native-base';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 import Clipboard from 'expo-clipboard';
-import { Text } from './atomix';
-import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
+import { Text } from '../atom';
+import { Accounts } from '../../models/ApiModels/Account/AccountListApiModel';
 
 interface IMetaTraderDemoAccountTab {
     Account:Accounts

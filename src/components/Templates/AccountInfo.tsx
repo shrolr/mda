@@ -1,8 +1,8 @@
 import { Button, Card, Input } from 'native-base';
 import React, { useState } from 'react'
 import { View, Image, ImageBackground, TouchableOpacity } from 'react-native';
-import Colors from '../constants/Colors';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { Text } from '../atom';
 
 interface IAccountInfo {
 

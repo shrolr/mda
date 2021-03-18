@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { View, Image,  LayoutAnimation, Platform, UIManager } from 'react-native';
 import { Icon } from 'native-base';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
 import { DrawerActions } from '@react-navigation/native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useIsDrawerOpen } from '@react-navigation/drawer'
-import { Text } from './atomix';
+import { Text } from '../atom';
 
 interface ITopBar {
 

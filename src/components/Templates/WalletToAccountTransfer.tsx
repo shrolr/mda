@@ -2,7 +2,7 @@ import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native';
 import Colors from '../../constants/Colors';
-import { Text } from '../atomix';
+import { Text } from '../atom';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useStateContext } from '../../context/state';
 import { DropDownPickerList, NetworkResponse } from '../../models';

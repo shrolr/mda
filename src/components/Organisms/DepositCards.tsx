@@ -1,9 +1,9 @@
 import { Card } from 'native-base';
 import React from 'react'
 import { TouchableWithoutFeedback, View, Image  } from 'react-native';
-import Colors from '../constants/Colors';
-import { DepositOptions } from '../enums';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { DepositOptions } from '../../enums';
+import { Text } from '../atom';
 
 type TransferOption = "wallet" | "bank"
 

@@ -2,9 +2,9 @@
 import React from 'react'
 import { View,Image} from 'react-native';
 import { Card, Icon } from 'native-base';
-import Colors from '../constants/Colors';
-import { BarChartVerticalWithLabels } from './BarChart';
-import { Text } from './atomix';
+import Colors from '../../constants/Colors';
+import { BarChartVerticalWithLabels } from '../BarChart';
+import { Text } from '../atom';
 
 interface IGraphCard {
     color: string;
