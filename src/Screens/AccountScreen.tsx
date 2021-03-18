@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StatusBar, Text, Image, View, FlatList, ListRenderItem, SafeAreaView } from 'react-native';
-import { CreateRealMetaTraderAccount, MenuCard, MetaTraderDemoAccountTab, MetaTraderRealAccountTab, CreateDemoMetaTraderAccount } from '../components';
+import { CreateRealMetaTraderAccount, MenuCard, MetaTraderDemoAccountTab, CreateDemoMetaTraderAccount } from '../components';
 import { TopBar } from '../components/TopBar';
 import Colors from '../constants/Colors';
 import { CardItem, Tab, TabHeading, Tabs } from 'native-base';
@@ -11,6 +11,7 @@ import { useStateContext } from '../context/state';
 import ApiCalls from '../network/ApiCalls';
 import { NetworkResponseFail } from '../models';
 import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
+import { MetaTraderRealAccountTab } from '../components/Molecules';
 
 export default function AccountScreen({ navigation }: AccountStackNavProps<"Account">) {
     let { context } = useStateContext()

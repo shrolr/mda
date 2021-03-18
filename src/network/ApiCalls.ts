@@ -9,6 +9,7 @@ import { TransferAccountToAccountRequest } from '../types/post/TransferAccountTo
 import { Authenticated_Server_Link, ServerLink, SERVER_REQUEST_FAILED, SERVER_REGISTER_FAILED } from '../constants/constants';
 import { TransferAccountToWalletRequest } from '../types/post/TransferAccountToWalletRequest';
 import { TransferWalletToAccountRequest } from '../types/post/TransferWalletToAccountRequest';
+import { MetatraderAccountChangePassword } from '../types/post/MetatraderAccountChangePassword';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -81,6 +82,17 @@ class ApiCalls implements IApiCalls {
       let data = result.data
       let status = result.status
       let _networkResponse = new WalletInfoNetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  updateAccountPassword = (payload: MetatraderAccountChangePassword) => {
+    return httpClient.put(this.authenticated_server_link + Endpoints.account['change-password'], payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -160,7 +172,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  
+
 
 }
 

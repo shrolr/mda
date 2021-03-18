@@ -1,36 +1,75 @@
-import React, { useState } from 'react'
-import { View,   TouchableOpacity } from 'react-native';
-import { Button, Card, Icon, Input, Item, Toast } from 'native-base';
-import Colors from '../constants/Colors';
-import { Text } from './atomix';
-import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
+import React, { useEffect, useState } from 'react'
+import { View, TouchableOpacity } from 'react-native';
+import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
+import Colors from '../../constants/Colors';
+import { Text } from '../atomix';
+import { Accounts } from '../../models/ApiModels/Account/AccountListApiModel';
+import { MetatraderAccountChangePassword } from '../../types/post/MetatraderAccountChangePassword';
+import ApiCalls from '../../network/ApiCalls';
+import { NetworkResponse } from '../../models';
 
 interface IMetaTraderRealAccountTab {
-    Account:Accounts
+    Account: Accounts
 
 }
 
-export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({Account}) => {
+export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({ Account }) => {
+    const [progress, setprogress] = useState(false)
     const [visible, setvisible] = useState(false)
-    const [passwordVisible, setpasswordVisible] = useState(false)
-    const [passwordConfirmVisible, setpasswordConfirmVisible] = useState(false)
+    const [passwordHidden, setpasswordHidden] = useState(true)
+    const [passwordConfirmHidden, setpasswordConfirmHidden] = useState(true)
     const [password, setpassword] = useState("")
     const [passwordConfirmation, setpasswordConfirmation] = useState("")
-
-     const changeAccountPassword = () => {
+    useEffect(() => {
+        if(visible === false){
+            setpasswordHidden(true)
+            setpasswordConfirmHidden(true)
+            setpassword("")
+            setpasswordConfirmation("")
+            setprogress(false)
+        }
+    }, [visible])
+    const changeAccountPassword = () => {
         setvisible(true)
     }
     const cancelPasswordChange = () => {
         setvisible(false)
     }
     const togglePasswordVisible = () => {
-        setpasswordVisible(!passwordVisible)
+        setpasswordHidden(!passwordHidden)
     }
     const togglePasswordConfirmationVisible = () => {
-        setpasswordConfirmVisible(!passwordConfirmVisible)
+        setpasswordConfirmHidden(!passwordConfirmHidden)
     }
     const changePassword = () => {
         // TO DO CHANGE PASSWORD
+
+        if (password === passwordConfirmation) {
+            setprogress(true)
+            let metatraderAccountChangePassword: MetatraderAccountChangePassword = {
+                id: Account.id,
+                user: Account.user,
+                newPassword: password,
+                host: Account.serverName,
+                port: ""
+            }
+            ApiCalls.updateAccountPassword(metatraderAccountChangePassword).then((response) => {
+                // TO DO ADD LOADİNG SPİNNER
+                setprogress(false)
+                setvisible(false)
+                if (response instanceof NetworkResponse) {
+                    // success
+                    console.log("success")
+                }
+                else {
+                    console.log("fail")
+                }
+            })
+
+        }
+        else {
+            console.log("password mismatch")
+        }
     }
     const onPasswordChange = (password: string) => {
         setpassword(password)
@@ -51,20 +90,23 @@ export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({A
                     <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, }}>
 
                         <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                            <Input onChangeText={onPasswordChange} secureTextEntry={passwordVisible} placeholder='Şifre *' />
-                            <Icon onPress={togglePasswordVisible} style={{ color: Colors.common.gray }} name={!passwordVisible ? "ios-eye-outline" : "ios-eye-off-outline"} type="Ionicons" />
+                            <Input onChangeText={onPasswordChange} secureTextEntry={passwordHidden} placeholder='Şifre *' />
+                            <Icon onPress={togglePasswordVisible} style={{ color: Colors.common.gray }} name={passwordHidden ? "ios-eye-off-outline":"ios-eye-outline"  } type="Ionicons" />
                         </Item>
                         <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                            <Input onChangeText={onPasswordConfirmationChange} secureTextEntry={passwordConfirmVisible} placeholder='Şifre Tekrar *' />
-                            <Icon onPress={togglePasswordConfirmationVisible} style={{ color: Colors.common.gray }} name={!passwordConfirmVisible ? "ios-eye-outline" : "ios-eye-off-outline"} type="Ionicons" />
+                            <Input onChangeText={onPasswordConfirmationChange} secureTextEntry={passwordConfirmHidden} placeholder='Şifre Tekrar *' />
+                            <Icon onPress={togglePasswordConfirmationVisible} style={{ color: Colors.common.gray }} name={passwordConfirmHidden ?  "ios-eye-off-outline":"ios-eye-outline"} type="Ionicons" />
 
                         </Item>
 
                     </View>
-                    <Button onPress={changePassword} style={{ borderRadius: 10, height: 50, marginLeft: 20, marginRight: 20, marginBottom: 20, marginTop: 10, backgroundColor: Colors.common.loginButton }} full>
-                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>ŞİFREYİ GÜNCELLE</Text>
+                    {
+                        progress ? <Spinner /> : 
+                        <Button onPress={changePassword} style={{ borderRadius: 10, height: 50, marginLeft: 20, marginRight: 20, marginBottom: 20, marginTop: 10, backgroundColor: Colors.common.loginButton }} full>
+                            <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>ŞİFREYİ GÜNCELLE</Text>
+                        </Button>
+                    }
 
-                    </Button>
 
                 </>
             )

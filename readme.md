@@ -22,3 +22,6 @@ yatırım geçmişi kaydırma çubuğunda padding var
 
 cüzdandan hesaba transfer çalişmiyo 
 transfer iptal etme işlemleri
+validate money inputs
+
+create toast types
