@@ -29,3 +29,5 @@ create toast types
 çekim işlemleri sayfarı için mock data yok
 wallet info array olarak geliyor kullanıcının birden fazla walleti olabiliyor mu
 sidebar açilir menülerde neler olacak
+
+upload photo

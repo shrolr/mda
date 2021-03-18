@@ -38,7 +38,7 @@ export interface CustomerInfo {
     crmId:        number;
     firstName:    string;
     lastName:     string;
-    picture:      null;
+    picture:      string;
     mobilePhone:  string;
     mobilePhone2: null;
     mobilePhone3: null;
@@ -47,11 +47,11 @@ export interface CustomerInfo {
     email3:       null;
     birthDate:    null;
     birthPlace:   null;
-    address:      null;
-    state:        null;
-    city:         null;
-    zipCode:      null;
-    country:      null;
+    address:      string;
+    state:        string;
+    city:         string;
+    zipCode:      string;
+    country:      string;
     statusId:     number;
     status:       string;
     createdDate:  string;

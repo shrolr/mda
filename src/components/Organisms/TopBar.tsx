@@ -44,17 +44,17 @@ export const TopBar: React.FC<ITopBar> = () => {
                 </View>
 
                 <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Image source={require("../../assets/images/icons/logo.png")}   style={{ marginLeft: 10, height: 35, width: 100 }} />
+                    <Image source={require("../../../assets/images/icons/logo.png")}   style={{ marginLeft: 10, height: 35, width: 100 }} />
                 </View>
                 <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image source={require("../../assets/images/icons/download_orange.png")} style={{   height: 22, width: 22 }} />
+                    <Image source={require("../../../assets/images/icons/download_orange.png")} style={{   height: 22, width: 22 }} />
                 </View>
 
                 <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image source={require("../../assets/images/icons/bell.png")}   style={{ marginLeft: 5, height: 20, width: 20 }} />
+                    <Image source={require("../../../assets/images/icons/bell.png")}   style={{ marginLeft: 5, height: 20, width: 20 }} />
                 </View>
                 <View style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                <Image source={require("../../assets/images/icons/flag_uk.png")}  style={{ marginRight: 5, height: 20, width: 20 }} />
+                <Image source={require("../../../assets/images/icons/flag_uk.png")}  style={{ marginRight: 5, height: 20, width: 20 }} />
                     <Text>EN</Text>
                 </View>
             </View>

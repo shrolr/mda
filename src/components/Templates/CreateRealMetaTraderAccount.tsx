@@ -145,10 +145,10 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
 
                 <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", paddingTop: 5, paddingBottom: 5, marginTop: 30 }}>
                     <Pressable style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }} onPress={cancelActionSheet}>
-                        <Image source={require("../../assets/images/icons/cancelx.png")} resizeMode="contain" style={{ tintColor: "gray", height: 20, width: 20 }} />
+                        <Image source={require("../../../assets/images/icons/cancelx.png")} resizeMode="contain" style={{ tintColor: "gray", height: 20, width: 20 }} />
                     </Pressable>
                     <Pressable style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }} onPress={newAccount}>
-                        <Image source={require("../../assets/images/icons/check.png")} resizeMode="contain" style={{ height: 20, width: 20 }} />
+                        <Image source={require("../../../assets/images/icons/check.png")} resizeMode="contain" style={{ height: 20, width: 20 }} />
                     </Pressable>
                 </View>
 

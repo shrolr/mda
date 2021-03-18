@@ -34,17 +34,17 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                     <View style={{ height: 0.5, marginTop: 10, marginBottom: 30, backgroundColor: Colors.common.white }} />
                     <View style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                            <Image source={require("../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                            <Image source={require("../../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                             <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Ana Sayfa</Text>
                         </View>
                         <Pressable onPress={onPress}>
                             <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 25, alignItems: "flex-end" }}>
-                                <Image source={require("../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                                 <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Cüzdan</Text>
                             </View>
                         </Pressable>
                         <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                            <Image source={require("../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                            <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                             <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Hesaplar</Text>
                         </View>
                         <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: Colors.common.gray }}>Parasal İşlemler</Text>
@@ -53,20 +53,20 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
 
                     <View style={{ paddingTop: 20, paddingBottom: 20, marginTop: 10, backgroundColor: Colors.common.sideBarGrayBg, marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View style={{ flexDirection: "row" }}>
-                            <Image source={require("../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: "#F7B92D", marginRight: 10, height: 29, width: 24 }} />
+                            <Image source={require("../../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: "#F7B92D", marginRight: 10, height: 29, width: 24 }} />
                             <View>
                                 <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 5, color: Colors.common.sidebarActiveMenu }}>Yatırımlar</Text>
 
                                 <View style={{ flexDirection: "row", marginTop: 25, }}>
-                                    <Image source={require("../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                    <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Para Yatırma</Text>
                                 </View>
                                 <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                    <Image source={require("../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                    <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Yeni Para Yatırma</Text>
                                 </View>
                                 <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                    <Image source={require("../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                    <Image source={require("../../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Para Yatırım Geçmişi</Text>
                                 </View>
                             </View>
@@ -75,11 +75,11 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
 
                     <View style={{ marginTop: 25, paddingLeft: 10, paddingRight: 10 }}>
                         <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                            <Image source={require("../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                            <Image source={require("../../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                             <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Transferler</Text>
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 15, alignItems: "flex-end" }}>
-                            <Image source={require("../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                            <Image source={require("../../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                             <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Çekimler</Text>
                         </View>
 

@@ -18,7 +18,7 @@ export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ in
     return (
         <View style={{ flexDirection: "row", paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: index % 2 === 0 ? "#dfdfdf" : "#fff" }}>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Image source={require("../../assets/images/icons/deposit_info_green.png")} style={{ height: 20, width: 20 }} />
+                <Image source={require("../../../assets/images/icons/deposit_info_green.png")} style={{ height: 20, width: 20 }} />
 
                 <Text style={{ fontSize: 8, textAlign: "center", marginTop: 5 }}>{localDate.date}{"\n"}{localDate.time}</Text>
             </View>
@@ -31,7 +31,7 @@ export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ in
             </View>
             <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
                 <Text style={{ marginRight: 10, fontSize: 12, color: Colors.common.orangered, fontWeight: "bold", }}>+ {item.amount} $</Text>
-                <Image source={require("../../assets/images/icons/cancel.png")} resizeMode="contain" style={{ tintColor: Colors.common.cancelGray, height: 15, width: 15 }} />
+                <Image source={require("../../../assets/images/icons/cancel.png")} resizeMode="contain" style={{ tintColor: Colors.common.cancelGray, height: 15, width: 15 }} />
 
             </View>
         </View>
