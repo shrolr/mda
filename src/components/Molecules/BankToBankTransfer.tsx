@@ -9,16 +9,18 @@ import { DropDownPickerList, NetworkResponse } from '../../models';
 import { TransferAccountToAccountRequest } from '../../types/post/TransferAccountToAccountRequest';
 import ApiCalls from '../../network/ApiCalls';
 import { TransferTypeEnum } from '../../enums';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { DepositsParamList } from '../../Routes/DepositStackNavigator/DepositParamList';
 
-interface IBankToBankTransfer {
-
+interface IAccountToAccountTransfer {
+    navigation: StackNavigationProp<DepositsParamList, "DepositsHistory">
 }
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
 const throttle = require('lodash.throttle');
 
-export const BankToBankTransfer: React.FC<IBankToBankTransfer> = () => {
+export const AccountToAccountTransfer: React.FC<IAccountToAccountTransfer> = ({navigation}) => {
     const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
     const { context } = useStateContext()
     const [progressing, setprogressing] = useState(false)
@@ -65,7 +67,7 @@ export const BankToBankTransfer: React.FC<IBankToBankTransfer> = () => {
    
     const TransferRequest = () => {
         if (sourceAccount === targetAcoount) {
-            Toast.show({ text: "aynı hesaptan transfer olmaz", type: "warning" })
+            Toast.show({ text: "aynı hesaptan transfer olmaz", type: "warning",duration:3000 })
             setprogressing(false)
 
             return
@@ -83,13 +85,14 @@ export const BankToBankTransfer: React.FC<IBankToBankTransfer> = () => {
             }
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
-                    console.log("success", response.data)
+                    Toast.show({ text: "Başarılı yönlendiriliyor", type: "success",duration:3000 })
+                    navigation.replace("DepositsHistory")
                 }
                 else {
                     console.log("failure")
+                    Toast.show({ text: "Hata", type: "danger",duration:3000 })
+                    setprogressing(false)
                 }
-                setprogressing(false)
-
             })
         }
         else {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { View, StatusBar, Image, ScrollView, SafeAreaView } from 'react-native'
+import { View, StatusBar, ScrollView, SafeAreaView } from 'react-native'
 import { DepositCards, NavBar } from '../components'
-import { BankToBankTransfer, BankToWalletTransfer, WalletToBankTransfer } from '../components/Molecules'
+import { AccountToAccountTransfer, AccountToWalletTransfer, WalletToAccountTransfer } from '../components/Molecules'
 import { TopBar } from '../components/TopBar'
 import Colors from '../constants/Colors'
 import { DepositOptions } from '../enums'
@@ -36,13 +36,13 @@ export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"
 
                     </View>
                     {
-                        selectedOption === DepositOptions.walletToBank && <WalletToBankTransfer />
+                        selectedOption === DepositOptions.walletToBank && <WalletToAccountTransfer navigation={navigation} />
                     }
                     {
-                        selectedOption === DepositOptions.bankToWallet && <BankToWalletTransfer />
+                        selectedOption === DepositOptions.bankToWallet && <AccountToWalletTransfer navigation={navigation}  />
                     }
                     {
-                        selectedOption === DepositOptions.bankToBank && <BankToBankTransfer />
+                        selectedOption === DepositOptions.bankToBank && <AccountToAccountTransfer navigation={navigation} />
                     }
                 </ScrollView>
             </View>

@@ -4,14 +4,18 @@ import { StatusBar, Text, View, TouchableOpacity, SafeAreaView } from 'react-nat
 import { MenuCard, NavBar } from '../components';
 import { TopBar } from '../components/TopBar';
 import Colors from '../constants/Colors';
+import { useStateContext } from '../context/state';
 import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList';
+import { convertUTCDateToLocalDate } from '../utilities/functions';
 
 export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">) {
 
-
+    const { context } = useStateContext()
     const navigateToWalletInfoScreen = () => {
         navigation.navigate("WalletInfoScreen")
     }
+    var localTime = convertUTCDateToLocalDate(new Date(context.walletInfo[0].wallet.createdDate))
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
@@ -40,8 +44,8 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
                         </View>
                         <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, flexDirection: "row" }}>
                             <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
-                                <Text style={{ fontSize: 13, color: Colors.common.gray }}>18-01-2021 | 14:46:32</Text>
-                                <Text style={{ flex: 1, textAlign: "right", fontSize: 20, color: Colors.common.walletHeader, fontWeight: "bold", }}>1000 $</Text>
+                                <Text style={{ fontSize: 13, color: Colors.common.gray }}>{localTime.date}   |   {localTime.time}</Text>
+                                <Text style={{ flex: 1, textAlign: "right", fontSize: 20, color: Colors.common.walletHeader, fontWeight: "bold", }}>{context.walletInfo[0].wallet.balance} $</Text>
                             </View>
                         </View>
                     </Card>

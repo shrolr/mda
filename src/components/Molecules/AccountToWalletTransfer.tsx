@@ -6,21 +6,22 @@ import { Text } from '../atomix';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useStateContext } from '../../context/state';
 import { DropDownPickerList, NetworkResponse } from '../../models';
+import { TransferAccountToWalletRequest } from '../../types/post/TransferAccountToWalletRequest';
 import { TransferTypeEnum } from '../../enums';
 import ApiCalls from '../../network/ApiCalls';
-import { TransferWalletToAccountRequest } from '../../types/post/TransferWalletToAccountRequest';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { DepositsParamList } from '../../Routes/DepositStackNavigator/DepositParamList';
 
-interface IWalletToBankTransfer {
+interface IAccountToWalletTransfer {
+    navigation: StackNavigationProp<DepositsParamList, "DepositsHistory">
 
 }
-
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
-// TO DO NEED TO STORE WALLET INFO
 const throttle = require('lodash.throttle');
 
-export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
+export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({navigation}) => {
     const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
     const { context } = useStateContext()
     const [progressing, setprogressing] = useState(false)
@@ -57,27 +58,27 @@ export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
     }
 
     const TransferRequest = () => {
-        console.log(sourceAccount,amount,currency)
+
         if (sourceAccount && amount && currency !== "") {
 
-            let transferAccountToAccountRequest: TransferWalletToAccountRequest = {
-                sourceAccountId: null,
-                targetAccountId: sourceAccount,
+            let transferAccountToAccountRequest: TransferAccountToWalletRequest = {
+                sourceAccountId: sourceAccount,
+                targetAccountId: null,
                 currency: currency,
-                walletId: 3,
-                typeId: TransferTypeEnum.WalletToAccount,
+                typeId: TransferTypeEnum.AccountToWallet,
                 amount: amount,
                 customerId: context.user!.customerAccountInfo.id,
             }
-            console.log(transferAccountToAccountRequest)
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
-                    console.log("success", response.data)
+                    Toast.show({ text: "Başarılı yönlendiriliyor", type: "success",duration:3000 })
+                    navigation.replace("DepositsHistory")
+
                 }
                 else {
-                    console.log("failure")
+                    Toast.show({ text: "fail", type: "danger" })
+                    setprogressing(false)
                 }
-                setprogressing(false)
 
             })
         }
@@ -107,12 +108,14 @@ export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
     return (
         <View style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, backgroundColor: Colors.common.transferCardBg }}>
             <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Cüzdandan Hesaba Transfer</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Hesaptan Cüzdana Transfer</Text>
                 <View style={{ height: 3, backgroundColor: Colors.common.contentDivider, marginTop: 20, marginBottom: 20 }} />
+
                 <DropDownPicker
                     items={accounts}
                     placeholder="Kaynak Hesap"
                     onChangeItem={onChangeSourceAccounts}
+
                     containerStyle={{ height: 40 }}
                     style={{ backgroundColor: '#fafafa' }}
                     itemStyle={{
@@ -123,6 +126,7 @@ export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
                 <View style={{ marginTop: 10, marginBottom: 10 }} />
                 <DropDownPicker
                     onChangeItem={onChangeCurrency}
+
                     items={context.CurrenciesDefault}
                     placeholder="Para Birimi"
                     containerStyle={{ height: 40 }}
@@ -132,6 +136,7 @@ export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
                     }}
                     dropDownStyle={{ backgroundColor: '#fafafa' }}
                 />
+
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
                     <Input onChangeText={onAmountChange} keyboardType="numeric" placeholder='Miktar *' />
                     <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"bar-chart"} type="Feather" />
@@ -142,6 +147,7 @@ export const WalletToBankTransfer: React.FC<IWalletToBankTransfer> = () => {
 
                     </Button>
                 }
+              
             </Card>
         </View>
     )

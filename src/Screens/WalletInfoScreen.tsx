@@ -1,16 +1,20 @@
 import React from 'react'
-import { SafeAreaView, StatusBar, View } from 'react-native';
+import { FlatList, ListRenderItem, SafeAreaView, StatusBar, View } from 'react-native';
 import { NavBar, WalletHistoryListItem } from '../components';
 import { TopBar } from '../components/TopBar';
 import Colors from '../constants/Colors';
+import { useStateContext } from '../context/state';
+import { WalletTransactionApiModel } from '../models/ApiModels/Wallet/WalletInfoApiModel';
 import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList';
 
 
 
 
 export default function WalletInfoScreen({ navigation }: HomeStackNavProps<"WalletInfoScreen">) {
-
-
+    const { context } = useStateContext()
+    const _renderWalletTransactions: ListRenderItem<WalletTransactionApiModel> = ({ item, index }) => (
+        <WalletHistoryListItem item={item} index={index} />
+    )
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
@@ -24,13 +28,18 @@ export default function WalletInfoScreen({ navigation }: HomeStackNavProps<"Wall
                 />
                 <TopBar />
                 <NavBar name="gear" type="FontAwesome" title="Cüzdan İşlemleri" />
-                <View style={{ flex: 1, paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-                    <WalletHistoryListItem index={0} />
-                    <WalletHistoryListItem index={1} />
-                    <WalletHistoryListItem index={2} />
-                    <WalletHistoryListItem index={3} />
+                <View style={{ flex: 1}}>
+                    <FlatList
+                        contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
+                        data={context.walletInfo[0].transactions}
+                        renderItem={_renderWalletTransactions}
+                        keyExtractor={(item) => item.id.toString()}
+
+                    />
+
 
                 </View>
+             
             </View>
         </SafeAreaView>
     )

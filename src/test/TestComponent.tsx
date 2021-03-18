@@ -2,9 +2,8 @@ import React, { useEffect } from 'react'
 import { View } from 'react-native';
 import { ActionType } from '../context/reducer';
 import { useStateContext } from '../context/state';
-import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail } from '../models';
+import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail, WalletInfoNetworkResponse, AccountListNetworkResponse } from '../models';
 import ApiCalls from '../network/ApiCalls';
-import NetworkDataHelper from '../network/NetworkDataHelper';
 
 interface ITestComponent {
 
@@ -34,16 +33,17 @@ export const TestComponent: React.FC<ITestComponent> = () => {
             }
         })
         ApiCalls.getWalletInfo(context.user!.customerAccountInfo.id).then((response)=> {
-            console.log(JSON.stringify(response))
+            if (response instanceof WalletInfoNetworkResponse) {
+                let walletInfo = response.data;
+                dispatch!({ type: ActionType.SET_WALLET_INFO, payload: { walletInfo } })
+            }
         })
 
         ApiCalls.getCustomerAccounts(context.user!.customerInfo.id).then((response) => {
-            if (response instanceof NetworkResponseFail) {
-
-            } else {
+            if (response instanceof AccountListNetworkResponse) {
                 let accounts = response.data;
                 dispatch!({ type: ActionType.SET_USER_ACCOUNTS, payload: { accounts } })
-            }
+            }  
         })
 
 

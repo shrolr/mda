@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse } from '../models';
+import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse } from '../models';
 import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
@@ -80,12 +80,10 @@ class ApiCalls implements IApiCalls {
     return httpClient.get(this.authenticated_server_link + Endpoints.wallet.customer + urlSuffix).then((result) => {
       let data = result.data
       let status = result.status
-      let _networkResponse = new NetworkResponse(status, data);
-      console.log(_networkResponse)
+      let _networkResponse = new WalletInfoNetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }

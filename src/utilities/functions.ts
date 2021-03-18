@@ -1,3 +1,5 @@
+var dayjs = require('dayjs')
+
 const convertUTCDateToLocalDate = (date:Date) => {
     var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
@@ -5,8 +7,10 @@ const convertUTCDateToLocalDate = (date:Date) => {
     var hours = date.getHours();
 
     newDate.setHours(hours - offset);
-    console.log(hours , offset)
-    return new Date(newDate.toString())
+    let _date = dayjs(newDate).hour(hours).format("DD-MM-YYYY")
+    let time = dayjs(newDate).hour(hours).format("HH-mm-ss")
+    
+    return {date:_date,time}
 }
 
 export { convertUTCDateToLocalDate}

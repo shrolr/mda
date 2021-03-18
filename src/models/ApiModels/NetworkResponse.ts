@@ -3,6 +3,7 @@ import { IUserResponse } from "../../interfaces";
 import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
 import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
 import { TransferListData } from "./Transfer/TransferListApiModel";
+import { WalletInfoAPIModel, WalletInfoData } from "./Wallet/WalletInfoApiModel";
 
 interface INetworkResponse {
     status?: number;
@@ -79,6 +80,14 @@ export class TransferListNetworkResponse implements TransferListAPIModel {
     status: number;
     data: TransferListData;
     constructor(status:number,data:TransferListData) {
+        this.status = status;
+        this.data = data;
+    }
+}
+export class WalletInfoNetworkResponse implements WalletInfoAPIModel {
+    status: number;
+    data: WalletInfoData[];
+    constructor(status:number,data:WalletInfoData[]) {
         this.status = status;
         this.data = data;
     }
