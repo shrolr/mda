@@ -11,8 +11,6 @@ Eksikler
 
 
 sorular
-metarader demo/gerçek hesap açmada sınır var mı?
-mobilde gerçek  hesap talebi sayfası tasarlanmamış genel tasarıma göre bir sayfa oluşturayım mı?
 mobilde kayıt olma sayfası tasarlanmamış mobilden kayıt olma seçeneği olacak mı?
 Yeni banka hesabı ekle tasarımları eksik
 
@@ -23,3 +21,4 @@ gerçek hesap şifre değiştirme
 yatırım geçmişi kaydırma çubuğunda padding var
 
 cüzdandan hesaba transfer çalişmiyo 
+transfer iptal etme işlemleri

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StatusBar, FlatList, ListRenderItem } from 'react-native'
+import { View, StatusBar, FlatList, ListRenderItem, SafeAreaView } from 'react-native'
 import { NavBar } from '../components'
 import { TopBar } from '../components/TopBar'
 import Colors from '../constants/Colors'
@@ -21,30 +21,34 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
             }
         })
     }, [])
-    const _renderDepositHistory: ListRenderItem<TransferList> = ({ item,index }) => (
-        <DepositsHistoryListItem item={item} index={index}  />
+    const _renderDepositHistory: ListRenderItem<TransferList> = ({ item, index }) => (
+        <DepositsHistoryListItem item={item} index={index} />
     )
     return (
-        <View style={{ flex: 1 }}>
-            <StatusBar
-                animated={true}
-                backgroundColor={Colors.common.statusBarColor}
-                barStyle="light-content"
-                showHideTransition="slide"
-            />
-            <TopBar />
-            <NavBar name="wallet" type="Ionicons" title="Transfer Geçmişi" />
-            <View style={{ flex: 1, paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-                <FlatList
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
+            <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
 
-                    data={deposits}
-                    renderItem={_renderDepositHistory}
-                    keyExtractor={(item) => item.id.toString()}
-
+                <StatusBar
+                    animated={true}
+                    backgroundColor={Colors.common.statusBarColor}
+                    barStyle="light-content"
+                    showHideTransition="slide"
                 />
+                <TopBar />
+                <NavBar name="wallet" type="Ionicons" title="Transfer Geçmişi" />
+                <View style={{ flex: 1}}>
+                    <FlatList
+                        contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
+                        data={deposits}
+                        renderItem={_renderDepositHistory}
+                        keyExtractor={(item) => item.id.toString()}
 
-                
+                    />
+
+
+                </View>
             </View>
-        </View>
+
+        </SafeAreaView>
     )
 }

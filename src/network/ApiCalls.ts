@@ -89,6 +89,18 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  getWalletTransactionsInfo = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.wallet['customer-transactions'] + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   getCustomerAccounts = (customerId: number) => {
     let urlSuffix = `/${customerId}`
 

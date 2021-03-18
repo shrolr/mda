@@ -16,6 +16,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         ApiCalls.setToken(context.user!.token)
         ApiCalls.getNotificationInfo(context.user!.customerInfo.id)
         ApiCalls.getWalletInfo(context.user!.customerAccountInfo.id)
+        ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.id)
         loadToContext()
     }, [])
     const loadToContext = () => {
@@ -32,6 +33,10 @@ export const TestComponent: React.FC<ITestComponent> = () => {
                 dispatch!({ type: ActionType.SET_ACCOUNT_TYPES, payload: { accountTpyes } })
             }
         })
+        ApiCalls.getWalletInfo(context.user!.customerAccountInfo.id).then((response)=> {
+            console.log(JSON.stringify(response))
+        })
+
         ApiCalls.getCustomerAccounts(context.user!.customerInfo.id).then((response) => {
             if (response instanceof NetworkResponseFail) {
 

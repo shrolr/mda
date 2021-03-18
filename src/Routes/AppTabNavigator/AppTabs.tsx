@@ -6,16 +6,22 @@ import { HomeStack } from "../HomeStackNavigator/HomeStack";
 
 import { Icon } from "native-base";
 import { AccountStack } from "../AccountStackNavigator/AccountStack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerNavigationProp } from "@react-navigation/drawer";
 import { SideBar } from "../../components";
 import { DepositStack } from "../DepositStackNavigator/DepositStack";
 import { WithdrawStack } from "../WithdrawStackNavigator/WithdrawStack";
- 
+import { RouteProp } from "@react-navigation/native";
 
-interface AppTabsProps { }
+
+
+type DraverParamList = {
+  Home: undefined;
+};
+interface DraverStackProps { }
+
 
 const Tabs = createBottomTabNavigator<AppParamList>();
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<DraverParamList>();
 
 type IconTypes = "Entypo" | "AntDesign" | "EvilIcons" | "Feather" | "FontAwesome" | "FontAwesome5" | "Foundation" | "Ionicons" | "MaterialCommunityIcons" | "MaterialIcons" | "Octicons" | "SimpleLineIcons" | "Zocial" | undefined
 
@@ -30,18 +36,18 @@ const AppTabNavigator = () => {
           let iconName;
           let IconType: IconTypes = "Entypo"
           if (route.name === "AnaSayfa") {
-            return <Image source={require("../../../assets/images/icons/home.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+            return <Image source={require("../../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: color, height: 25, width: 25 }} />
 
           }
           else if (route.name === "Hesaplarim") {
-            return <Image source={require("../../../assets/images/icons/bank.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+            return <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: color, height: 25, width: 25 }} />
 
           }
           else if (route.name === "ParaCekme") {
-            return <Image source={require("../../../assets/images/icons/atm.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+            return <Image source={require("../../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: color, height: 25, width: 25 }} />
 
           }
-          return <Image source={require("../../../assets/images/icons/deposit.png")}  resizeMode="contain" style={{tintColor:color, height: 25, width: 25 }} />
+          return <Image source={require("../../../assets/images/icons/deposit.png")} resizeMode="contain" style={{ tintColor: color, height: 25, width: 25 }} />
 
         },
         header: null,
@@ -67,17 +73,17 @@ const AppTabNavigator = () => {
   )
 }
 
-export const AppTabs: React.FC<AppTabsProps> = ({ }) => {
+export const AppTabs: React.FC<DraverStackProps> = ({ }) => {
 
   return (
     <>
 
       <Drawer.Navigator drawerStyle={{
         backgroundColor: 'transparent',
-        width: 180,
-      }} overlayColor="transparent" drawerContent={(props) => <SideBar />}>
+        width: 220,
+      }} overlayColor="transparent" drawerContent={(props) => <SideBar DrawerNavigation={props} />}>
 
-        <Drawer.Screen name="Homex" component={AppTabNavigator} />
+        <Drawer.Screen name="Home" component={AppTabNavigator} />
 
       </Drawer.Navigator>
 

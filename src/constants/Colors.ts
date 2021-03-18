@@ -42,7 +42,9 @@ export default {
     cardInActive:'#f7f7f6',
     transferCardBg:'#f9f9f9',
     contentDivider:'#ddd',
-    fontOrangeRed:'#FF4E19'
+    fontOrangeRed:'#FF4E19',
+    backgroundLightWhite:'#f9f9f9',
+
   }
 
 };
