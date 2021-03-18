@@ -2,6 +2,7 @@ import { Button, Card, Input, Item } from 'native-base';
 import React, { useState } from 'react'
 import { View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import Colors from '../../constants/Colors';
+import { useStateContext } from '../../context/state';
 import { Text } from '../atom';
 
 interface IPersonalInfo {
@@ -9,6 +10,8 @@ interface IPersonalInfo {
 }
 
 export const PersonalInfo: React.FC<IPersonalInfo> = () => {
+    const {context } = useStateContext()
+
     const [isEditing, setisEditing] = useState(false)
     const [email, setemail] = useState("")
     const [phone, setPhone] = useState("")
@@ -39,35 +42,35 @@ export const PersonalInfo: React.FC<IPersonalInfo> = () => {
                 !isEditing &&
                 <TouchableOpacity onPress={onEditClick} style={{ alignItems: "center", marginRight: 20, marginLeft: 20, flexDirection: "row", height: 40, backgroundColor: "#F7F7F6", marginTop: 20 }}>
                     <View style={{ height: 40, width: 50, backgroundColor: "#E5E5E5", alignItems: "center", justifyContent: "center" }}>
-                        <Image source={require("../../assets/images/icons/user-circle-regular.png")} resizeMode="contain" style={{ tintColor: "black", height: 20, width: 20 }} />
+                        <Image source={require("../../../assets/images/icons/user-circle-regular.png")} resizeMode="contain" style={{ tintColor: "black", height: 20, width: 20 }} />
                     </View>
-                    <Text style={{ marginLeft: 20, flex: 1, fontWeight: "bold" }}>Dude Tester</Text>
-                    <Image source={require("../../assets/images/icons/edit.png")} resizeMode="contain" style={{ marginRight: 20, height: 13, width: 13 }} />
+                    <Text style={{ marginLeft: 20, flex: 1, fontWeight: "bold" }}>{context.user?.customerAccountInfo.displayName}</Text>
+                    <Image source={require("../../../assets/images/icons/edit.png")} resizeMode="contain" style={{ marginRight: 20, height: 13, width: 13 }} />
                 </TouchableOpacity>
             }
             { isEditing &&
                 <View style={{ paddingRight: 20, paddingLeft: 20 }}>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue="" autoCapitalize="none" autoCorrect={false} placeholder='Adınız' />
+                        <Input defaultValue={context.user?.customerInfo.firstName} autoCapitalize="none" autoCorrect={false} placeholder='Adınız' />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue=""  autoCapitalize="none" autoCorrect={false} placeholder='Soyadınız' />
+                        <Input defaultValue={context.user?.customerInfo.lastName}   autoCapitalize="none" autoCorrect={false} placeholder='Soyadınız' />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue=""  autoCapitalize="none" autoCorrect={false} placeholder='Ülke' />
+                        <Input defaultValue={context.user?.customerInfo.country}   autoCapitalize="none" autoCorrect={false} placeholder='Ülke' />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue=""  autoCapitalize="none" autoCorrect={false} placeholder='Bölge' />
+                        <Input defaultValue={context.user?.customerInfo.state}   autoCapitalize="none" autoCorrect={false} placeholder='Bölge' />
                     </Item>
 
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue=""  autoCapitalize="none" autoCorrect={false} placeholder='Şehir' />
+                        <Input defaultValue={context.user?.customerInfo.city}   autoCapitalize="none" autoCorrect={false} placeholder='Şehir' />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue=""  autoCapitalize="none" autoCorrect={false} placeholder='Posta kodu' />
+                        <Input defaultValue={context.user?.customerInfo.zipCode}   autoCapitalize="none" autoCorrect={false} placeholder='Posta kodu' />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input defaultValue="" autoCapitalize="none" autoCorrect={false} placeholder='Adres' />
+                        <Input defaultValue={context.user?.customerInfo.address}  autoCapitalize="none" autoCorrect={false} placeholder='Adres' />
                     </Item> 
                 </View>
             }

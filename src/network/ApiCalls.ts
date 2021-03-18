@@ -10,6 +10,7 @@ import { Authenticated_Server_Link, ServerLink, SERVER_REQUEST_FAILED, SERVER_RE
 import { TransferAccountToWalletRequest } from '../types/post/TransferAccountToWalletRequest';
 import { TransferWalletToAccountRequest } from '../types/post/TransferWalletToAccountRequest';
 import { MetatraderAccountChangePassword } from '../types/post/MetatraderAccountChangePassword';
+import { UpdateAccountInformation } from '../types/post/UpdateAccountInformation';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -115,6 +116,26 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+
+
+
+  updateUserIdentifiers = (payload: UpdateAccountInformation, customerId: number) => {
+    let urlSuffix = `/${customerId}`
+    console.log(customerId)
+    return httpClient.put(this.authenticated_server_link + Endpoints.customer.identifiers + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      console.log(_networkResponse)
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      console.log(networkResponse)
+
+      return networkResponse;
+    })
+  }
+
   updateAccountPassword = (payload: MetatraderAccountChangePassword) => {
     return httpClient.put(this.authenticated_server_link + Endpoints.account['change-password'], payload).then((result) => {
       let data = result.data
