@@ -1,16 +1,17 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse } from '../models';
+import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel } from '../models';
 import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
 import { TransferAccountToAccountRequest } from '../types/post/TransferAccountToAccountRequest';
-import { Authenticated_Server_Link, ServerLink, SERVER_REQUEST_FAILED, SERVER_REGISTER_FAILED } from '../constants/constants';
+import { Authenticated_Server_Link, ServerLink, SERVER_REQUEST_FAILED } from '../constants/constants';
 import { TransferAccountToWalletRequest } from '../types/post/TransferAccountToWalletRequest';
 import { TransferWalletToAccountRequest } from '../types/post/TransferWalletToAccountRequest';
 import { MetatraderAccountChangePassword } from '../types/post/MetatraderAccountChangePassword';
 import { UpdateAccountInformation } from '../types/post/UpdateAccountInformation';
+import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -29,16 +30,9 @@ interface IApiCalls { }
 class ApiCalls implements IApiCalls {
   private server_link: string;
   private authenticated_server_link: string;
-
-  private AXIOS_ERROR: number;
-  private AXIOS_OK: number;
-  private AXIOS_NO_DATA: number;
   constructor() {
     this.server_link = ServerLink;
     this.authenticated_server_link = Authenticated_Server_Link
-    this.AXIOS_ERROR = 0;
-    this.AXIOS_OK = 1;
-    this.AXIOS_NO_DATA = 2;
   }
 
   setToken = async (token: string) => {
@@ -89,8 +83,6 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  // getUserWithdrawAccounts
-  // axios.get(`${domain}${ApiUrls['gateway-route']}${ApiUrls['withdraw']['customer-withdraw-account-customer']}/${customerId}`,
 
   getUserWithdrawList = (customerId: number,) => {
     let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
@@ -109,7 +101,7 @@ class ApiCalls implements IApiCalls {
     return httpClient.get(this.authenticated_server_link + Endpoints.withdraw['customer-withdraw-account-customer'] + urlSuffix).then((result) => {
       let data = result.data
       let status = result.status
-      let _networkResponse = new NetworkResponse(status, data);
+      let _networkResponse = new WithdrawAccountsNetworkResponsel(status, data);
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -126,12 +118,22 @@ class ApiCalls implements IApiCalls {
       let data = result.data
       let status = result.status
       let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  postUserWithdrawAccount = (payload:PostCustomerWithdrawAccountRequestModel) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.withdraw['customer-withdraw-account'], payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
       console.log(_networkResponse)
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log(networkResponse)
-
+      console.log("fail", err)
       return networkResponse;
     })
   }

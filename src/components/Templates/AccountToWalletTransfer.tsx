@@ -1,6 +1,6 @@
 import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Text } from '../atom';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -21,7 +21,7 @@ interface IAccountToWalletTransfer {
 // use dropdown menu list ref to give margin when its open
 const throttle = require('lodash.throttle');
 
-export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({navigation}) => {
+export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ navigation }) => {
     const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
     const { context } = useStateContext()
     const [progressing, setprogressing] = useState(false)
@@ -71,7 +71,7 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({nav
             }
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
-                    Toast.show({ text: "Başarılı yönlendiriliyor", type: "success",duration:3000 })
+                    Toast.show({ text: "Başarılı yönlendiriliyor", type: "success", duration: 3000 })
                     navigation.replace("DepositsHistory")
 
                 }
@@ -139,7 +139,8 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({nav
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
                     <Input onChangeText={onAmountChange} keyboardType="numeric" placeholder='Miktar *' />
-                    <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"bar-chart"} type="Feather" />
+                    <Image source={require("../../../assets/images/icons/presentation.png")}   style={{ marginRight: 20, height: 13, width: 13 }} />
+
                 </Item>
                 {
                     progressing ? <Spinner /> : <Button onPress={onTransferRequest} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
@@ -147,7 +148,7 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({nav
 
                     </Button>
                 }
-              
+
             </Card>
         </View>
     )

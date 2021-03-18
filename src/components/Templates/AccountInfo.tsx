@@ -39,8 +39,9 @@ export const AccountInfo: React.FC<IAccountInfo> = () => {
             let updateAccountInformation: UpdateAccountInformation = { email: email, mobilePhone: phone }
             ApiCalls.updateUserIdentifiers(updateAccountInformation, context.user!.customerAccountInfo.customerId)
             // update user acc info
+            // handle response
         }
-        console.log(email, phone)
+        
     }
     const onPhoneChange = (phone: string) => {
         let pattern = /^[1-9]\d{1,14}$/;

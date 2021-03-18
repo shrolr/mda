@@ -1,9 +1,12 @@
-import { Button, Card, Icon, Input, Item } from 'native-base';
-import React, { useState } from 'react'
+import { Button, Card, Icon, Input, Item, Toast } from 'native-base';
+import React, { useEffect, useState } from 'react'
 import { View, Image } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Text } from '../atom';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useStateContext } from '../../context/state';
+import { DropDownPickerList } from '../../models';
+import { PostWithdrawRequestModel } from '../../types/post/PostWithdrawRequestModel';
 
 interface IWithdrawFromWallet {
 
@@ -11,17 +14,76 @@ interface IWithdrawFromWallet {
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
-const dummyData = [
-    { label: 'USA', value: 'usa' },
-    { label: 'UK', value: 'uk', },
-    { label: 'France', value: 'france' },
-]
-export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = () => {
-    const [accounts, setaccounts] = useState<{ label: string; value: string; }[]>(dummyData)
-    const [currencies, setcurrencies] = useState<{ label: string; value: string; }[]>(dummyData)
-    const onTransferRequest = () => {
 
+export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = () => {
+    const { context } = useStateContext()
+    const [progressing, setprogressing] = useState(false)
+    const [sourceAccount, setsourceAccount] = useState<number>()
+
+    const [currency, setCurrency] = useState("")
+    const [amount, setamount] = useState<number>()
+    const [comment, setcomment] = useState<string>("")
+
+    useEffect(() => {
+        let userWithdrawAccounts: DropDownPickerList[] = [];
+        context.withdrawAccounts.forEach((_data) => {
+            let data: DropDownPickerList = {} as DropDownPickerList;
+            data.disabled = false;
+            data.label = _data.accountName;
+            data.value = _data.id
+            userWithdrawAccounts.push(data)
+        })
+        setaccounts(userWithdrawAccounts)
+    }, [context.withdrawAccounts])
+    const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
+    const onTransferRequest = () => {
+        // TO DO validate input 
+        if(sourceAccount && amount && comment ){
+            const filterAccounts = context.withdrawAccounts.filter((_account)=> _account.id === sourceAccount )
+            if(filterAccounts.length === 1){
+                const selectedAccount = filterAccounts[0];
+                let postWithdrawRequestModel: PostWithdrawRequestModel = {
+                    AccountId:selectedAccount.id,
+                    Amount:amount,
+                    Comment:comment,
+                    Currency:currency,
+                    CustomerId:context.user!.customerAccountInfo.customerId,
+                    CustomerWithdrawAccountId:selectedAccount.id,
+                    IsWalletWithdraw:false,
+                    TypeId:parseInt(selectedAccount.type)
+                };
+                console.log(selectedAccount.type)
+            }
+           
+        }
+     
+        console.log("on request")
     }
+    const onChangeSourceAccounts = (item: DropDownPickerList, index: number) => {
+        if (typeof item.value === "number") {
+            setsourceAccount(item.value)
+        }
+        else {
+            setsourceAccount(parseInt(item.value))
+        }
+    }
+    const onChangeCurrency = (item: DropDownPickerList, index: number) => {
+        setCurrency(item.value.toString())
+    }
+
+    const onCommentChange = ((comment: string) => {
+        setcomment(comment)
+    })
+    const onAmountChange = ((amount: string) => {
+        try {
+            setamount(parseInt(amount))
+        } catch (error) {
+            // show warning amount must be number
+            Toast.show({ text: "amount must be number", type: "warning" })
+
+        }
+    })
+
     return (
         <View style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, backgroundColor: Colors.common.transferCardBg }}>
             <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}>
@@ -30,7 +92,7 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = () => {
                 <DropDownPicker
                     items={accounts}
                     placeholder="Kullanıcı Banka Hesabı"
-
+                    onChangeItem={onChangeSourceAccounts}
                     containerStyle={{ height: 40 }}
                     style={{ backgroundColor: '#fafafa' }}
                     itemStyle={{
@@ -38,15 +100,16 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = () => {
                     }}
                     dropDownStyle={{ backgroundColor: '#fafafa' }}
                 />
-                <View style={{flexDirection:"row", justifyContent:"flex-end",alignItems:"center",marginTop:15,marginBottom:0}}>
+                <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center", marginTop: 15, marginBottom: 0 }}>
                     <Image source={require("../../../assets/images/icons/circle-plus.png")} resizeMode="contain" style={{ height: 20, width: 20 }} />
-                    <Text style={{marginLeft:5, color:"#0877D5", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Yeni Banka Hesabı Ekle</Text>
+                    <Text style={{ marginLeft: 5, color: "#0877D5", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Yeni Banka Hesabı Ekle</Text>
 
                 </View>
- 
+
                 <View style={{ marginTop: 10, marginBottom: 10 }} />
                 <DropDownPicker
-                    items={currencies}
+                    onChangeItem={onChangeCurrency}
+                    items={context.CurrenciesDefault}
                     placeholder="Para Birimi"
                     containerStyle={{ height: 40 }}
                     style={{ backgroundColor: '#fafafa' }}
@@ -57,13 +120,15 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = () => {
                 />
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                    <Input placeholder='Miktar *' />
-                    <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"bar-chart"} type="Feather" />
+                    <Input onChangeText={onAmountChange} placeholder='Miktar *' />
+                    <Image source={require("../../../assets/images/icons/presentation.png")} resizeMode="contain" style={{ marginRight: 20, height: 13, width: 13 }} />
+
                 </Item>
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                    <Input placeholder='Yorum *' />
-                    <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"bar-chart"} type="Feather" />
+                    <Input onChangeText={onCommentChange} placeholder='Yorum *' />
+                    <Image source={require("../../../assets/images/icons/message.png")} resizeMode="contain" style={{ marginRight: 20, height: 13, width: 13 }} />
+
                 </Item>
 
 

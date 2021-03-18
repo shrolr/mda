@@ -167,7 +167,8 @@ export const AccountToAccountTransfer: React.FC<IAccountToAccountTransfer> = ({n
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
                     <Input onChangeText={onAmountChange} keyboardType="numeric" placeholder='Miktar *' />
-                    <Icon style={{ fontSize: 18, color: Colors.common.gray }} name={"bar-chart"} type="Feather" />
+                    <Image source={require("../../../assets/images/icons/presentation.png")}  style={{ marginRight: 20, height: 13, width: 13 }} />
+
                 </Item>
                 {
                     progressing ? <Spinner /> : <Button onPress={onTransferRequest} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>

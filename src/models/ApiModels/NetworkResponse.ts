@@ -4,6 +4,7 @@ import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
 import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
 import { TransferListData } from "./Transfer/TransferListApiModel";
 import { WalletInfoAPIModel, WalletInfoData } from "./Wallet/WalletInfoApiModel";
+import { WithdrawAccount, WithdrawAccountsApiModel } from "./Withdraw/WithdrawAccountList";
 
 interface INetworkResponse {
     status?: number;
@@ -88,6 +89,15 @@ export class WalletInfoNetworkResponse implements WalletInfoAPIModel {
     status: number;
     data: WalletInfoData[];
     constructor(status:number,data:WalletInfoData[]) {
+        this.status = status;
+        this.data = data;
+    }
+}
+
+export class WithdrawAccountsNetworkResponsel implements WithdrawAccountsApiModel {
+    status: number;
+    data: WithdrawAccount[];
+    constructor(status:number,data:WithdrawAccount[]) {
         this.status = status;
         this.data = data;
     }

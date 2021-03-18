@@ -4,6 +4,7 @@ import { IUserResponse } from '../interfaces';
 import { DropDownPickerList } from '../models';
 import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
 import { WalletInfoData } from '../models/ApiModels/Wallet/WalletInfoApiModel';
+import { WithdrawAccount } from '../models/ApiModels/Withdraw/WithdrawAccountList';
 import { reducer, Action } from './reducer';
 
 export interface StateContext {
@@ -19,6 +20,7 @@ export interface StateContext {
   mt4DemoAccounts: Accounts[],
   mt5DemoAccounts: Accounts[],
   walletInfo:WalletInfoData[],
+  withdrawAccounts:WithdrawAccount[],
 }
 
 export interface Store {
@@ -37,6 +39,7 @@ const defaultState: StateContext = {
   mt4DemoAccounts:[],
   mt5DemoAccounts:[],
   walletInfo:[],
+  withdrawAccounts:[]
 
 };
 const myContext = React.createContext<Store>({ context: defaultState });
