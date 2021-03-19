@@ -9,12 +9,13 @@ import { Text } from '../atom';
 
 interface ITransactionsHistoryListItem {
     index: number;
-    item: WithdrawHistory | WalletTransactionApiModel | TransferList
+    item: WithdrawHistory | WalletTransactionApiModel | TransferList 
 }
 
 
 export const TransactionsHistoryListItem: React.FC<ITransactionsHistoryListItem> = ({ index, item }) => {
     var localDate = convertUTCDateToLocalDate(new Date(item.createdDate))
+  
     return (
         <View style={{ flexDirection: "row", paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: index % 2 === 0 ? "#dfdfdf" : "#fff" }}>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -25,7 +26,7 @@ export const TransactionsHistoryListItem: React.FC<ITransactionsHistoryListItem>
             <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, }}>
                 <Text style={{ fontWeight: "bold", fontSize: 12 }}>{item.type}</Text>
                 <Text style={{ fontSize: 9, color: Colors.common.gray }}>{item.status}</Text>
-                <Text style={{ fontSize: 8, marginTop: 5,marginBottom:5, }}>{localDate.date}{"  "}{localDate.time}</Text>
+                <Text style={{ fontSize: 8, marginTop: 5, marginBottom: 5, }}>{localDate.date}{"  "}{localDate.time}</Text>
 
             </View>
             <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>

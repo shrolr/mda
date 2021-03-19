@@ -1,17 +1,21 @@
 --TO DO--
 
 bildirimler sayfası
-profil fotosu yükleme
-onesignal
 gerçek hesap talebi sayfası https://albaclient.com/accounts/request
 validate money inputs
-
+<Navbar /> parametre olarak icon değil resim alacak
+AFTER EJECTING FROM EXPO 
+profil fotosu yükleme onesignal
+şifremi unuttum
+beni hatırla
 --TO IMRROVE QUALITY--
 create toast types
 
 
 sorular
 
+ 
+ 
 Yeni banka hesabı ekle tasarımları eksik
 wallet info array olarak geliyor kullanıcının birden fazla walleti olabiliyor mu
 currency endpointini bulamadım USD DEFAULT GELİYOR HEP

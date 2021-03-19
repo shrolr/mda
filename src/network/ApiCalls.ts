@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
+import { AccountListNetworkResponse, AccountRequestListResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
 import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
@@ -14,6 +14,7 @@ import { UpdateAccountInformation } from '../types/post/UpdateAccountInformation
 import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
 import { PostWithdrawRequestModel } from '../types/post/PostWithdrawRequestModel';
 import { PersonalInfoUpdateRequest } from '../types/post/PersonalInfoUpdateRequest';
+import { PutAccountRequest } from '../types/post/PutAccountRequest';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -110,7 +111,44 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  
+  getCustomerAccountRequests = (customerId: number) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.account['request-customer'] + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new AccountRequestListResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+
+  postAccountRequest = (payload: any) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.account.request, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      console.log(_networkResponse)
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  putAccountRequest = (payload:PutAccountRequest,accountId: number) => {
+    let urlSuffix = `/${accountId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.account.request + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   updateUserProfile = (payload: PersonalInfoUpdateRequest, customerId: number) => {
     let urlSuffix = `/${customerId}`
     return httpClient.put(this.authenticated_server_link + Endpoints.customer.profile + urlSuffix, payload).then((result) => {
@@ -135,7 +173,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  postUserWithdrawAccount = (payload:PostCustomerWithdrawAccountRequestModel) => {
+  postUserWithdrawAccount = (payload: PostCustomerWithdrawAccountRequestModel) => {
     return httpClient.post(this.authenticated_server_link + Endpoints.withdraw['customer-withdraw-account'], payload).then((result) => {
       let data = result.data
       let status = result.status
@@ -186,7 +224,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-   
+
   postWithdraw = (payload: PostWithdrawRequestModel) => {
     return httpClient.post(this.authenticated_server_link + Endpoints.withdraw.main, payload).then((result) => {
       let data = result.data

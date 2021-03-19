@@ -18,8 +18,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         ApiCalls.setToken(context.user!.token)
 
         ApiCalls.getNotificationInfo(context.user!.customerInfo.id)
-        ApiCalls.getWalletInfo(context.user!.customerAccountInfo.id)
-        ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.id)
+         ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.id)
         ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.id)
         loadToContext()
     }, [])
@@ -31,6 +30,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         if (response instanceof WithdrawAccountsNetworkResponsel ) {
             let withdrawAccounts = response.data;
             dispatch!({ type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts } })
+
         }
       })
 

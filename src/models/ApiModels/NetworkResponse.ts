@@ -1,6 +1,7 @@
 import { AccountTypes, AccountTypesApiModel, TransferListAPIModel } from "..";
 import { IUserResponse } from "../../interfaces";
 import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
+import { AccountRequestList, AccountRequestListAPIModel } from "./Account/AccountRequestListApiModel";
 import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
 import { TransferListData } from "./Transfer/TransferListApiModel";
 import { WalletInfoAPIModel, WalletInfoData } from "./Wallet/WalletInfoApiModel";
@@ -113,3 +114,11 @@ export class WithdrawHistoryNetworkResponse implements WithdrawHistoryNetworkRes
     }
 }
 
+export class AccountRequestListResponse implements AccountRequestListAPIModel {
+    status: number;
+    data: AccountRequestList[];
+    constructor(status:number,data:AccountRequestList[]) {
+        this.status = status;
+        this.data = data;
+    }
+}
