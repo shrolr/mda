@@ -6,6 +6,9 @@ export type HomeParamList = {
   Wallet: undefined;
   WalletInfoScreen:undefined;
   ProfileScreen:undefined;
+  Transfer:undefined;
+  NewTransfer:undefined;
+  TransferHistory:undefined;
 };
 
 export type HomeStackNavProps<T extends keyof HomeParamList> = {

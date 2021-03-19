@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, ImageBackground, Image } from 'react-native'
+import { View, Text, ImageBackground, Image, StatusBar } from 'react-native'
 import Colors from '../constants/Colors';
 import { Button, Input, Item, Toast } from 'native-base';
 
@@ -40,13 +40,20 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
   }
   return (
     <View style={{ justifyContent: "center", flex: 1 }}>
-      <ImageBackground style={{ flex: 1, justifyContent: "center" }} source={{ uri: "https://picsum.photos/1080/1920" }}>
+
+      <StatusBar
+        animated={true}
+        backgroundColor={Colors.common.buttonOrange}
+        barStyle="light-content"
+        showHideTransition="slide"
+      />
+      <ImageBackground style={{ flex: 1, justifyContent: "center" }} source={require("../../assets/images/icons/login_bg.png")}>
 
         <View style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 50, paddingTop: 50, backgroundColor: Colors.light.background, borderRadius: 10, marginLeft: 20, marginRight: 20 }}>
           <View>
             <Image source={{ uri: "https://i.hizliresim.com/TtqzTs.png" }} resizeMode="contain" style={{ alignSelf: "center", height: 100, width: 250 }} />
           </View>
-          <View style={{ height: 0.01, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
+          <View style={{ height: 0.5, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
           <Text style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}>Giriş yap</Text>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 30 }} rounded>
             <Input defaultValue="serhat@mdasocial.com" autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder='E-mail' />

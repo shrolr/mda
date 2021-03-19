@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel } from '../models';
+import { AccountListNetworkResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
 import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
@@ -12,6 +12,8 @@ import { TransferWalletToAccountRequest } from '../types/post/TransferWalletToAc
 import { MetatraderAccountChangePassword } from '../types/post/MetatraderAccountChangePassword';
 import { UpdateAccountInformation } from '../types/post/UpdateAccountInformation';
 import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
+import { PostWithdrawRequestModel } from '../types/post/PostWithdrawRequestModel';
+import { PersonalInfoUpdateRequest } from '../types/post/PersonalInfoUpdateRequest';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -89,7 +91,7 @@ class ApiCalls implements IApiCalls {
     return httpClient.get(this.authenticated_server_link + Endpoints.withdraw['withdraw-list'] + urlSuffix).then((result) => {
       let data = result.data
       let status = result.status
-      let _networkResponse = new NetworkResponse(status, data);
+      let _networkResponse = new WithdrawHistoryNetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -108,12 +110,21 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-
-
-
+  
+  updateUserProfile = (payload: PersonalInfoUpdateRequest, customerId: number) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.customer.profile + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   updateUserIdentifiers = (payload: UpdateAccountInformation, customerId: number) => {
     let urlSuffix = `/${customerId}`
-    console.log(customerId)
     return httpClient.put(this.authenticated_server_link + Endpoints.customer.identifiers + urlSuffix, payload).then((result) => {
       let data = result.data
       let status = result.status
@@ -175,6 +186,21 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+   
+  postWithdraw = (payload: PostWithdrawRequestModel) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.withdraw.main, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      console.log(_networkResponse)
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+
   postAccount = (payload: NewAccountRequest) => {
     return httpClient.post(this.authenticated_server_link + Endpoints.account.main, payload).then((result) => {
       let data = result.data

@@ -10,10 +10,10 @@ import { TransferTypeEnum } from '../../enums';
 import ApiCalls from '../../network/ApiCalls';
 import { TransferWalletToAccountRequest } from '../../types/post/TransferWalletToAccountRequest';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { DepositsParamList } from '../../Routes/DepositStackNavigator/DepositParamList';
+import { HomeParamList } from '../../Routes/HomeStackNavigator/HomeParamList';
 
 interface IWalletToAccountTransfer {
-    navigation: StackNavigationProp<DepositsParamList, "DepositsHistory">
+    navigation: StackNavigationProp<HomeParamList, "NewTransfer">
 
 }
 
@@ -76,7 +76,7 @@ export const WalletToAccountTransfer: React.FC<IWalletToAccountTransfer> = ({nav
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
                     Toast.show({ text: "Başarılı yönlendiriliyor", type: "success",duration:3000 })
-                    navigation.replace("DepositsHistory")
+                    navigation.replace("TransferHistory")
 
                 }
                 else {

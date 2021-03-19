@@ -7,6 +7,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useStateContext } from '../../context/state';
 import { DropDownPickerList } from '../../models';
 import { PostWithdrawRequestModel } from '../../types/post/PostWithdrawRequestModel';
+import { CustomerWithdrawAccountTypeEnum } from '../../types/post/PostCustomerWithdrawAccountRequestModel';
+import ApiCalls from '../../network/ApiCalls';
 
 interface IWithdrawFromWallet {
 
@@ -38,26 +40,29 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = () => {
     const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
     const onTransferRequest = () => {
         // TO DO validate input 
-        if(sourceAccount && amount && comment ){
-            const filterAccounts = context.withdrawAccounts.filter((_account)=> _account.id === sourceAccount )
-            if(filterAccounts.length === 1){
+        if (sourceAccount && amount && comment) {
+            const filterAccounts = context.withdrawAccounts.filter((_account) => _account.id === sourceAccount)
+            if (filterAccounts.length === 1) {
                 const selectedAccount = filterAccounts[0];
                 let postWithdrawRequestModel: PostWithdrawRequestModel = {
-                    AccountId:selectedAccount.id,
-                    Amount:amount,
-                    Comment:comment,
-                    Currency:currency,
-                    CustomerId:context.user!.customerAccountInfo.customerId,
-                    CustomerWithdrawAccountId:selectedAccount.id,
-                    IsWalletWithdraw:false,
-                    TypeId:parseInt(selectedAccount.type)
+                    AccountId: selectedAccount.id,
+                    Amount: amount,
+                    Comment: comment,
+                    Currency: currency,
+                    CustomerId: context.user!.customerInfo.id,
+                    CustomerWithdrawAccountId: selectedAccount.id,
+                    IsWalletWithdraw: true,
+                    TypeId: selectedAccount.type === CustomerWithdrawAccountTypeEnum.BankAccount ? 1 : 2
                 };
-                console.log(selectedAccount.type)
+                console.log(postWithdrawRequestModel)
+                // TO DO HANDLE response
+                ApiCalls.postWithdraw(postWithdrawRequestModel)
+                
             }
-           
+
         }
-     
-        console.log("on request")
+
+
     }
     const onChangeSourceAccounts = (item: DropDownPickerList, index: number) => {
         if (typeof item.value === "number") {

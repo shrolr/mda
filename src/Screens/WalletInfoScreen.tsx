@@ -1,6 +1,6 @@
 import React from 'react'
 import { FlatList, ListRenderItem, SafeAreaView, StatusBar, View } from 'react-native';
-import { NavBar, WalletHistoryListItem } from '../components';
+import { NavBar, TransactionsHistoryListItem } from '../components';
 import { TopBar } from '../components/Organisms/TopBar';
 import Colors from '../constants/Colors';
 import { useStateContext } from '../context/state';
@@ -13,7 +13,7 @@ import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList';
 export default function WalletInfoScreen({ navigation }: HomeStackNavProps<"WalletInfoScreen">) {
     const { context } = useStateContext()
     const _renderWalletTransactions: ListRenderItem<WalletTransactionApiModel> = ({ item, index }) => (
-        <WalletHistoryListItem item={item} index={index} />
+        <TransactionsHistoryListItem item={item} index={index} />
     )
 
     return (

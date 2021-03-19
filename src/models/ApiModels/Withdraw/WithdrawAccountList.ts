@@ -1,3 +1,5 @@
+import { CustomerWithdrawAccountTypeEnum } from "../../../types/post/PostCustomerWithdrawAccountRequestModel";
+
 export interface WithdrawAccountsApiModel {
     status: number;
     data:   WithdrawAccount[];
@@ -6,7 +8,7 @@ export interface WithdrawAccountsApiModel {
 export interface  WithdrawAccount {
     id:            number;
     customerId:    number;
-    type:          string;
+    type:          CustomerWithdrawAccountTypeEnum;
     label:         string;
     accountName:   string;
     accountNumber: string;

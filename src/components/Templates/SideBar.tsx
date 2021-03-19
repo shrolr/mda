@@ -9,11 +9,17 @@ import { Text } from '../atom';
 interface ISideBar {
     DrawerNavigation: DrawerContentComponentProps<DrawerContentOptions>
 }
-
+// TO DO ADD SCREENS NAME TO CONSTANT
 export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const { context } = useStateContext();
     const onPress = () => {
         DrawerNavigation.navigation.navigate("ProfileScreen")
+    }
+    const onPressTransfer = () => {
+        DrawerNavigation.navigation.navigate("Transfer")
+    }
+    const onPressWallet = () => {
+        DrawerNavigation.navigation.navigate("Wallet")
     }
     return (
         <View style={{ flex: 1, marginTop: 70, backgroundColor: 'rgba(25, 25, 25, 0.98)', }}>
@@ -37,7 +43,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                             <Image source={require("../../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                             <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Ana Sayfa</Text>
                         </View>
-                        <Pressable onPress={onPress}>
+                        <Pressable onPress={onPressWallet}>
                             <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 25, alignItems: "flex-end" }}>
                                 <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                                 <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Cüzdan</Text>
@@ -74,10 +80,12 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                     </View>
 
                     <View style={{ marginTop: 25, paddingLeft: 10, paddingRight: 10 }}>
-                        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                            <Image source={require("../../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
-                            <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Transferler</Text>
-                        </View>
+                        <Pressable onPress={onPressTransfer}>
+                            <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                                <Image source={require("../../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Transferler</Text>
+                            </View>
+                        </Pressable>
                         <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 15, alignItems: "flex-end" }}>
                             <Image source={require("../../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
                             <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Çekimler</Text>

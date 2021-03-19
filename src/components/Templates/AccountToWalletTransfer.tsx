@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Input, Item, Spinner, Toast } from 'native-base';
+import { Button, Card,  Input, Item, Spinner, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native';
 import Colors from '../../constants/Colors';
@@ -10,11 +10,10 @@ import { TransferAccountToWalletRequest } from '../../types/post/TransferAccount
 import { TransferTypeEnum } from '../../enums';
 import ApiCalls from '../../network/ApiCalls';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { DepositsParamList } from '../../Routes/DepositStackNavigator/DepositParamList';
+import { HomeParamList } from '../../Routes/HomeStackNavigator/HomeParamList';
 
 interface IAccountToWalletTransfer {
-    navigation: StackNavigationProp<DepositsParamList, "DepositsHistory">
-
+    navigation: StackNavigationProp<HomeParamList, "NewTransfer">
 }
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
@@ -72,7 +71,7 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ na
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
                     Toast.show({ text: "Başarılı yönlendiriliyor", type: "success", duration: 3000 })
-                    navigation.replace("DepositsHistory")
+                    navigation.replace("TransferHistory")
 
                 }
                 else {

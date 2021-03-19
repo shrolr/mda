@@ -7,5 +7,5 @@ export type PostWithdrawRequestModel = {
     Amount: number;
     Currency: string;
     Comment: string;
-    CustomerWithdrawAccountId: number;
+    CustomerWithdrawAccountId: number | null;
 }

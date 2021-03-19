@@ -1,27 +1,31 @@
-import React, { useEffect } from 'react'
-import { View, StatusBar, SafeAreaView } from 'react-native'
-import { NavBar } from '../components'
+import React, { useEffect, useState } from 'react'
+import { View, StatusBar, SafeAreaView, FlatList, ListRenderItem } from 'react-native'
+import { NavBar, TransactionsHistoryListItem } from '../components'
 import { TopBar } from '../components/Organisms/TopBar'
 import Colors from '../constants/Colors'
-import { DepositsHistoryListItem } from '../components/Molecules/DepositsHistoryListItem'
 import { WithdrawStackNavProps } from '../Routes/WithdrawStackNavigator/WithdrawParamList'
 import { useStateContext } from '../context/state'
 import ApiCalls from '../network/ApiCalls'
+import { WithdrawHistoryNetworkResponse } from '../models'
+import { WithdrawHistory } from '../models/ApiModels/Withdraw/WithdrawHistory'
 
 
 export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavProps<"WithdrawHistory">) {
 
     const { context } = useStateContext()
-    //const [deposits, setdeposits] = useState<TransferList[]>()
+    const [withdraws, setwithdraws] = useState<WithdrawHistory[]>()
     useEffect(() => {
-        ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.id).then((response) => {
-            //if (response instanceof TransferListNetworkResponse) {
-                console.log(response)
-               // setdeposits(response.data.payload)
+        ApiCalls.getUserWithdrawList(context.user!.customerInfo.id).then((response) => {
+            if (response instanceof WithdrawHistoryNetworkResponse) {
+                console.log(response.data.payload)
+                setwithdraws(response.data.payload)
 
-           // }
+            }
         })
     }, [])
+    const _renderDepositHistory: ListRenderItem<WithdrawHistory> = ({ item, index }) => (
+        <TransactionsHistoryListItem item={item} index={index} />
+    )
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
@@ -34,9 +38,14 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
                 />
                 <TopBar />
                 <NavBar name="wallet" type="Ionicons" title="Çekimler" />
-                <View style={{ flex: 1, paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+                <View style={{ flex: 1 }}>
+                    <FlatList
+                        contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
+                        data={withdraws}
+                        renderItem={_renderDepositHistory}
+                        keyExtractor={(item) => item.id.toString()}
 
-
+                    />
                 </View>
             </View>
         </SafeAreaView>

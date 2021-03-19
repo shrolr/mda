@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { View, StatusBar, FlatList, ListRenderItem, SafeAreaView } from 'react-native'
-import { NavBar } from '../components'
+import { NavBar, TransactionsHistoryListItem } from '../components'
 import { TopBar } from '../components/Organisms/TopBar'
 import Colors from '../constants/Colors'
-import { DepositsStackNavProps } from '../Routes/DepositStackNavigator/DepositParamList'
-import { DepositsHistoryListItem } from '../components/Molecules/DepositsHistoryListItem'
 import ApiCalls from '../network/ApiCalls'
 import { TransferList, TransferListNetworkResponse } from '../models'
 import { useStateContext } from '../context/state'
+import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList'
 
 
-export default function DepositHistoryScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {
+export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<"TransferHistory">) {
     const { context } = useStateContext()
     const [deposits, setdeposits] = useState<TransferList[]>()
     useEffect(() => {
@@ -22,7 +21,7 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
         })
     }, [])
     const _renderDepositHistory: ListRenderItem<TransferList> = ({ item, index }) => (
-        <DepositsHistoryListItem item={item} index={index} />
+        <TransactionsHistoryListItem item={item} index={index} />
     )
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
@@ -35,7 +34,7 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Yatırım Geçmişi" />
+                <NavBar name="wallet" type="Ionicons" title="Transfer Geçmişi" />
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
