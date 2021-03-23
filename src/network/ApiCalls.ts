@@ -99,6 +99,20 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  
+  getUserDepositList = (customerId: number,) => {
+    let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-list'] + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      console.log("xxx ",_networkResponse)
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   getUserWithdrawAccounts = (customerId: number,) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.withdraw['customer-withdraw-account-customer'] + urlSuffix).then((result) => {

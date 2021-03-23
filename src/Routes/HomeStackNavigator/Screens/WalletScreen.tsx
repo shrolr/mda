@@ -1,12 +1,12 @@
 import { Card, Icon } from 'native-base';
 import React, { useState } from 'react'
 import { StatusBar, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
-import { MenuCard, NavBar } from '../components';
-import { TopBar } from '../components/Organisms/TopBar';
-import Colors from '../constants/Colors';
-import { useStateContext } from '../context/state';
-import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList';
-import { convertUTCDateToLocalDate } from '../utilities/functions';
+import { MenuCard, NavBar } from '../../../components';
+import { TopBar } from '../../../components/Organisms/TopBar';
+import Colors from '../../../constants/Colors';
+import { useStateContext } from '../../../context/state';
+import { HomeStackNavProps } from '../HomeParamList';
+import { convertUTCDateToLocalDate } from '../../../utilities/functions';
 
 export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">) {
 
@@ -32,8 +32,8 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
 
 
                     <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
-                        <MenuCard shouldNavigate imageUri={require("../../assets/images/icons/wallet.png")} title="CÜZDAN" isTouchable={false} />
-                        <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../assets/images/icons/settings.png")} title="Cüzdan İşlemleri" isTouchable={true} />
+                        <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/wallet.png")} title="CÜZDAN" isTouchable={false} />
+                        <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../../../assets/images/icons/settings.png")} title="Cüzdan İşlemleri" isTouchable={true} />
                     </View>
 
 

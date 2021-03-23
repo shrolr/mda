@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Input, Item, Toast } from 'native-base';
+import { Button, Card, Icon, Input, Item, Switch, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
 import { View, Image, Pressable } from 'react-native';
 import Colors from '../../constants/Colors';
@@ -10,16 +10,16 @@ import { PostWithdrawRequestModel } from '../../types/post/PostWithdrawRequestMo
 import { CustomerWithdrawAccountTypeEnum } from '../../types/post/PostCustomerWithdrawAccountRequestModel';
 import ApiCalls from '../../network/ApiCalls';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { WithdrawParamList } from '../../Routes/WithdrawStackNavigator/WithdrawParamList';
+import { DepositsParamList } from '../../Routes/DepositStackNavigator/DepositParamList';
 
-interface IWithdrawFromWallet {
-    navigation: StackNavigationProp<WithdrawParamList, "Withdraw">
+interface IDepositFromBank {
+    navigation: StackNavigationProp<DepositsParamList, "NewDeposit">
 }
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
 
-export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) => {
+export const DepositFromBank: React.FC<IDepositFromBank> = ({navigation}) => {
     const { context } = useStateContext()
     const [progressing, setprogressing] = useState(false)
     const [sourceAccount, setsourceAccount] = useState<number>()
@@ -27,7 +27,7 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
     const [currency, setCurrency] = useState("")
     const [amount, setamount] = useState<number>()
     const [comment, setcomment] = useState<string>("")
-
+    const [transferToWallet, settransferToWallet] = useState(false)
     useEffect(() => {
         let userWithdrawAccounts: DropDownPickerList[] = [];
         context.withdrawAccounts.forEach((_data) => {
@@ -81,6 +81,10 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
     const onCommentChange = ((comment: string) => {
         setcomment(comment)
     })
+    const onSwitchChange =(value:boolean)=>{
+        settransferToWallet(value)
+
+    }
     const onAmountChange = ((amount: string) => {
         try {
             setamount(parseInt(amount))
@@ -91,14 +95,39 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
         }
     })
     const newBankAccount = () => {
-        navigation.navigate("AddNewBankAccountScreen")
+        //navigation.navigate("AddNewBankAccountScreen")
     }
 
     return (
         <View style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, backgroundColor: Colors.common.transferCardBg }}>
             <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Cüzdan'dan Çekim</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Banka Hesabından Yatırma</Text>
                 <View style={{ height: 3, backgroundColor: Colors.common.contentDivider, marginTop: 20, marginBottom: 20 }} />
+                <DropDownPicker
+                    items={accounts}
+                    placeholder="Banka Hesabı"
+                    onChangeItem={onChangeSourceAccounts}
+                    containerStyle={{ height: 40 }}
+                    style={{ backgroundColor: '#fafafa' }}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    dropDownStyle={{ backgroundColor: '#fafafa' }}
+                />
+                <View style={{ marginTop: 20 }} />
+                <DropDownPicker
+                    items={accounts}
+                    placeholder="Ticaret Hesabı"
+                    onChangeItem={onChangeSourceAccounts}
+                    containerStyle={{ height: 40 }}
+                    style={{ backgroundColor: '#fafafa' }}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    dropDownStyle={{ backgroundColor: '#fafafa' }}
+                />
+                <View style={{ marginTop: 20 }} />
+
                 <DropDownPicker
                     items={accounts}
                     placeholder="Kullanıcı Banka Hesabı"
@@ -131,7 +160,7 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
                 />
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                    <Input onChangeText={onAmountChange} placeholder='Miktar *' />
+                    <Input onChangeText={onAmountChange} placeholder='Yatırılan Miktar *' />
                     <Image source={require("../../../assets/images/icons/presentation.png")} resizeMode="contain" style={{ marginRight: 20, height: 13, width: 13 }} />
 
                 </Item>
@@ -142,9 +171,13 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
 
                 </Item>
 
+                <View style={{ justifyContent: "flex-end", alignItems: "center", paddingTop: 20, paddingBottom: 10, flexDirection: "row" }}>
+                    <Switch thumbColor="white" trackColor={{true:"#0877D5",false:"gray"}} onValueChange={onSwitchChange} value={transferToWallet} />
+                    <Text style={{marginLeft:5, color:"#0877D5"}} >Cüzdana Aktar</Text>
+                </View>
 
                 <Button onPress={onTransferRequest} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
-                    <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>Çek</Text>
+                    <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>Yatır</Text>
 
                 </Button>
             </Card>

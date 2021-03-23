@@ -17,22 +17,25 @@ export const TestComponent: React.FC<ITestComponent> = () => {
     useEffect(() => {
         ApiCalls.setToken(context.user!.token)
 
-        ApiCalls.getNotificationInfo(context.user!.customerInfo.id)
-         ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.id)
-        ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.id)
+        ApiCalls.getNotificationInfo(context.user!.customerAccountInfo.customerId)
+        ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.customerId)
+        ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.customerId)
+        ApiCalls.getUserDepositList(context.user!.customerAccountInfo.customerId)
+
+        
         loadToContext()
     }, [])
     const loadToContext = () => {
-        //let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel = { AccountName: "test", Address: "test adres", AccountNumber: "1234", BankName: "garanti test", Currency: "USD", CustomerId: 4, Details: "detay", Iban: "123123", Label: "label", Swift: "SWıFT3", TypeId: 2 }
-      //  ApiCalls.postUserWithdrawAccount(UserWithdrawAccount)
+        //let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel = { AccountName: "test", Address: "test adres", AccountNumber: "1234", BankNmae: "garanti test", Currency: "USD", CustomerId: 4, Details: "detay", Iban: "123123", Label: "label", Swift: "SWıFT3", TypeId: 2 }
+        //  ApiCalls.postUserWithdrawAccount(UserWithdrawAccount)
 
-      ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.id).then((response)=> {
-        if (response instanceof WithdrawAccountsNetworkResponsel ) {
-            let withdrawAccounts = response.data;
-            dispatch!({ type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts } })
+        ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
+            if (response instanceof WithdrawAccountsNetworkResponsel) {
+                let withdrawAccounts = response.data;
+                dispatch!({ type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts } })
 
-        }
-      })
+            }
+        })
 
         ApiCalls.getAccountTypes().then((response) => {
             if (response instanceof AccountTypesNetworkResponse) {

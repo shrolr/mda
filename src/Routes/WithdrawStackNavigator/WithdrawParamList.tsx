@@ -5,6 +5,7 @@ export type WithdrawParamList = {
   Withdraw: undefined;
   WithdrawHistory:undefined;
   NewWithdraw:undefined;
+  AddNewBankAccountScreen:undefined;
 };
 
 export type WithdrawStackNavProps<T extends keyof WithdrawParamList> = {

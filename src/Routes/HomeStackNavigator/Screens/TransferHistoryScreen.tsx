@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { View, StatusBar, FlatList, ListRenderItem, SafeAreaView } from 'react-native'
-import { NavBar, TransactionsHistoryListItem } from '../components'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import ApiCalls from '../network/ApiCalls'
-import { TransferList, TransferListNetworkResponse } from '../models'
-import { useStateContext } from '../context/state'
-import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList'
+import { NavBar, TransactionsHistoryListItem } from '../../../components'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
+import ApiCalls from '../../../network/ApiCalls'
+import { TransferList, TransferListNetworkResponse } from '../../../models'
+import { useStateContext } from '../../../context/state'
+import { HomeStackNavProps } from '../HomeParamList'
 
 
 export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<"TransferHistory">) {

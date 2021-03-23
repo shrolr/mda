@@ -1,7 +1,7 @@
 --TO DO--
 
 bildirimler sayfası
-gerçek hesap talebi sayfası https://albaclient.com/accounts/request
+gerçek hesap talebi sayfası iconlar değişekecek,
 validate money inputs
 <Navbar /> parametre olarak icon değil resim alacak
 AFTER EJECTING FROM EXPO 
@@ -11,12 +11,14 @@ beni hatırla
 --TO IMRROVE QUALITY--
 create toast types
 
-
+metatrader indirme butonu
 sorular
 
  
  
 Yeni banka hesabı ekle tasarımları eksik
+yeni para yatirma
+yatirim geçmişi
 wallet info array olarak geliyor kullanıcının birden fazla walleti olabiliyor mu
 currency endpointini bulamadım USD DEFAULT GELİYOR HEP
 demo account oluşturmadaki statusId ? 

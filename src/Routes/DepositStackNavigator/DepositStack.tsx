@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { DepositsParamList } from "./DepositParamList";
-import DepositScreen from "../../Screens/DepositScreen";
-import DepositHistoryScreen from "../../Screens/DepositHistoryScreen";
-import NewDepositScreen from "../../Screens/NewDepositScreen";
+import DepositScreen from "./Screens/DepositScreen";
+import DepositHistoryScreen from "./Screens/DepositHistoryScreen";
+import NewDepositScreen from "./Screens/NewDepositScreen";
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
 

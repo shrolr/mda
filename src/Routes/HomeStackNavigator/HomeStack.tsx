@@ -1,14 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeParamList } from "./HomeParamList";
-import HomeScreen from "../../Screens/HomeScreen";
-import WalletScreen from "../../Screens/WalletScreen";
-import WalletInfoScreen from "../../Screens/WalletInfoScreen";
-import ProfileScreen from "../../Screens/ProfileScreen";
+import HomeScreen from "./Screens/HomeScreen";
+import WalletScreen from "./Screens/WalletScreen";
+import WalletInfoScreen from "./Screens/WalletInfoScreen";
+import ProfileScreen from "./Screens/ProfileScreen";
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
-import TransferScreen from "../../Screens/TransferScreen";
-import NewTransferScreen from "../../Screens/NewTransferScreen";
-import TransferHistoryScreen from "../../Screens/TransferHistoryScreen";
+import TransferScreen from "./Screens/TransferScreen";
+import NewTransferScreen from "./Screens/NewTransferScreen";
+import TransferHistoryScreen from "./Screens/TransferHistoryScreen";
 
 interface HomeStackProps { }
 

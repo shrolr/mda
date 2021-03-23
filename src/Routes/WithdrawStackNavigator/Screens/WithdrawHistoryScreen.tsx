@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { View, StatusBar, SafeAreaView, FlatList, ListRenderItem } from 'react-native'
-import { NavBar, TransactionsHistoryListItem } from '../components'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import { WithdrawStackNavProps } from '../Routes/WithdrawStackNavigator/WithdrawParamList'
-import { useStateContext } from '../context/state'
-import ApiCalls from '../network/ApiCalls'
-import { WithdrawHistoryNetworkResponse } from '../models'
-import { WithdrawHistory } from '../models/ApiModels/Withdraw/WithdrawHistory'
+import { NavBar, TransactionsHistoryListItem } from '../../../components'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
+import { WithdrawStackNavProps } from '../WithdrawParamList'
+import { useStateContext } from '../../../context/state'
+import ApiCalls from '../../../network/ApiCalls'
+import { WithdrawHistoryNetworkResponse } from '../../../models'
+import { WithdrawHistory } from '../../../models/ApiModels/Withdraw/WithdrawHistory'
 
 
 export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavProps<"WithdrawHistory">) {

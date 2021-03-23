@@ -1,26 +1,25 @@
 import React from 'react'
 import { View, StatusBar, SafeAreaView } from 'react-native'
-import { MenuCard, NavBar } from '../components'
-import { Text } from '../components/atom'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
+import { MenuCard, NavBar } from '../../../components'
+import { Text } from '../../../components/atom'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
 import { Card } from 'native-base'
-import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList'
+import { WithdrawStackNavProps } from '../WithdrawParamList'
 
 
-export default function TransferScreen({ navigation }: HomeStackNavProps<"Transfer">) {
+export default function WithdrawScreen({ navigation }: WithdrawStackNavProps<"Withdraw">) {
 
-    const navigateToDepositsHistory = () => {
-        navigation.navigate("TransferHistory")
+    const navigateToWithdrawsHistory = () => {
+        navigation.navigate("WithdrawHistory")
     }
 
-    const navigateToNewDepositScreen = () => {
-        navigation.navigate("NewTransfer")
+    const navigateToNewWithdrawcreen = () => {
+        navigation.navigate("NewWithdraw")
     }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
-
 
                 <StatusBar
                     animated={true}
@@ -29,11 +28,11 @@ export default function TransferScreen({ navigation }: HomeStackNavProps<"Transf
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Transfer" />
+                <NavBar name="wallet" type="Ionicons" title="Çekimler" />
                 <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
-                    <MenuCard shouldNavigate imageUri={require("../../assets/images/icons/bank.png")} title="TRANSFERLER" isTouchable={false} />
-                    <MenuCard shouldNavigate onMenuItemClick={navigateToNewDepositScreen} imageUri={require("../../assets/images/icons/newdeposit.png")} title="YENİ TRANSFER" isTouchable={true} />
-                    <MenuCard shouldNavigate onMenuItemClick={navigateToDepositsHistory} imageUri={require("../../assets/images/icons/wall-clock.png")} title="TRANSFER Geçmişi" isTouchable={true} />
+                    <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/atm.png")} title="ÇEKİMLER" isTouchable={false} />
+                    <MenuCard shouldNavigate onMenuItemClick={navigateToNewWithdrawcreen} imageUri={require("../../../../assets/images/icons/newdeposit.png")} title="Yeni Çekim İşlemi" isTouchable={true} />
+                    <MenuCard shouldNavigate onMenuItemClick={navigateToWithdrawsHistory} imageUri={require("../../../../assets/images/icons/wall-clock.png")} title="Çekim Geçmişi" isTouchable={true} />
                 </View>
                 <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20, marginLeft: 10, marginTop: 15, marginRight: 10, borderRadius: 10, overflow: "hidden" }}>
                     <Text>

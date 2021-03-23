@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { View, StatusBar, ScrollView, SafeAreaView } from 'react-native'
-import {  NavBar } from '../components'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import { DepositsStackNavProps } from '../Routes/DepositStackNavigator/DepositParamList'
+import { NavBar } from '../../../components'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import { DepositFromBank } from '../../../components/Templates'
+import Colors from '../../../constants/Colors'
+import { DepositsStackNavProps } from '../DepositParamList'
 
 
 export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"NewDeposit">) {
 
-   
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.backgroundLightWhite }}>
@@ -24,8 +25,8 @@ export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"
 
                 <ScrollView style={{ flex: 1 }}>
 
-                   
-                 
+                    <DepositFromBank navigation={navigation} />
+
                 </ScrollView>
             </View>
         </SafeAreaView>

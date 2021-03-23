@@ -1,11 +1,11 @@
 import React from 'react'
 import { FlatList, ListRenderItem, SafeAreaView, StatusBar, View } from 'react-native';
-import { NavBar, TransactionsHistoryListItem } from '../components';
-import { TopBar } from '../components/Organisms/TopBar';
-import Colors from '../constants/Colors';
-import { useStateContext } from '../context/state';
-import { WalletTransactionApiModel } from '../models/ApiModels/Wallet/WalletInfoApiModel';
-import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList';
+import { NavBar, TransactionsHistoryListItem } from '../../../components';
+import { TopBar } from '../../../components/Organisms/TopBar';
+import Colors from '../../../constants/Colors';
+import { useStateContext } from '../../../context/state';
+import { WalletTransactionApiModel } from '../../../models/ApiModels/Wallet/WalletInfoApiModel';
+import { HomeStackNavProps } from '../HomeParamList';
 
 
 

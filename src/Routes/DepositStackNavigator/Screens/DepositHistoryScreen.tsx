@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { View, StatusBar, FlatList, ListRenderItem, SafeAreaView } from 'react-native'
-import { NavBar } from '../components'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import { DepositsStackNavProps } from '../Routes/DepositStackNavigator/DepositParamList'
-import { DepositsHistoryListItem } from '../components/Molecules/DepositsHistoryListItem'
-import ApiCalls from '../network/ApiCalls'
-import { TransferList, TransferListNetworkResponse } from '../models'
-import { useStateContext } from '../context/state'
+import { NavBar } from '../../../components'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
+import { DepositsStackNavProps } from '../DepositParamList'
+import { DepositsHistoryListItem } from '../../../components/Molecules/DepositsHistoryListItem'
+import ApiCalls from '../../../network/ApiCalls'
+import { TransferList, TransferListNetworkResponse } from '../../../models'
+import { useStateContext } from '../../../context/state'
 
 
 export default function DepositHistoryScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {

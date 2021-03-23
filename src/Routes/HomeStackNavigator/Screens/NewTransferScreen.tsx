@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { View, StatusBar, ScrollView, SafeAreaView } from 'react-native'
-import { DepositCards, NavBar } from '../components'
-import { AccountToAccountTransfer, AccountToWalletTransfer, WalletToAccountTransfer } from '../components/Templates'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import { TransferOptions } from '../enums'
-import { HomeStackNavProps } from '../Routes/HomeStackNavigator/HomeParamList'
+import { DepositCards, NavBar } from '../../../components'
+import { AccountToAccountTransfer, AccountToWalletTransfer, WalletToAccountTransfer } from '../../../components/Templates'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
+import { TransferOptions } from '../../../enums'
+import { HomeStackNavProps } from '../HomeParamList'
 
 
 export default function NewTransferScreen({ navigation }: HomeStackNavProps<"NewTransfer">) {

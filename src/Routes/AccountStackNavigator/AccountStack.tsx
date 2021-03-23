@@ -1,8 +1,8 @@
 import React from "react";
 import { AccountParamList } from "./AccountParamList";
-import AccountScreen from "../../Screens/AccountScreen";
+import AccountScreen from "./Screens/AccountScreen";
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
-import RealAccountRequestScreen from "../../Screens/RealAccountRequestScreen";
+import RealAccountRequestScreen from "./Screens/RealAccountRequestScreen";
 
 
 interface AccountStackProps { }

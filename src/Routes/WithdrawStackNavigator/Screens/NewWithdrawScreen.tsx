@@ -1,16 +1,16 @@
 import { Card } from 'native-base'
 import React from 'react'
 import { StatusBar, ScrollView, View, SafeAreaView } from 'react-native'
-import { NavBar } from '../components'
-import { Text } from '../components/atom'
-import { WithdrawFromWallet } from '../components/Templates'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import { useStateContext } from '../context/state'
-import { DepositsStackNavProps } from '../Routes/DepositStackNavigator/DepositParamList'
+import { NavBar } from '../../../components'
+import { Text } from '../../../components/atom'
+import { WithdrawFromWallet } from '../../../components/Templates'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
+import { useStateContext } from '../../../context/state'
+import { WithdrawStackNavProps } from '../WithdrawParamList'
 
 
-export default function NewWithdrawScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {
+export default function NewWithdrawScreen({ navigation }: WithdrawStackNavProps<"Withdraw">) {
     const { context } = useStateContext()
 
     return (
@@ -38,7 +38,7 @@ export default function NewWithdrawScreen({ navigation }: DepositsStackNavProps<
                             </View>
                         </View>
                     </Card>
-                    <WithdrawFromWallet />
+                    <WithdrawFromWallet navigation={navigation} />
                 </ScrollView>
             </View>
         </SafeAreaView>
