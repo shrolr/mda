@@ -30,13 +30,22 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const [depositActive, setdepositToggle] = useState(false)
     const [transferActive, settransferActive] = useState(false)
     const [withdrawActive, setwithdrawActive] = useState(false)
+    const [accountsActive, setaccountsActive] = useState(false)
+    const [walletActive, setwalletActive] = useState(false)
 
     const resetActives = () => {
         setdepositToggle(false)
         settransferActive(false)
         setwithdrawActive(false)
     }
-    
+    const toggleWallet = () => {
+        setwalletActive(!walletActive)
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
+    const toggleAccount = () => {
+        setaccountsActive(!accountsActive)
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
     const toggleDeposit = () => {
         setdepositToggle(!depositActive)
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -110,19 +119,82 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                                 <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Ana Sayfa</Text>
                             </View>
                         </Pressable>
-                        <Pressable onPress={onPressWallet}>
-                            <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 25, alignItems: "flex-end" }}>
-                                <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Cüzdan</Text>
-                            </View>
-                        </Pressable>
-                        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                            <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
-                            <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Hesaplar</Text>
-                        </View>
-                        <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: Colors.common.gray }}>Parasal İşlemler</Text>
 
                     </View>
+
+
+
+
+
+                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: walletActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                        <View>
+                            <Pressable onPress={toggleWallet} >
+                                <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                                    <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: walletActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: walletActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Cüzdan</Text>
+
+                                </View>
+                            </Pressable>
+                            {
+                                walletActive ?
+                                    <View style={{ paddingLeft: 20, flexDirection: "row" }}>
+                                        <View>
+                                            <Pressable onPress={NavigateToTransfer} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Cüzdan</Text>
+                                                </View>
+                                            </Pressable>
+
+                                            <Pressable onPress={NavigateToNewTransfer} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Cüzdan İşlemleri</Text>
+                                                </View>
+                                            </Pressable>
+                                           
+
+                                        </View>
+                                    </View>
+                                    : null}
+                        </View>
+                    </View>
+
+                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: accountsActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                        <View>
+                            <Pressable onPress={toggleAccount} >
+                                <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                                    <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: accountsActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: accountsActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Hesaplar</Text>
+
+                                </View>
+                            </Pressable>
+                            {
+                                accountsActive ?
+                                    <View style={{ paddingLeft: 20, flexDirection: "row" }}>
+                                        <View>
+                                            <Pressable onPress={NavigateToTransfer} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Hesaplar</Text>
+                                                </View>
+                                            </Pressable>
+
+                                            <Pressable onPress={NavigateToNewTransfer} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Gerçek Hesap Talebi</Text>
+                                                </View>
+                                            </Pressable>
+                                           
+
+                                        </View>
+                                    </View>
+                                    : null}
+                        </View>
+                    </View>
+  
+                    <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: Colors.common.gray }}>Parasal İşlemler</Text>
 
                     <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: depositActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
