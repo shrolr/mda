@@ -39,10 +39,12 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
         DrawerNavigation.navigation.navigate(AppTabs.AnaSayfa, { screen: 'Home' });
     }
     const navigateToNewDeposit = () => {
-        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'NewDeposit' });
+        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'Deposits' });
+        DrawerNavigation.navigation.jumpTo(AppTabs.ParaYatirma, { screen: 'NewDeposit' });
     }
     const navigateToDepositHistory = () => {
-        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'DepositsHistory' });
+        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'Deposits' });
+        DrawerNavigation.navigation.jumpTo(AppTabs.ParaYatirma, { screen: 'DepositsHistory' });
     }
     const navigateToDepositScreen = () => {
         DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'Deposits' });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, ImageBackground, Image, StatusBar } from 'react-native'
 import Colors from '../constants/Colors';
-import { Button, Input, Item, Toast } from 'native-base';
+import { Button, CheckBox, Input, Item, Toast } from 'native-base';
 
 import { AuthNavProps } from '../Routes/AuthStackNavigator/AuthParamList';
 import ApiCalls from '../network/ApiCalls';
@@ -9,10 +9,11 @@ import { LoginRequest } from '../types/post/LoginRequest';
 import { NetworkResponseFail } from '../models';
 import { useStateContext } from '../context/state';
 import { ActionType } from '../context/reducer';
+import * as SecureStore from 'expo-secure-store';
 
 
 export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
-
+  const [rememberMe, setrememberMe] = useState(true)
   const [state, setstate] = useState({} as LoginRequest)
   const { dispatch } = useStateContext();
   const onChangeText = (identifier: string) => {
@@ -29,6 +30,9 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
       }
       else {
         if (response.data.isAuthenticated) {
+          if(rememberMe){
+            SecureStore.setItemAsync("auth",JSON.stringify(response.data ))
+          }
           dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
         }
         else {
@@ -56,13 +60,14 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
           <View style={{ height: 0.5, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
           <Text style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}>Giriş yap</Text>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 30 }} rounded>
-            <Input defaultValue="serhat@mdasocial.com" autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder='E-mail' />
+            <Input  autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder='E-mail' />
           </Item>
           <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-            <Input defaultValue="Monk9562" onChangeText={onPasswordChange} secureTextEntry placeholder='Password' />
+            <Input  onChangeText={onPasswordChange} secureTextEntry placeholder='Password' />
           </Item>
           <View style={{ marginTop: 30, marginBottom: 30, flexDirection: "row" }}>
-            <Text style={{ color: Colors.common.lightBlue }}>Beni Hatırla</Text>
+           
+            <Text style={{marginLeft:20, color: Colors.common.lightBlue }}>Beni Hatırla</Text>
             <Text style={{ flex: 1, textAlign: "right", color: Colors.common.textOrange }}>Şifremi Unuttum</Text>
           </View>
           <Button onPress={onLoginPress} style={{ borderRadius: 10, backgroundColor: Colors.common.loginButton }} full>

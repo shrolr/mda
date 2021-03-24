@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Routes } from "./Routes";
 import { StateProvider } from "./context/state";
-import { Root } from "native-base";
+import { Root, Spinner } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 interface ProvidersProps { }
 
 export const Providers: React.FC<ProvidersProps> = ({ }) => {
+
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     loadFonts()
@@ -18,9 +20,11 @@ export const Providers: React.FC<ProvidersProps> = ({ }) => {
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
-    setLoading(true);
+    setLoading(false);
   }
-
+  if (loading) {
+    return <Spinner />
+  }
   return (
     <Root>
       <StateProvider>
