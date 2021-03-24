@@ -47,7 +47,7 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
         setUsername(username)
     }
     const onPress = () => {
-        newDemoAccountRequest.customerId = context.user!.customerInfo.id
+        newDemoAccountRequest.customerId = context.user!.customerAccountInfo.customerId
         newDemoAccountRequest.tradingPlatformId = version
         newDemoAccountRequest.isDemo = true
         newDemoAccountRequest.statusId = 2

@@ -17,15 +17,16 @@ export default function NewWithdrawScreen({ navigation }: WithdrawStackNavProps<
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
 
+                <StatusBar
+                    animated={true}
+                    backgroundColor={Colors.common.statusBarColor}
+                    barStyle="light-content"
+                    showHideTransition="slide"
+                />
+                <TopBar />
+                <NavBar   ImageProp="new-deposit" title="Yeni Çekim" />
                 <ScrollView style={{ flex: 1 }}>
-                    <StatusBar
-                        animated={true}
-                        backgroundColor={Colors.common.statusBarColor}
-                        barStyle="light-content"
-                        showHideTransition="slide"
-                    />
-                    <TopBar />
-                    <NavBar name="wallet" type="Ionicons" title="Yeni Çekim" />
+
 
                     <Card style={{ marginLeft: 10, marginTop: 15, marginRight: 10, borderRadius: 10, overflow: "hidden" }}>
                         <View style={{ paddingLeft: 20, height: 40, backgroundColor: Colors.common.white, alignItems: "center", flexDirection: "row" }}>

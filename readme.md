@@ -37,3 +37,14 @@ test edilemeyenler
 gerçek hesap şifre değiştirme
 cüzdandan hesaba transfer çalişmiyo çünkü cüzdanda para yok
 cüzdan , yatırımlar  , çekimler grafikleri boş dönüyor
+
+
+
+
+---- pending iconu gerekiyor
+
+post withdraw error veriyor
+
+yeni banka hesabı ekleme hesap tipleri
+
+cüzdan geçmişi iptal test edemiyorum iptal işlemlerinde delete ile mi

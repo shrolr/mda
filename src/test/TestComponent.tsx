@@ -31,6 +31,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
 
         ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WithdrawAccountsNetworkResponsel) {
+               
                 let withdrawAccounts = response.data;
                 dispatch!({ type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts } })
 
@@ -57,7 +58,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
             }
         })
 
-        ApiCalls.getCustomerAccounts(context.user!.customerInfo.id).then((response) => {
+        ApiCalls.getCustomerAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof AccountListNetworkResponse) {
                 let accounts = response.data;
                 dispatch!({ type: ActionType.SET_USER_ACCOUNTS, payload: { accounts } })

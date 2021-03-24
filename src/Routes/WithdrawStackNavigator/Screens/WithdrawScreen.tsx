@@ -28,7 +28,7 @@ export default function WithdrawScreen({ navigation }: WithdrawStackNavProps<"Wi
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Çekimler" />
+                <NavBar   ImageProp="wallet" title="Çekimler" />
                 <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
                     <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/atm.png")} title="ÇEKİMLER" isTouchable={false} />
                     <MenuCard shouldNavigate onMenuItemClick={navigateToNewWithdrawcreen} imageUri={require("../../../../assets/images/icons/newdeposit.png")} title="Yeni Çekim İşlemi" isTouchable={true} />

@@ -99,14 +99,13 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  
+
   getUserDepositList = (customerId: number,) => {
     let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
     return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-list'] + urlSuffix).then((result) => {
       let data = result.data
       let status = result.status
       let _networkResponse = new NetworkResponse(status, data);
-      console.log("xxx ",_networkResponse)
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -143,7 +142,6 @@ class ApiCalls implements IApiCalls {
       let data = result.data
       let status = result.status
       let _networkResponse = new NetworkResponse(status, data);
-      console.log(_networkResponse)
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -151,7 +149,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  putAccountRequest = (payload:PutAccountRequest,accountId: number) => {
+  putAccountRequest = (payload: PutAccountRequest, accountId: number) => {
     let urlSuffix = `/${accountId}`
     return httpClient.put(this.authenticated_server_link + Endpoints.account.request + urlSuffix, payload).then((result) => {
       let data = result.data
@@ -192,7 +190,6 @@ class ApiCalls implements IApiCalls {
       let data = result.data
       let status = result.status
       let _networkResponse = new NetworkResponse(status, data);
-      console.log(_networkResponse)
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -244,11 +241,10 @@ class ApiCalls implements IApiCalls {
       let data = result.data
       let status = result.status
       let _networkResponse = new NetworkResponse(status, data);
-      console.log(_networkResponse)
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
+
       return networkResponse;
     })
   }
@@ -273,6 +269,31 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  putTransfer = (payload: { StatusId: number }, TransferId: number) => {
+    let urlSuffix = `/${TransferId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.transfer.main + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  putWithdraw  = (payload: { StatusId: number }, DepositId: number) => {
+    let urlSuffix = `/${DepositId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.withdraw.main + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+
       return networkResponse;
     })
   }

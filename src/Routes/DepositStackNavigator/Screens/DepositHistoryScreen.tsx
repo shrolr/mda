@@ -35,7 +35,7 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Yatırım Geçmişi" />
+                <NavBar  ImageProp="history" title="Yatırım Geçmişi" />
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

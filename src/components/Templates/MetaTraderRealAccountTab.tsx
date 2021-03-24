@@ -50,8 +50,7 @@ export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({ 
                 id: Account.id,
                 user: Account.user,
                 newPassword: password,
-                host: Account.serverName,
-                port: ""
+              
             }
             ApiCalls.updateAccountPassword(metatraderAccountChangePassword).then((response) => {
                 // TO DO ADD LOADİNG SPİNNER

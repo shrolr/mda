@@ -29,7 +29,7 @@ export default function TransferScreen({ navigation }: HomeStackNavProps<"Transf
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Transfer" />
+                <NavBar   ImageProp="wallet" title="Transfer" />
                 <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
                     <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/bank.png")} title="TRANSFERLER" isTouchable={false} />
                     <MenuCard shouldNavigate onMenuItemClick={navigateToNewDepositScreen} imageUri={require("../../../../assets/images/icons/newdeposit.png")} title="YENİ TRANSFER" isTouchable={true} />

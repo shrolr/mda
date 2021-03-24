@@ -29,7 +29,7 @@ export default function DepositScreen({ navigation }: DepositsStackNavProps<"Dep
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Para Yatırma" />
+                <NavBar   ImageProp="BarChart" title="Para Yatırma" />
                 <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
                     <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/bank.png")} title="Para Yatırma" isTouchable={false} />
                     <MenuCard shouldNavigate onMenuItemClick={navigateToNewDepositScreen} imageUri={require("../../../../assets/images/icons/newdeposit.png")} title="Yeni Para Yatırma" isTouchable={true} />

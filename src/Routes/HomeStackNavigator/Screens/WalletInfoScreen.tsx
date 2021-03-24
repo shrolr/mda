@@ -13,7 +13,7 @@ import { HomeStackNavProps } from '../HomeParamList';
 export default function WalletInfoScreen({ navigation }: HomeStackNavProps<"WalletInfoScreen">) {
     const { context } = useStateContext()
     const _renderWalletTransactions: ListRenderItem<WalletTransactionApiModel> = ({ item, index }) => (
-        <TransactionsHistoryListItem item={item} index={index} />
+        <TransactionsHistoryListItem Type="WalletTransactionApiModel" item={item} index={index} />
     )
 
     return (
@@ -27,7 +27,7 @@ export default function WalletInfoScreen({ navigation }: HomeStackNavProps<"Wall
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="gear" type="FontAwesome" title="Cüzdan İşlemleri" />
+                <NavBar   title="Cüzdan İşlemleri" />
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

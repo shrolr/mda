@@ -39,7 +39,7 @@ export default function RealAccountRequestScreen({ navigation }: AccountStackNav
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Gerçek Hesap Talebi" />
+                <NavBar   ImageProp="analytics" title="Gerçek Hesap Talebi" />
                 <View style={{ flex: 1 }}>
                     <FlatList
                         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

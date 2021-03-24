@@ -51,7 +51,7 @@ export const DepositFromBank: React.FC<IDepositFromBank> = ({navigation}) => {
                     Amount: amount,
                     Comment: comment,
                     Currency: currency,
-                    CustomerId: context.user!.customerInfo.id,
+                    CustomerId: context.user!.customerAccountInfo.customerId,
                     CustomerWithdrawAccountId: selectedAccount.id,
                     IsWalletWithdraw: true,
                     TypeId: selectedAccount.type === CustomerWithdrawAccountTypeEnum.BankAccount ? 1 : 2

@@ -21,7 +21,7 @@ export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Yeni Para Yatırma" />
+                <NavBar  ImageProp="new-deposit" title="Yeni Para Yatırma" />
 
                 <ScrollView style={{ flex: 1 }}>
 

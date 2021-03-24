@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StatusBar, Text, Image, View, FlatList, ListRenderItem, SafeAreaView } from 'react-native';
-import { CreateRealMetaTraderAccount, MenuCard, MetaTraderDemoAccountTab, CreateDemoMetaTraderAccount } from '../../../components';
+import { CreateRealMetaTraderAccount, MenuCard, MetaTraderDemoAccountTab, CreateDemoMetaTraderAccount, NavBar } from '../../../components';
 import { TopBar } from '../../../components/Organisms/TopBar';
 import Colors from '../../../constants/Colors';
 import { CardItem, Tab, TabHeading, Tabs } from 'native-base';
@@ -24,8 +24,8 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
         setVersion(MetaTraderVersion.MetaTrader4)
     }
     const navigateToWalletInfoScreen = () => {
-        // TO DO GERÇEK HESAP TALEBİ TASARIMLAR EKSİK
-        //navigation.navigate("Account")
+         
+        navigation.navigate("RealAccountRequest")
     }
     const onChangeTab = (info: any) => {
         try {
@@ -56,12 +56,12 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
                 />
                 <TopBar />
                 <View style={{ flex: 1 }}>
-
+                    <NavBar   ImageProp="bank" title="Hesaplar" />
                     <View style={{ flex: 1 }}>
-                        {/* <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>
-                        <MenuCard shouldNavigate imageUri={require("../../../assets/images/icons/wallet.png")} title="HESAP" isTouchable={false} />
-                        <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../../assets/images/icons/settings.png")} title="GERÇEK HESAP TALEBİ" isTouchable={true} />
-                    </View> */}
+                        <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20,marginBottom:20, paddingRight: 20 }}>
+                            <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/wallet.png")} title="HESAPLAR" isTouchable={false} />
+                            <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../../../assets/images/icons/analytics.png")} title="GERÇEK HESAP TALEBİ" isTouchable={true} />
+                        </View>
 
                         <View style={{ paddingLeft: 30, alignItems: "center", paddingRight: 30, flexDirection: "row", backgroundColor: "#e9e9e9", height: 82 }}>
                             <CardItem button bordered onPress={setVersionToMetaTrader4} style={{ flexDirection: "row", height: 50, backgroundColor: "#f7f7f6", borderRadius: 5, justifyContent: "center", alignItems: "center", flex: 1, marginRight: 10 }}>

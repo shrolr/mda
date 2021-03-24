@@ -15,7 +15,7 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
     const { context } = useStateContext()
     const [withdraws, setwithdraws] = useState<WithdrawHistory[]>()
     useEffect(() => {
-        ApiCalls.getUserWithdrawList(context.user!.customerInfo.id).then((response) => {
+        ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WithdrawHistoryNetworkResponse) {
                 console.log(response.data.payload)
                 setwithdraws(response.data.payload)
@@ -24,7 +24,7 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
         })
     }, [])
     const _renderDepositHistory: ListRenderItem<WithdrawHistory> = ({ item, index }) => (
-        <TransactionsHistoryListItem item={item} index={index} />
+        <TransactionsHistoryListItem Type="WithdrawHistory" item={item} index={index} />
     )
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
@@ -37,7 +37,7 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Çekimler" />
+                <NavBar  ImageProp="history" title="Çekimler" />
                 <View style={{ flex: 1 }}>
                     <FlatList
                         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

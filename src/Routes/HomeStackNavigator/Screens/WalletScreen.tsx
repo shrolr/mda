@@ -27,7 +27,7 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Cüzdan" />
+                <NavBar   ImageProp="wallet" title="Cüzdan" />
                 <View style={{ flex: 1 }}>
 
 

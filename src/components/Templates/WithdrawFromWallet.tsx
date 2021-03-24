@@ -27,7 +27,7 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
     const [currency, setCurrency] = useState("")
     const [amount, setamount] = useState<number>()
     const [comment, setcomment] = useState<string>("")
-
+    
     useEffect(() => {
         let userWithdrawAccounts: DropDownPickerList[] = [];
         context.withdrawAccounts.forEach((_data) => {
@@ -51,7 +51,7 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
                     Amount: amount,
                     Comment: comment,
                     Currency: currency,
-                    CustomerId: context.user!.customerInfo.id,
+                    CustomerId: context.user!.customerAccountInfo.customerId,
                     CustomerWithdrawAccountId: selectedAccount.id,
                     IsWalletWithdraw: true,
                     TypeId: selectedAccount.type === CustomerWithdrawAccountTypeEnum.BankAccount ? 1 : 2

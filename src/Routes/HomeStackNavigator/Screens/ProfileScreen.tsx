@@ -27,7 +27,7 @@ function ProfileScreen({ navigation }: HomeStackNavProps<"ProfileScreen">) {
           showHideTransition="slide"
         />
         <TopBar />
-        <NavBar name="wallet" type="Ionicons" title="Profil" />
+        <NavBar  ImageProp="profile" title="Profil" />
 
         <ScrollView keyboardShouldPersistTaps="always" style={{ flex: 1 }}>
           <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20, paddingRight: 20 }}>

@@ -21,7 +21,7 @@ export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<
         })
     }, [])
     const _renderDepositHistory: ListRenderItem<TransferList> = ({ item, index }) => (
-        <TransactionsHistoryListItem item={item} index={index} />
+        <TransactionsHistoryListItem Type="TransferList" item={item} index={index} />
     )
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
@@ -34,7 +34,7 @@ export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Transfer Geçmişi" />
+                <NavBar   ImageProp="history" title="Transfer Geçmişi" />
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

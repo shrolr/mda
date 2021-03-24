@@ -1,6 +1,6 @@
 import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
 import { Button, Icon } from 'native-base';
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Image, Pressable, SafeAreaView, ScrollView } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useStateContext } from '../../context/state';
@@ -9,9 +9,23 @@ import { Text } from '../atom';
 interface ISideBar {
     DrawerNavigation: DrawerContentComponentProps<DrawerContentOptions>
 }
-// TO DO ADD SCREENS NAME TO CONSTANT
+
+enum AppTabs {
+    AnaSayfa = "AnaSayfa",
+    Hesaplarim = "Hesaplarim",
+    ParaYatirma = "ParaYatirma",
+    ParaCekme = "ParaCekme"
+
+};
+
+
+
 export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const { context } = useStateContext();
+    const [depositActive, setdepositToggle] = useState(false)
+    const toggleDeposit = () => {
+        setdepositToggle(!depositActive)
+    }
     const onPress = () => {
         DrawerNavigation.navigation.navigate("ProfileScreen")
     }
@@ -20,6 +34,18 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     }
     const onPressWallet = () => {
         DrawerNavigation.navigation.navigate("Wallet")
+    }
+    const onPressHome = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.AnaSayfa, { screen: 'Home' });
+    }
+    const navigateToNewDeposit = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'NewDeposit' });
+    }
+    const navigateToDepositHistory = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'DepositsHistory' });
+    }
+    const navigateToDepositScreen = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.ParaYatirma, { screen: 'Deposits' });
     }
     return (
         <View style={{ flex: 1, marginTop: 70, backgroundColor: 'rgba(25, 25, 25, 0.98)', }}>
@@ -39,10 +65,12 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                     </Pressable>
                     <View style={{ height: 0.5, marginTop: 10, marginBottom: 30, backgroundColor: Colors.common.white }} />
                     <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                            <Image source={require("../../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
-                            <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Ana Sayfa</Text>
-                        </View>
+                        <Pressable onPress={onPressHome}>
+                            <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                                <Image source={require("../../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Ana Sayfa</Text>
+                            </View>
+                        </Pressable>
                         <Pressable onPress={onPressWallet}>
                             <View style={{ flexDirection: "row", marginTop: 25, marginBottom: 25, alignItems: "flex-end" }}>
                                 <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
@@ -58,24 +86,40 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                     </View>
 
                     <View style={{ paddingTop: 20, paddingBottom: 20, marginTop: 10, backgroundColor: Colors.common.sideBarGrayBg, marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
-                        <View style={{ flexDirection: "row" }}>
-                            <Image source={require("../../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: "#F7B92D", marginRight: 10, height: 29, width: 24 }} />
-                            <View>
-                                <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 5, color: Colors.common.sidebarActiveMenu }}>Yatırımlar</Text>
+                        <View>
+                            <Pressable onPress={toggleDeposit} >
+                                <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                                    <Image source={require("../../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: "#F7B92D", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.sidebarActiveMenu }}>Yatırımlar</Text>
+                                </View>
+                            </Pressable>
+                            {
+                                depositActive ?
+                                    <View style={{ paddingLeft: 20, flexDirection: "row" }}>
+                                        <View>
+                                            <Pressable onPress={navigateToDepositScreen} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Para Yatırma</Text>
+                                                </View>
+                                            </Pressable>
 
-                                <View style={{ flexDirection: "row", marginTop: 25, }}>
-                                    <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Para Yatırma</Text>
-                                </View>
-                                <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                    <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Yeni Para Yatırma</Text>
-                                </View>
-                                <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                    <Image source={require("../../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Para Yatırım Geçmişi</Text>
-                                </View>
-                            </View>
+                                            <Pressable onPress={navigateToNewDeposit} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Yeni Para Yatırma</Text>
+                                                </View>
+                                            </Pressable>
+                                            <Pressable onPress={navigateToDepositHistory} >
+                                                <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
+                                                    <Image source={require("../../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>Para Yatırım Geçmişi</Text>
+                                                </View>
+                                            </Pressable>
+
+                                        </View>
+                                    </View>
+                                    : null}
                         </View>
                     </View>
 

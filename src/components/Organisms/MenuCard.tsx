@@ -17,8 +17,8 @@ export const MenuCard: React.FC<IMenuCard> = ({ isActive, shouldNavigate, onMenu
         return (
             <TouchableOpacity onPress={onMenuItemClick} style={{ flex: 1 }}>
                 <View style={{ backgroundColor: isActive ? Colors.common.walletTabBg : Colors.common.white, borderColor: isActive ? Colors.common.walletTabBg : Colors.common.borderOrange, justifyContent: "center", alignItems: "center", marginLeft: 10, flex: 1, borderWidth: 2, borderRadius: 5 }}>
-                    <Image source={imageUri} resizeMode="contain" style={{ tintColor: Colors.common.black, height: 25, width: 25 }} />
-                    <Text style={{ marginTop: 10, textAlign: "center", color: Colors.common.black, fontSize: 11, fontWeight: "bold" }}>{title}</Text>
+                    <Image source={imageUri} resizeMode="contain" style={{ tintColor: isActive ? Colors.common.white : Colors.common.black, height: 25, width: 25 }} />
+                    <Text style={{ marginTop: 10, textAlign: "center", color: isActive ? Colors.common.white : Colors.common.black, fontSize: 11, fontWeight: "bold" }}>{title}</Text>
                 </View>
             </TouchableOpacity>
         )

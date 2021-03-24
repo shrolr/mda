@@ -25,7 +25,7 @@ export default function NewTransferScreen({ navigation }: HomeStackNavProps<"New
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar name="wallet" type="Ionicons" title="Yeni Transfer" />
+                <NavBar    title="Yeni Transfer" />
 
                 <ScrollView style={{ flex: 1 }}>
 

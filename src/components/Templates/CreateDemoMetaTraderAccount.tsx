@@ -23,7 +23,7 @@ export const CreateDemoMetaTraderAccount: React.FC<ICreateDemoMetaTraderAccount>
 
     let { context } = useStateContext()
     const onPress = () => {
-        newDemoAccountRequest.customerId = context.user!.customerInfo.id
+        newDemoAccountRequest.customerId = context.user!.customerAccountInfo.customerId
         newDemoAccountRequest.tradingPlatformId = version
         newDemoAccountRequest.isDemo = true
         newDemoAccountRequest.statusId = 2
