@@ -100,6 +100,19 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+ 
+  getUserAccountGraphData = (customerId: number) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.account.graph + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   getUserWithdrawGraphData = (customerId: number,) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.withdraw.graph + urlSuffix).then((result) => {

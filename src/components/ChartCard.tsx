@@ -1,16 +1,17 @@
 import { Card, Icon } from 'native-base';
 import React from 'react'
-import { View,Text } from 'react-native';
+import { View, Text } from 'react-native';
 
 import Colors from '../constants/Colors'
+import { AccountGraphInfo } from '../models';
 import LineChart from './LineChart';
 
 interface IChartCard {
-
+    accountGraph: AccountGraphInfo | undefined
 }
 
-export const ChartCard: React.FC<IChartCard> = ({ }) => {
- 
+export const ChartCard: React.FC<IChartCard> = ({accountGraph }) => {
+
 
     return (
 
@@ -25,10 +26,10 @@ export const ChartCard: React.FC<IChartCard> = ({ }) => {
                 </View>
                 <View style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 20, paddingRight: 10 }}>
                     <Text style={{ fontSize: 13, color: Colors.common.white }}>Aylık Free marjin toplamı</Text>
-                    <Text style={{ fontSize: 30, color: "white", fontWeight: "bold", }}>1000 $</Text>
+                    <Text style={{ fontSize: 30, color: "white", fontWeight: "bold", }}>{accountGraph?.metaTrader4.balanceData} $</Text>
                 </View>
                 <View style={{ marginBottom: -20, paddingLeft: 10, paddingRight: 10 }}>
-                    <LineChart />
+                    <LineChart accountGraph={accountGraph} />
                 </View>
             </Card>
         </View>
