@@ -58,7 +58,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
         setwithdrawActive(!withdrawActive)
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }
-    
+
     const onPress = () => {
         DrawerNavigation.navigation.navigate("ProfileScreen")
     }
@@ -80,8 +80,21 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const NavigateToNewWithdraw = () => {
         DrawerNavigation.navigation.navigate(AppTabs.ParaCekme, { screen: 'NewWithdraw' });
     }
-    const onPressWallet = () => {
-        DrawerNavigation.navigation.navigate("Wallet")
+    const NavigateToWallet = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.AnaSayfa, { screen: 'Wallet' });
+
+    }
+    const NavigateToAccounts = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.Hesaplarim, { screen: 'Account' });
+    }
+    const NavigateToRealAccountRequest = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.Hesaplarim, { screen: 'RealAccountRequest' });
+
+    }
+
+    const NavigateToWalletHistory = () => {
+        DrawerNavigation.navigation.navigate(AppTabs.AnaSayfa, { screen: 'WalletInfoScreen' });
+
     }
     const onPressHome = () => {
         DrawerNavigation.navigation.navigate(AppTabs.AnaSayfa, { screen: 'Home' });
@@ -126,33 +139,35 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
 
 
 
-                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: walletActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                    <View style={{ paddingTop: 10, marginTop: 10, backgroundColor: walletActive ? Colors.common.sideBarGrayBg : 'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
                             <Pressable onPress={toggleWallet} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                                    <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: walletActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: walletActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Cüzdan</Text>
-
+                                    <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: walletActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: walletActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>Cüzdan</Text>
+                                    <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
+                                        <Icon style={{ fontSize: 12, color: "white" }} name={walletActive ? "minus" : "plus"} type="AntDesign" />
+                                    </View>
                                 </View>
                             </Pressable>
                             {
                                 walletActive ?
                                     <View style={{ paddingLeft: 20, flexDirection: "row" }}>
                                         <View>
-                                            <Pressable onPress={NavigateToTransfer} >
+                                            <Pressable onPress={NavigateToWallet} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Cüzdan</Text>
                                                 </View>
                                             </Pressable>
 
-                                            <Pressable onPress={NavigateToNewTransfer} >
+                                            <Pressable onPress={NavigateToWalletHistory} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Cüzdan İşlemleri</Text>
                                                 </View>
                                             </Pressable>
-                                           
+
 
                                         </View>
                                     </View>
@@ -160,49 +175,53 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         </View>
                     </View>
 
-                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: accountsActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                    <View style={{ paddingTop: 10, marginTop: 10, backgroundColor: accountsActive ? Colors.common.sideBarGrayBg : 'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
                             <Pressable onPress={toggleAccount} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                                    <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: accountsActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: accountsActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Hesaplar</Text>
-
+                                    <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: accountsActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: accountsActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>Hesaplar</Text>
+                                    <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
+                                        <Icon style={{ fontSize: 12, color: "white" }} name={accountsActive ? "minus" : "plus"} type="AntDesign" />
+                                    </View>
                                 </View>
                             </Pressable>
                             {
                                 accountsActive ?
                                     <View style={{ paddingLeft: 20, flexDirection: "row" }}>
                                         <View>
-                                            <Pressable onPress={NavigateToTransfer} >
+                                            <Pressable onPress={NavigateToAccounts} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Hesaplar</Text>
                                                 </View>
                                             </Pressable>
 
-                                            <Pressable onPress={NavigateToNewTransfer} >
+                                            <Pressable onPress={NavigateToRealAccountRequest} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
                                                     <Text style={{ fontSize: 11, color: Colors.common.white }}>Gerçek Hesap Talebi</Text>
                                                 </View>
                                             </Pressable>
-                                           
+
 
                                         </View>
                                     </View>
                                     : null}
                         </View>
                     </View>
-  
+
                     <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: Colors.common.gray }}>Parasal İşlemler</Text>
 
-                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: depositActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                    <View style={{ paddingTop: 10, marginTop: 10, backgroundColor: depositActive ? Colors.common.sideBarGrayBg : 'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
                             <Pressable onPress={toggleDeposit} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                                    <Image source={require("../../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: depositActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: depositActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Yatırımlar</Text>
-
+                                    <Image source={require("../../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: depositActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: depositActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>Yatırımlar</Text>
+                                    <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
+                                        <Icon style={{ fontSize: 12, color: "white" }} name={depositActive ? "minus" : "plus"} type="AntDesign" />
+                                    </View>
                                 </View>
                             </Pressable>
                             {
@@ -235,13 +254,15 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         </View>
                     </View>
 
-                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: transferActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                    <View style={{ paddingTop: 10, marginTop: 10, backgroundColor: transferActive ? Colors.common.sideBarGrayBg : 'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
                             <Pressable onPress={toggleTransfer} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                                    <Image source={require("../../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: transferActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: transferActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Transferler</Text>
-
+                                    <Image source={require("../../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: transferActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: transferActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>Transferler</Text>
+                                    <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
+                                        <Icon style={{ fontSize: 12, color: "white" }} name={transferActive ? "minus" : "plus"} type="AntDesign" />
+                                    </View>
                                 </View>
                             </Pressable>
                             {
@@ -274,13 +295,15 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         </View>
                     </View>
 
-                    <View style={{ paddingTop: 10,  marginTop: 10, backgroundColor: withdrawActive ? Colors.common.sideBarGrayBg:'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
+                    <View style={{ paddingTop: 10, marginTop: 10, backgroundColor: withdrawActive ? Colors.common.sideBarGrayBg : 'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
                             <Pressable onPress={toggleWithdraw} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                                    <Image source={require("../../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: withdrawActive ?  "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: withdrawActive ? Colors.common.sidebarActiveMenu :Colors.common.white  }}>Çekimler</Text>
-
+                                    <Image source={require("../../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: withdrawActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: withdrawActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>Çekimler</Text>
+                                    <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
+                                        <Icon style={{ fontSize: 12, color: "white" }} name={withdrawActive ? "minus" : "plus"} type="AntDesign" />
+                                    </View>
                                 </View>
                             </Pressable>
                             {
@@ -313,7 +336,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         </View>
                     </View>
 
-                   
+
                     <View style={{ height: 0.5, marginTop: 20, marginBottom: 30, backgroundColor: Colors.common.white }} />
                     <Button style={{ height: 35, borderRadius: 5, backgroundColor: Colors.common.menuBackgroundColor }} full>
                         <Icon style={{ marginLeft: 0, fontSize: 13, color: "black", alignSelf: "center" }} type="AntDesign" name="download" />

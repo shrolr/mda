@@ -48,3 +48,5 @@ post withdraw error veriyor
 yeni banka hesabı ekleme hesap tipleri
 
 cüzdan geçmişi iptal test edemiyorum iptal işlemlerinde delete ile mi
+
+token yenileme süresi
