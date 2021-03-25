@@ -13,7 +13,7 @@ export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<
     const { context } = useStateContext()
     const [deposits, setdeposits] = useState<TransferList[]>()
     useEffect(() => {
-        ApiCalls.getTransferList(context.user!.customerAccountInfo.id).then((response) => {
+        ApiCalls.getTransferList(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof TransferListNetworkResponse) {
                 setdeposits(response.data.payload)
 

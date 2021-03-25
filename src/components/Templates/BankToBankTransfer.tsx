@@ -81,7 +81,7 @@ export const AccountToAccountTransfer: React.FC<IAccountToAccountTransfer> = ({n
                 currency: currency,
                 typeId: TransferTypeEnum.AccountToAccount,
                 amount: amount,
-                customerId: context.user!.customerAccountInfo.id,
+                customerId: context.user!.customerAccountInfo.customerId,
             }
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {

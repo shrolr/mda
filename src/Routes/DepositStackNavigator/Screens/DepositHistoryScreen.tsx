@@ -6,22 +6,22 @@ import Colors from '../../../constants/Colors'
 import { DepositsStackNavProps } from '../DepositParamList'
 import { DepositsHistoryListItem } from '../../../components/Molecules/DepositsHistoryListItem'
 import ApiCalls from '../../../network/ApiCalls'
-import { TransferList, TransferListNetworkResponse } from '../../../models'
+import { DepositHistoryNetworkResponse,   DepositHistory  } from '../../../models'
 import { useStateContext } from '../../../context/state'
 
 
 export default function DepositHistoryScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {
     const { context } = useStateContext()
-    const [deposits, setdeposits] = useState<TransferList[]>()
+    const [deposits, setdeposits] = useState<DepositHistory[]>()
     useEffect(() => {
-        ApiCalls.getTransferList(context.user!.customerAccountInfo.id).then((response) => {
-            if (response instanceof TransferListNetworkResponse) {
+        ApiCalls.getUserDepositList(context.user!.customerAccountInfo.customerId).then((response) => {
+            if (response instanceof DepositHistoryNetworkResponse) {
                 setdeposits(response.data.payload)
 
             }
         })
     }, [])
-    const _renderDepositHistory: ListRenderItem<TransferList> = ({ item, index }) => (
+    const _renderDepositHistory: ListRenderItem<DepositHistory> = ({ item, index }) => (
         <DepositsHistoryListItem item={item} index={index} />
     )
     return (

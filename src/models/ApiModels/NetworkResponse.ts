@@ -1,4 +1,4 @@
-import { AccountTypes, AccountTypesApiModel, TransferListAPIModel } from "..";
+import { AccountTypes, AccountTypesApiModel, DepositHistoryNetworkResponseApi, DepositHistoryNetworkResponseData, TransferListAPIModel } from "..";
 import { IUserResponse } from "../../interfaces";
 import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
 import { AccountRequestList, AccountRequestListAPIModel } from "./Account/AccountRequestListApiModel";
@@ -15,7 +15,7 @@ interface INetworkResponse {
 
 export class NetworkResponse implements INetworkResponse {
     status: number;
-    data: unknown;
+    data: any;
     constructor(status:number,data:unknown) {
         this.status = status;
         this.data = data;
@@ -114,6 +114,14 @@ export class WithdrawHistoryNetworkResponse implements WithdrawHistoryNetworkRes
     }
 }
 
+export class DepositHistoryNetworkResponse implements DepositHistoryNetworkResponseApi {
+    status: number;
+    data: DepositHistoryNetworkResponseData;
+    constructor(status:number,data:DepositHistoryNetworkResponseData) {
+        this.status = status;
+        this.data = data;
+    }
+}
 export class AccountRequestListResponse implements AccountRequestListAPIModel {
     status: number;
     data: AccountRequestList[];

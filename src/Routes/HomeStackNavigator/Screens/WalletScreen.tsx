@@ -15,7 +15,6 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
         navigation.navigate("WalletInfoScreen")
     }
     var localTime = convertUTCDateToLocalDate(new Date(context.walletInfo[0].wallet.createdDate))
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>

@@ -56,7 +56,6 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
                     IsWalletWithdraw: true,
                     TypeId: selectedAccount.type === CustomerWithdrawAccountTypeEnum.BankAccount ? 1 : 2
                 };
-                console.log(postWithdrawRequestModel)
                 // TO DO HANDLE response
                 ApiCalls.postWithdraw(postWithdrawRequestModel)
 

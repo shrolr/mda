@@ -12,8 +12,8 @@ export interface WalletInfoData {
 export interface TransactionGraphInfo {
     balance:  number;
     currency: string;
-    data:     any[];
-    labels:   any[];
+    data:     number[];
+    labels:   string[];
 }
 
 export interface Wallet {

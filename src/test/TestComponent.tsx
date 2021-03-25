@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { View } from 'react-native';
 import { ActionType } from '../context/reducer';
 import { useStateContext } from '../context/state';
-import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail, WalletInfoNetworkResponse, AccountListNetworkResponse, WithdrawAccountsNetworkResponsel } from '../models';
+import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail, WalletInfoNetworkResponse, AccountListNetworkResponse, WithdrawAccountsNetworkResponsel, NetworkResponse } from '../models';
 import ApiCalls from '../network/ApiCalls';
 import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
 
@@ -28,7 +28,9 @@ export const TestComponent: React.FC<ITestComponent> = () => {
     const loadToContext = () => {
         //let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel = { AccountName: "test", Address: "test adres", AccountNumber: "1234", BankNmae: "garanti test", Currency: "USD", CustomerId: 4, Details: "detay", Iban: "123123", Label: "label", Swift: "SWıFT3", TypeId: 2 }
         //  ApiCalls.postUserWithdrawAccount(UserWithdrawAccount)
+        
 
+   
         ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WithdrawAccountsNetworkResponsel) {
                
@@ -51,7 +53,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
                 dispatch!({ type: ActionType.SET_ACCOUNT_TYPES, payload: { accountTpyes } })
             }
         })
-        ApiCalls.getWalletInfo(context.user!.customerAccountInfo.id).then((response) => {
+        ApiCalls.getWalletInfo(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WalletInfoNetworkResponse) {
                 let walletInfo = response.data;
                 dispatch!({ type: ActionType.SET_WALLET_INFO, payload: { walletInfo } })

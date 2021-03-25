@@ -1,13 +1,13 @@
 import React from 'react'
 import { View, Image } from 'react-native';
 import Colors from '../../constants/Colors';
-import { TransferList } from '../../models';
+import { DepositHistory } from '../../models';
 import { convertUTCDateToLocalDate } from '../../utilities/functions';
 import { Text } from '../atom';
 
 interface IDepositsHistoryListItem {
     index: number;
-    item: TransferList;
+    item: DepositHistory;
 }
 // TO DO FİX dates
 

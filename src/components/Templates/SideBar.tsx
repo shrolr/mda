@@ -5,6 +5,8 @@ import { View, Image, Pressable, SafeAreaView, ScrollView, Platform, UIManager, 
 import Colors from '../../constants/Colors';
 import { useStateContext } from '../../context/state';
 import { Text } from '../atom';
+import * as SecureStore from 'expo-secure-store';
+import { ActionType } from '../../context/reducer';
 
 interface ISideBar {
     DrawerNavigation: DrawerContentComponentProps<DrawerContentOptions>
@@ -26,12 +28,19 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
             UIManager.setLayoutAnimationEnabledExperimental(true);
         }
     }
-    const { context } = useStateContext();
+    const { context,dispatch } = useStateContext();
     const [depositActive, setdepositToggle] = useState(false)
     const [transferActive, settransferActive] = useState(false)
     const [withdrawActive, setwithdrawActive] = useState(false)
     const [accountsActive, setaccountsActive] = useState(false)
     const [walletActive, setwalletActive] = useState(false)
+
+    const onLogoutPress = async () => {
+
+        await SecureStore.deleteItemAsync("auth")
+
+        dispatch!({ type: ActionType.SIGN_OUT })
+    }
 
     const resetActives = () => {
         setdepositToggle(false)
@@ -338,6 +347,16 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
 
 
                     <View style={{ height: 0.5, marginTop: 20, marginBottom: 30, backgroundColor: Colors.common.white }} />
+                    <View style={{ paddingLeft: 10, marginBottom: 30, paddingRight: 10 }}>
+                        <Pressable onPress={onLogoutPress}>
+                            <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                                <Image source={require("../../../assets/images/icons/user-circle-regular.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
+                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>Çıkış</Text>
+                            </View>
+                        </Pressable>
+
+                    </View>
+
                     <Button style={{ height: 35, borderRadius: 5, backgroundColor: Colors.common.menuBackgroundColor }} full>
                         <Icon style={{ marginLeft: 0, fontSize: 13, color: "black", alignSelf: "center" }} type="AntDesign" name="download" />
 

@@ -66,7 +66,7 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ na
                 currency: currency,
                 typeId: TransferTypeEnum.AccountToWallet,
                 amount: amount,
-                customerId: context.user!.customerAccountInfo.id,
+                customerId: context.user!.customerAccountInfo.customerId,
             }
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {

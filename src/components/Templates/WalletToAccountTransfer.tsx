@@ -60,7 +60,6 @@ export const WalletToAccountTransfer: React.FC<IWalletToAccountTransfer> = ({nav
     }
 
     const TransferRequest = () => {
-        console.log(sourceAccount,amount,currency)
         if (sourceAccount && amount && currency !== "") {
 
             let transferAccountToAccountRequest: TransferWalletToAccountRequest = {
@@ -70,9 +69,8 @@ export const WalletToAccountTransfer: React.FC<IWalletToAccountTransfer> = ({nav
                 walletId: 3,
                 typeId: TransferTypeEnum.WalletToAccount,
                 amount: amount,
-                customerId: context.user!.customerAccountInfo.id,
+                customerId: context.user!.customerAccountInfo.customerId,
             }
-            console.log(transferAccountToAccountRequest)
             ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
                 if (response instanceof NetworkResponse) {
                     Toast.show({ text: "Başarılı yönlendiriliyor", type: "success",duration:3000 })

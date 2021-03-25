@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountRequestListResponse, AccountTypesNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
+import { AccountListNetworkResponse, AccountRequestListResponse, AccountTypesNetworkResponse, DepositHistoryNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
 import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
@@ -15,6 +15,7 @@ import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCusto
 import { PostWithdrawRequestModel } from '../types/post/PostWithdrawRequestModel';
 import { PersonalInfoUpdateRequest } from '../types/post/PersonalInfoUpdateRequest';
 import { PutAccountRequest } from '../types/post/PutAccountRequest';
+import { PostAccountRequest } from '../types/post';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -99,13 +100,37 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-
+  getUserWithdrawGraphData = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.withdraw.graph + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  getUserDepositGraphData = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.deposit.graph + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  
   getUserDepositList = (customerId: number,) => {
     let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
     return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-list'] + urlSuffix).then((result) => {
       let data = result.data
       let status = result.status
-      let _networkResponse = new NetworkResponse(status, data);
+      let _networkResponse = new DepositHistoryNetworkResponse(status, data);
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
@@ -137,7 +162,7 @@ class ApiCalls implements IApiCalls {
     })
   }
 
-  postAccountRequest = (payload: any) => {
+  postAccountRequest = (payload: PostAccountRequest) => {
     return httpClient.post(this.authenticated_server_link + Endpoints.account.request, payload).then((result) => {
       let data = result.data
       let status = result.status

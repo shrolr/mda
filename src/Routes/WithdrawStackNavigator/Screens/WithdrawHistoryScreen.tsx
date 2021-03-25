@@ -17,7 +17,6 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
     useEffect(() => {
         ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WithdrawHistoryNetworkResponse) {
-                console.log(response.data.payload)
                 setwithdraws(response.data.payload)
 
             }

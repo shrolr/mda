@@ -45,7 +45,9 @@ export default {
     contentDivider:'#ddd',
     fontOrangeRed:'#FF4E19',
     backgroundLightWhite:'#f9f9f9',
-
+    walletBar:"#57CEB1",
+    depositBar:"#72EAFF",
+    withdrawBar:"#FF9A9A",
   }
 
 };

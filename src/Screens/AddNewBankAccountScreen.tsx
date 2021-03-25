@@ -35,10 +35,8 @@ export default function AddNewBankAccountScreen({ navigation }: WithdrawStackNav
             Iban: iban, Swift: swift,
             Currency: currency, Label: label, TypeId: 2
         }
-        console.log(UserWithdrawAccount)
         ApiCalls.postUserWithdrawAccount(UserWithdrawAccount).then((response) => {
             setisloading(false)
-            console.log(response)
             if(response instanceof NetworkResponseFail){
                 // show error
             }
