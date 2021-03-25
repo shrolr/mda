@@ -6,4 +6,4 @@ export * from './TransferTypeEnum'
 export * from './AccountRequestStatusEnum'
 export * from './TransferStatusEnum'
 export * from './WithdrawStatusEnum'
-
+export * from './DepositStatusEnum'

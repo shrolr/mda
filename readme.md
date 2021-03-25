@@ -44,9 +44,10 @@ token yenileme süresi
 
 oturumu kapat seçeneği nerede olacak?
 
-
+profile update sonrası token ile yeniden giriş yapma + remember seçeneğiyle girişte token ile tekrardan giriş yapma
 
 ---- 
-grafikler düzenlenecek
 yatirim ve çekim hesapları farklıymış 
 geçmişlerde pending icon eklenecek
+
+saat bilgieri utc olarak mı geliyor*

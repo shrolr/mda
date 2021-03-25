@@ -5,7 +5,7 @@ import Colors from '../../constants/Colors';
 import { Text } from '../atom';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useStateContext } from '../../context/state';
-import { DropDownPickerList } from '../../models';
+import { DropDownPickerList, NetworkResponse } from '../../models';
 import { PostWithdrawRequestModel } from '../../types/post/PostWithdrawRequestModel';
 import { CustomerWithdrawAccountTypeEnum } from '../../types/post/PostCustomerWithdrawAccountRequestModel';
 import ApiCalls from '../../network/ApiCalls';
@@ -57,7 +57,15 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({navigation}) 
                     TypeId: selectedAccount.type === CustomerWithdrawAccountTypeEnum.BankAccount ? 1 : 2
                 };
                 // TO DO HANDLE response
-                ApiCalls.postWithdraw(postWithdrawRequestModel)
+                ApiCalls.postWithdraw(postWithdrawRequestModel).then((response)=> {
+                    if(response instanceof NetworkResponse) {
+                        // success
+                        navigation.navigate("WithdrawHistory")
+                    }
+                    else {
+                        // fail
+                    }
+                })
 
             }
 

@@ -33,7 +33,7 @@ export const TransactionsHistoryListItem: React.FC<ITransactionsHistoryListItem>
             ]
         )
     }
-
+    console.log(item.status)
     const onConfirmCancelRequest = () => {
         switch (Type) {
             case "TransferList":
@@ -62,11 +62,18 @@ export const TransactionsHistoryListItem: React.FC<ITransactionsHistoryListItem>
     return (
         <View style={{ flexDirection: "row", paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: index % 2 === 0 ? "#dfdfdf" : "#fff" }}>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-                {item.status === "Cancelled" ?
+                {(item.status === "Cancelled" || item.status === "Rejected") &&
                     <Image source={require("../../../assets/images/icons/deposit_info_red.png")} style={{ height: 20, width: 20 }} />
-                    :
+                }
+                {
+                    item.status === "Confirmed" &&
                     <Image source={require("../../../assets/images/icons/deposit_info_green.png")} style={{ height: 20, width: 20 }} />
                 }
+                 {
+                    item.status === "Pending" &&
+                    <Image source={require("../../../assets/images/icons/pending.png")} style={{ height: 20, width: 20 }} />
+                }
+
                 <Text style={{ fontSize: 8, textAlign: "center", marginTop: 5 }}>{localDate.date}{"\n"}{localDate.time}</Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, }}>

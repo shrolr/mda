@@ -309,6 +309,18 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  putDeposit = (payload: { StatusId: number }, DepositId: number) => {
+    let urlSuffix = `/${DepositId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.deposit.main + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
   putWithdraw  = (payload: { StatusId: number }, DepositId: number) => {
     let urlSuffix = `/${DepositId}`
     return httpClient.put(this.authenticated_server_link + Endpoints.withdraw.main + urlSuffix, payload).then((result) => {

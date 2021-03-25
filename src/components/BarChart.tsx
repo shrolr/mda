@@ -5,11 +5,12 @@ import { TransactionGraphInfo } from '../models/ApiModels/Wallet/WalletInfoApiMo
 import { Text } from './atom';
 import { Text as TextSvg } from 'react-native-svg'
 import { WithdrawGraphInfo } from '../models';
+import { convertUTCDateToLocalDate } from '../utilities/functions';
 
 
 interface IBarChartVerticalWithLabels {
     color: string,
-    colorActive:string,
+    colorActive: string,
     transactionGraphInfo?: TransactionGraphInfo | WithdrawGraphInfo
 }
 interface BarChartData {
@@ -24,7 +25,7 @@ interface BarChartData {
 }
 
 
-export const BarChartVerticalWithLabels: React.FC<IBarChartVerticalWithLabels> = ({ transactionGraphInfo, color,colorActive }) => {
+export const BarChartVerticalWithLabels: React.FC<IBarChartVerticalWithLabels> = ({ transactionGraphInfo, color, colorActive }) => {
     const [graphData, setgraphData] = useState<BarChartData[]>([])
     const [selectedItem, setselectedItem] = useState<number | null>(null)
 
@@ -37,11 +38,24 @@ export const BarChartVerticalWithLabels: React.FC<IBarChartVerticalWithLabels> =
         mapData()
     }, [selectedItem])
 
+    const convertToLocalTime = () => {
+        if (typeof selectedItem === "number" && transactionGraphInfo) {
+
+            try {
+                let localDate =  convertUTCDateToLocalDate(new Date(transactionGraphInfo.labels[selectedItem]))
+                return localDate.date + " " + localDate.time
+            } catch (error) {
+
+            }
+            return transactionGraphInfo.labels[selectedItem]
+        }
+        return ""
+    }
     const ChartIndicator = () => {
         if (typeof selectedItem === "number" && transactionGraphInfo) {
             return (
                 <View style={{ alignSelf: "flex-end", marginTop: 0, justifyContent: "center", height: 25, paddingLeft: 10, paddingRight: 10, backgroundColor: "#191919", }}>
-                    <Text style={{ fontSize: 6, color: "white", fontWeight: "bold" }}>01.02.2020</Text>
+                    <Text style={{ fontSize: 6, color: "white", fontWeight: "bold" }}>{convertToLocalTime()}</Text>
                     <View style={{ alignItems: "center", flexDirection: "row" }}>
                         <View style={{ marginRight: 3, width: 6, height: 5, backgroundColor: color }} />
                         <Text style={{ fontSize: 6, color: "white" }}>Miktar:{transactionGraphInfo.data[selectedItem]}</Text>
