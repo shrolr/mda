@@ -9,6 +9,7 @@ import { WithdrawAccount } from '../models/ApiModels/Withdraw/WithdrawAccountLis
 import { reducer, Action } from './reducer';
 
 export interface StateContext {
+  locale:"en"|"tr",
   isAuthenticated: boolean;
   token?: string;
   user?: IUserResponse;

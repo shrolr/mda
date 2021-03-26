@@ -7,6 +7,7 @@ import { NotificationApiModel } from '../../models/ApiModels/Notifications/Notif
 import ApiCalls from '../../network/ApiCalls';
 import { convertUTCDateToLocalDate } from '../../utilities/functions';
 import { Text } from '../atom';
+import i18n from 'i18n-js';
 
 interface INotificationListItem {
     index: number;
@@ -39,12 +40,12 @@ export const NotificationListItem: React.FC<INotificationListItem> = ({ index, i
             <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, }}>
                 <Text style={{ fontWeight: "bold", fontSize: 12 }}>{item.type}</Text>
                 <Text style={{ fontSize: 7, color: Colors.common.gray }}>{item.status}</Text>
-                <Text style={{ marginTop: 5, fontSize: 8, color: Colors.common.gray }}>{item.messageType}</Text>
+                <Text style={{ marginTop: 5, fontSize: 8, color: Colors.common.gray }}>      {i18n.t(item.messageType.toUpperCase())}  </Text>
                 <Text style={{ fontSize: 8, marginTop: 5 }}>{localDate.date}{" "}{localDate.time}</Text>
 
             </View>
             <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
-                <Pressable >
+                <Pressable  >
                     <Image source={require("../../../assets/images/icons/cancel.png")} style={{ tintColor: Colors.common.cancelGray, height: 15, width: 15 }} />
                 </Pressable>
 

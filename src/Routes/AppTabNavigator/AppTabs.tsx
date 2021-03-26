@@ -11,6 +11,7 @@ import { SideBar } from "../../components";
 import { DepositStack } from "../DepositStackNavigator/DepositStack";
 import { WithdrawStack } from "../WithdrawStackNavigator/WithdrawStack";
 import { RouteProp } from "@react-navigation/native";
+import i18n from 'i18n-js';
 
 
 
@@ -51,8 +52,11 @@ const AppTabNavigator = () => {
 
         },
         header: null,
+        tabBarLabel:i18n.t(route.name),
       })}
+
       tabBarOptions={{
+        
         activeTintColor: '#000',
         inactiveTintColor: '#737576',
         inactiveBackgroundColor: '#fff',

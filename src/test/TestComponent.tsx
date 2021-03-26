@@ -4,12 +4,12 @@ import { ActionType } from '../context/reducer';
 import { useStateContext } from '../context/state';
 import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail, WalletInfoNetworkResponse, AccountListNetworkResponse, WithdrawAccountsNetworkResponsel, NetworkResponse, NotificationNetworkResponse } from '../models';
 import ApiCalls from '../network/ApiCalls';
-import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
+import NotificationLocaleEn from '../i18n/notifications/en';
+import NotificationLocaleTr from '../i18n/notifications/tr';
 
 interface ITestComponent {
 
 }
-
 
 
 export const TestComponent: React.FC<ITestComponent> = () => {
@@ -22,27 +22,27 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.customerId)
         ApiCalls.getUserDepositList(context.user!.customerAccountInfo.customerId)
 
-        
         loadToContext()
     }, [])
+   
     const loadToContext = () => {
         //let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel = { AccountName: "test", Address: "test adres", AccountNumber: "1234", BankNmae: "garanti test", Currency: "USD", CustomerId: 4, Details: "detay", Iban: "123123", Label: "label", Swift: "SWıFT3", TypeId: 2 }
         //  ApiCalls.postUserWithdrawAccount(UserWithdrawAccount)
-        
-        
-   
+
+
+
         ApiCalls.getNotificationInfo(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof NotificationNetworkResponse) {
-               
+
                 let notifications = response.data;
-               dispatch!({ type: ActionType.SET_NOTIFICATIONS, payload: { notifications } })
+                dispatch!({ type: ActionType.SET_NOTIFICATIONS, payload: { notifications } })
 
             }
         })
-    
+
         ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WithdrawAccountsNetworkResponsel) {
-               
+
                 let withdrawAccounts = response.data;
                 dispatch!({ type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts } })
 

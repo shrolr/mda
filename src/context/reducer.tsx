@@ -13,6 +13,7 @@ export enum ActionType {
   SET_WALLET_INFO = 'SET WALLET INFO',
   SET_USER_WITHDRAW_ACCOUNTS = 'SET USER WITHDRAW ACCOUNTS',
   SET_NOTIFICATIONS = "SET NOTIFICATIONS",
+  SET_LOCALE = "SET LOCALE",
 }
 
 export type Action =
@@ -23,6 +24,7 @@ export type Action =
   | { type: ActionType.SET_WALLET_INFO, payload: { walletInfo: WalletInfoData[] } }
   | { type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts: WithdrawAccount[] } }
   | { type: ActionType.SET_NOTIFICATIONS, payload: { notifications: CustomerNotificationInfoModel } }
+  | { type: ActionType.SET_LOCALE, payload: { locale: "en" | "tr" } }
 
 
 
@@ -36,6 +38,8 @@ export const reducer = (state: StateContext, action: Action) => {
       return { ...state, accountTpyes: action.payload.accountTpyes }
     case ActionType.SET_WALLET_INFO:
       return { ...state, walletInfo: action.payload.walletInfo }
+    case ActionType.SET_LOCALE:
+      return { ...state, locale: action.payload.locale }
     case ActionType.SET_USER_WITHDRAW_ACCOUNTS:
       return { ...state, withdrawAccounts: action.payload.withdrawAccounts }
     case ActionType.SET_NOTIFICATIONS:

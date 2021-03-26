@@ -9,12 +9,15 @@ import { useIsDrawerOpen } from '@react-navigation/drawer'
 import { Text } from '../atom';
 import { AppTabs } from '../../enums';
 import { useStateContext } from '../../context/state';
+import i18n from 'i18n-js';
+import { ActionType } from '../../context/reducer';
+
 interface ITopBar {
 
 }
 
 export const TopBar: React.FC<ITopBar> = () => {
-    const { context } = useStateContext()
+    const { context ,dispatch} = useStateContext()
     const navigation = useNavigation();
     if (Platform.OS === 'android') {
         if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -30,6 +33,11 @@ export const TopBar: React.FC<ITopBar> = () => {
     const navigateToNotification = () => {
 
         navigation.navigate(AppTabs.AnaSayfa, { screen: "NotificationScreen" });
+    }
+    const changeLocale = () => {
+        console.log("locale change completed")
+        i18n.locale = "en"
+        dispatch!({ type: ActionType.SET_LOCALE, payload: { locale:"en" } })
     }
     return (
         <View>
@@ -67,10 +75,10 @@ export const TopBar: React.FC<ITopBar> = () => {
 
                     </ImageBackground>
                 </Pressable>
-                <View style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
+                <Pressable onPress={changeLocale} style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <Image source={require("../../../assets/images/icons/flag_uk.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
                     <Text>EN</Text>
-                </View>
+                </Pressable>
             </View>
         </View>
 
