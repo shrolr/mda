@@ -1,4 +1,8 @@
  
+export interface CustomerNotificationInfoModel {
+    count: number;
+    notifications: NotificationApiModel[];
+}
 export interface NotificationApiModel {
     id: number;
     customerId: number;
@@ -9,9 +13,4 @@ export interface NotificationApiModel {
     createdDate: Date | string;
     updatedDate: Date | string | null;
     readDate: Date | string | null;
-}
-
-export interface GetCustomerNotificationInfoResponseModel {
-    count: number;
-    notifications: NotificationApiModel[];
 }

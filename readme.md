@@ -51,3 +51,6 @@ yatirim ve çekim hesapları farklıymış
 geçmişlerde pending icon eklenecek
 
 saat bilgieri utc olarak mı geliyor*
+
+
+getNotificationList çalişmiyor bilgiler infodan geliyor

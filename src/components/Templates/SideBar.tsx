@@ -7,18 +7,12 @@ import { useStateContext } from '../../context/state';
 import { Text } from '../atom';
 import * as SecureStore from 'expo-secure-store';
 import { ActionType } from '../../context/reducer';
+import { AppTabs } from '../../enums';
 
 interface ISideBar {
     DrawerNavigation: DrawerContentComponentProps<DrawerContentOptions>
 }
 
-enum AppTabs {
-    AnaSayfa = "AnaSayfa",
-    Hesaplarim = "Hesaplarim",
-    ParaYatirma = "ParaYatirma",
-    ParaCekme = "ParaCekme"
-
-};
 
 
 

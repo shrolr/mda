@@ -1,6 +1,7 @@
 import { IUserResponse } from "../interfaces";
 import { DropDownPickerList } from "../models";
 import { Accounts } from "../models/ApiModels/Account/AccountListApiModel";
+import { CustomerNotificationInfoModel } from "../models/ApiModels/Notifications/NotificationApiModel";
 import { WalletInfoData } from "../models/ApiModels/Wallet/WalletInfoApiModel";
 import { WithdrawAccount } from "../models/ApiModels/Withdraw/WithdrawAccountList";
 import { StateContext } from "./state";
@@ -11,7 +12,7 @@ export enum ActionType {
   SET_USER_ACCOUNTS = 'SET USER ACCOUNTS',
   SET_WALLET_INFO = 'SET WALLET INFO',
   SET_USER_WITHDRAW_ACCOUNTS = 'SET USER WITHDRAW ACCOUNTS',
-
+  SET_NOTIFICATIONS = "SET NOTIFICATIONS",
 }
 
 export type Action =
@@ -21,6 +22,8 @@ export type Action =
   | { type: ActionType.SET_USER_ACCOUNTS, payload: { accounts: Accounts[] } }
   | { type: ActionType.SET_WALLET_INFO, payload: { walletInfo: WalletInfoData[] } }
   | { type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts: WithdrawAccount[] } }
+  | { type: ActionType.SET_NOTIFICATIONS, payload: { notifications: CustomerNotificationInfoModel } }
+
 
 
 export const reducer = (state: StateContext, action: Action) => {
@@ -35,6 +38,8 @@ export const reducer = (state: StateContext, action: Action) => {
       return { ...state, walletInfo: action.payload.walletInfo }
     case ActionType.SET_USER_WITHDRAW_ACCOUNTS:
       return { ...state, withdrawAccounts: action.payload.withdrawAccounts }
+    case ActionType.SET_NOTIFICATIONS:
+      return { ...state, notifications: action.payload.notifications }
     case ActionType.SET_USER_ACCOUNTS:
       let accounts = action.payload.accounts
       let mt4RealAccounts = (accounts.filter((item) => item.tradingPlatform === "MetaTrader4" && item.isDemo === false))

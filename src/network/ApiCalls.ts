@@ -2,7 +2,6 @@ import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
 import { AccountListNetworkResponse, AccountRequestListResponse, AccountTypesNetworkResponse, DepositHistoryNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
-import { GetCustomerNotificationInfoResponseModel, } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
 import { TransferAccountToAccountRequest } from '../types/post/TransferAccountToAccountRequest';
@@ -64,7 +63,7 @@ class ApiCalls implements IApiCalls {
   getNotificationInfo = (customerId: number,) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.notification.info + urlSuffix).then((result) => {
-      let data: GetCustomerNotificationInfoResponseModel = result.data
+      let data = result.data
       let status = result.status
       let _networkResponse = new NotificationNetworkResponse(status, data);
 
@@ -75,6 +74,22 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  getNotificationList = (customerId: number,) => {
+    let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.notification.customer + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+
+ 
   getWalletInfo = (customerId: number,) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.wallet.customer + urlSuffix).then((result) => {
@@ -100,7 +115,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
- 
+
   getUserAccountGraphData = (customerId: number) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.account.graph + urlSuffix).then((result) => {
@@ -137,7 +152,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  
+
   getUserDepositList = (customerId: number,) => {
     let urlSuffix = `/${customerId}?page=${0}&limit=${15}`
     return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-list'] + urlSuffix).then((result) => {
@@ -334,7 +349,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-  putWithdraw  = (payload: { StatusId: number }, DepositId: number) => {
+  putWithdraw = (payload: { StatusId: number }, DepositId: number) => {
     let urlSuffix = `/${DepositId}`
     return httpClient.put(this.authenticated_server_link + Endpoints.withdraw.main + urlSuffix, payload).then((result) => {
       let data = result.data

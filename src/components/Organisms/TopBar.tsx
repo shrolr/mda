@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Image,  LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Image, LayoutAnimation, Platform, UIManager, Pressable } from 'react-native';
 import { Icon } from 'native-base';
 import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
@@ -7,7 +7,7 @@ import { DrawerActions } from '@react-navigation/native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useIsDrawerOpen } from '@react-navigation/drawer'
 import { Text } from '../atom';
-
+import { AppTabs } from '../../enums';
 interface ITopBar {
 
 }
@@ -24,6 +24,10 @@ export const TopBar: React.FC<ITopBar> = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
         navigation.dispatch(DrawerActions.toggleDrawer())
+    }
+    const navigateToNotification = () => {
+
+        navigation.navigate(AppTabs.AnaSayfa, { screen: "NotificationScreen" });
     }
     return (
         <View>
@@ -44,17 +48,16 @@ export const TopBar: React.FC<ITopBar> = () => {
                 </View>
 
                 <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Image source={require("../../../assets/images/icons/logo.png")}   style={{ marginLeft: 10, height: 35, width: 100 }} />
+                    <Image source={require("../../../assets/images/icons/logo.png")} style={{ marginLeft: 10, height: 35, width: 100 }} />
                 </View>
                 <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image source={require("../../../assets/images/icons/download_orange.png")} style={{   height: 22, width: 22 }} />
+                    <Image source={require("../../../assets/images/icons/download_orange.png")} style={{ height: 22, width: 22 }} />
                 </View>
-
-                <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image source={require("../../../assets/images/icons/bell.png")}   style={{ marginLeft: 5, height: 20, width: 20 }} />
-                </View>
+                <Pressable onPress={navigateToNotification} style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
+                    <Image source={require("../../../assets/images/icons/bell.png")} style={{ marginLeft: 5, height: 20, width: 18 }} />
+                </Pressable>
                 <View style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                <Image source={require("../../../assets/images/icons/flag_uk.png")}  style={{ marginRight: 5, height: 20, width: 20 }} />
+                    <Image source={require("../../../assets/images/icons/flag_uk.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
                     <Text>EN</Text>
                 </View>
             </View>

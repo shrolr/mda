@@ -3,6 +3,7 @@ import { AccountTypesDefault, CurrenciesDefault, initialDepositDefault, leverage
 import { IUserResponse } from '../interfaces';
 import { DropDownPickerList } from '../models';
 import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
+import { CustomerNotificationInfoModel } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { WalletInfoData } from '../models/ApiModels/Wallet/WalletInfoApiModel';
 import { WithdrawAccount } from '../models/ApiModels/Withdraw/WithdrawAccountList';
 import { reducer, Action } from './reducer';
@@ -21,6 +22,7 @@ export interface StateContext {
   mt5DemoAccounts: Accounts[],
   walletInfo:WalletInfoData[],
   withdrawAccounts:WithdrawAccount[],
+  notifications?:CustomerNotificationInfoModel,
 }
 
 export interface Store {
@@ -39,7 +41,7 @@ const defaultState: StateContext = {
   mt4DemoAccounts:[],
   mt5DemoAccounts:[],
   walletInfo:[],
-  withdrawAccounts:[]
+  withdrawAccounts:[],
 
 };
 const myContext = React.createContext<Store>({ context: defaultState });

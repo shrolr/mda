@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import TransferScreen from "./Screens/TransferScreen";
 import NewTransferScreen from "./Screens/NewTransferScreen";
 import TransferHistoryScreen from "./Screens/TransferHistoryScreen";
+import NotificationScreen from "./Screens/NotificationScreen";
 
 interface HomeStackProps { }
 
@@ -26,6 +27,7 @@ export const HomeStack: React.FC<HomeStackProps> = ({ }) => {
       <Stack.Screen options={{ headerShown: false }} name="NewTransfer" component={NewTransferScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Transfer" component={TransferScreen} />
       <Stack.Screen options={{ headerShown: false }} name="TransferHistory" component={TransferHistoryScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="NotificationScreen" component={NotificationScreen} />
 
 
 

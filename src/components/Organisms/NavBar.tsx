@@ -7,7 +7,7 @@ import { Text } from '../atom';
 
 interface INavBar {
     title: string
-    ImageProp?: "wallet" | "settings" | "history" | "bank" | "analytics" | "BarChart" | "new-deposit" | "profile"
+    ImageProp?: "wallet" | "settings" | "history" | "bank" | "analytics" | "BarChart" | "new-deposit" | "profile" | "notification"
 }
 
 export const NavBar: React.FC<INavBar> = ({ ImageProp, title }) => {
@@ -31,6 +31,8 @@ export const NavBar: React.FC<INavBar> = ({ ImageProp, title }) => {
                 return require("../../../assets/images/icons/newdeposit.png")
             case "profile":
                 return require("../../../assets/images/icons/user-circle-regular.png")
+            case "notification":
+                return require("../../../assets/images/icons/bell2.png")
             default:
                 return require("../../../assets/images/icons/wallet.png")
         }

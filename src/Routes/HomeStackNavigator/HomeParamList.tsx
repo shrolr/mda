@@ -9,6 +9,7 @@ export type HomeParamList = {
   Transfer:undefined;
   NewTransfer:undefined;
   TransferHistory:undefined;
+  NotificationScreen:undefined;
 };
 
 export type HomeStackNavProps<T extends keyof HomeParamList> = {

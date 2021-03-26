@@ -2,7 +2,7 @@ import { AccountTypes, AccountTypesApiModel, DepositHistoryNetworkResponseApi, D
 import { IUserResponse } from "../../interfaces";
 import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
 import { AccountRequestList, AccountRequestListAPIModel } from "./Account/AccountRequestListApiModel";
-import { GetCustomerNotificationInfoResponseModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
+import {  CustomerNotificationInfoModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
 import { TransferListData } from "./Transfer/TransferListApiModel";
 import { WalletInfoAPIModel, WalletInfoData } from "./Wallet/WalletInfoApiModel";
 import { WithdrawAccount, WithdrawAccountsApiModel } from "./Withdraw/WithdrawAccountList";
@@ -50,12 +50,12 @@ export class LoginNetworkResponse implements ILoginNetworkResponse {
 
 interface INotificationNetworkResponse {
     status?: number;
-    data?: GetCustomerNotificationInfoResponseModel;
+    data?: CustomerNotificationInfoModel;
 }
 export class NotificationNetworkResponse implements INotificationNetworkResponse {
     status: number;
-    data: GetCustomerNotificationInfoResponseModel;
-    constructor(status:number,data:GetCustomerNotificationInfoResponseModel) {
+    data: CustomerNotificationInfoModel;
+    constructor(status:number,data:CustomerNotificationInfoModel) {
         this.status = status;
         this.data = data;
     }
