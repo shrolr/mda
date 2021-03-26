@@ -1,16 +1,21 @@
 import React from 'react'
-import { View, StatusBar, SafeAreaView } from 'react-native'
-import { NavBar } from '../../../components'
+import { View, StatusBar, SafeAreaView, FlatList, ListRenderItem } from 'react-native'
+import { NavBar, NotificationListItem } from '../../../components'
 import { Text } from '../../../components/atom'
 import { TopBar } from '../../../components/Organisms/TopBar'
 import Colors from '../../../constants/Colors'
 import { Card } from 'native-base'
 import { HomeStackNavProps } from '../HomeParamList'
+import { useStateContext } from '../../../context/state'
+import { NotificationApiModel } from '../../../models/ApiModels/Notifications/NotificationApiModel'
 
 
 export default function NotificationScreen({ navigation }: HomeStackNavProps<"NotificationScreen">) {
 
-
+    const { context } = useStateContext()
+    const _renderDepositHistory: ListRenderItem<NotificationApiModel> = ({ item, index }) => (
+        <NotificationListItem item={item} index={index} />
+    )
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
@@ -24,12 +29,15 @@ export default function NotificationScreen({ navigation }: HomeStackNavProps<"No
                 />
                 <TopBar />
                 <NavBar ImageProp="notification" title="Bildirimler" />
+                <View style={{ flex: 1 }}>
+                    <FlatList
+                        contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
+                        data={context.notifications?.notifications}
+                        renderItem={_renderDepositHistory}
+                        keyExtractor={(item) => item.id.toString()}
 
-                <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20, marginLeft: 10, marginTop: 15, marginRight: 10, borderRadius: 10, overflow: "hidden" }}>
-                    <Text>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </Text>
-                </Card>
+                    />
+                </View>
             </View>
         </SafeAreaView>
     )

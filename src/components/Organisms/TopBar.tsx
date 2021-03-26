@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { View, Image, LayoutAnimation, Platform, UIManager, Pressable } from 'react-native';
-import { Icon } from 'native-base';
+import { View, Image, LayoutAnimation, Platform, UIManager, Pressable, ImageBackground } from 'react-native';
+import { Badge, Icon } from 'native-base';
 import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
 import { DrawerActions } from '@react-navigation/native';
@@ -8,11 +8,13 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useIsDrawerOpen } from '@react-navigation/drawer'
 import { Text } from '../atom';
 import { AppTabs } from '../../enums';
+import { useStateContext } from '../../context/state';
 interface ITopBar {
 
 }
 
 export const TopBar: React.FC<ITopBar> = () => {
+    const { context } = useStateContext()
     const navigation = useNavigation();
     if (Platform.OS === 'android') {
         if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -54,7 +56,16 @@ export const TopBar: React.FC<ITopBar> = () => {
                     <Image source={require("../../../assets/images/icons/download_orange.png")} style={{ height: 22, width: 22 }} />
                 </View>
                 <Pressable onPress={navigateToNotification} style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image source={require("../../../assets/images/icons/bell.png")} style={{ marginLeft: 5, height: 20, width: 18 }} />
+                    <ImageBackground source={require("../../../assets/images/icons/bell.png")} style={{ paddingLeft: 12, paddingTop: 10, marginLeft: 5, height: 20, width: 18 }}>
+                        {
+                            context.notifications?.count && context.notifications?.count > 0 && <View>
+                                <View style={{ width: 15, height: 15, justifyContent: "center", backgroundColor: "red", borderRadius: 7.5, alignItems: "center" }}>
+                                    <Text style={{ color: "white", fontSize: 8 }}>{context.notifications?.count}</Text>
+                                </View>
+                            </View>
+                        }
+
+                    </ImageBackground>
                 </Pressable>
                 <View style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <Image source={require("../../../assets/images/icons/flag_uk.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
