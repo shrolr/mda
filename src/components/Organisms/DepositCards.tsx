@@ -2,7 +2,7 @@ import { Card } from 'native-base';
 import React from 'react'
 import { TouchableWithoutFeedback, View, Image  } from 'react-native';
 import Colors from '../../constants/Colors';
-import { DepositOptions } from '../../enums';
+import { TransferOptions } from '../../enums';
 import { Text } from '../atom';
 
 type TransferOption = "wallet" | "bank"
@@ -12,8 +12,8 @@ interface IDepositCards {
     transferFrom: TransferOption;
     transferTo: TransferOption;
     isActive: boolean;
-    onMenuItemClick: (depositOptions:DepositOptions) => void
-    id:DepositOptions;
+    onMenuItemClick: (depositOptions:TransferOptions) => void
+    id:TransferOptions;
 }
 export const DepositCards: React.FC<IDepositCards> = ({id, onMenuItemClick, transferFrom, transferTo, title, isActive }) => {
 

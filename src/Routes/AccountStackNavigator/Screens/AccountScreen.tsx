@@ -6,14 +6,19 @@ import Colors from '../../../constants/Colors';
 import { CardItem, Tab, TabHeading, Tabs } from 'native-base';
 
 import { AccountStackNavProps } from '../AccountParamList';
-import { MetaTraderTabs, MetaTraderVersion } from '../../../enums';
+import { Locales, MetaTraderTabs, MetaTraderVersion } from '../../../enums';
 import { useStateContext } from '../../../context/state';
 import ApiCalls from '../../../network/ApiCalls';
 import { NetworkResponseFail } from '../../../models';
 import { Accounts } from '../../../models/ApiModels/Account/AccountListApiModel';
 import { MetaTraderRealAccountTab } from '../../../components/Templates';
 
+
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../i18n";
 export default function AccountScreen({ navigation }: AccountStackNavProps<"Account">) {
+    const { t, i18n } = useTranslation();
+
     let { context } = useStateContext()
     const [activeTab, setactiveTab] = useState<MetaTraderTabs>(MetaTraderTabs.RealAccount)
     const [version, setVersion] = useState<MetaTraderVersion>(MetaTraderVersion.MetaTrader4)
@@ -38,10 +43,10 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
     }
 
     const _renderRealAccounts: ListRenderItem<Accounts> = ({ item }) => (
-        <MetaTraderRealAccountTab Account={item} />
+        <MetaTraderRealAccountTab t={t} Account={item} />
     )
     const _renderDemoAccounts: ListRenderItem<Accounts> = ({ item }) => (
-        <MetaTraderDemoAccountTab Account={item} />
+        <MetaTraderDemoAccountTab t={t} Account={item} />
     )
 
     return (
@@ -56,11 +61,11 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
                 />
                 <TopBar />
                 <View style={{ flex: 1 }}>
-                    <NavBar   ImageProp="bank" title="Hesaplar" />
+                    <NavBar   ImageProp="bank" title={t(Locales.Accounts + ":TITLE")} />
                     <View style={{ flex: 1 }}>
                         <View style={{ flexDirection: "row", height: 84, paddingLeft: 20, marginTop: 20,marginBottom:20, paddingRight: 20 }}>
-                            <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/wallet.png")} title="HESAPLAR" isTouchable={false} />
-                            <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../../../assets/images/icons/analytics.png")} title="GERÇEK HESAP TALEBİ" isTouchable={true} />
+                            <MenuCard shouldNavigate imageUri={require("../../../../assets/images/icons/wallet.png")} title={t(Locales.Accounts + ":TITLE")} isTouchable={false} />
+                            <MenuCard shouldNavigate onMenuItemClick={navigateToWalletInfoScreen} imageUri={require("../../../../assets/images/icons/analytics.png")} title={t(Locales.Accounts + ":ACCOUNTREQUEST")} isTouchable={true} />
                         </View>
 
                         <View style={{ paddingLeft: 30, alignItems: "center", paddingRight: 30, flexDirection: "row", backgroundColor: "#e9e9e9", height: 82 }}>
@@ -76,11 +81,11 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
 
 
                         <Tabs onChangeTab={onChangeTab} tabBarUnderlineStyle={{ backgroundColor: "#5ED5A5", height: 3, }}>
-                            <Tab heading={<TabHeading style={{ backgroundColor: "white" }}><Image source={require("../../../../assets/images/icons/user-circle-regular.png")} style={{ tintColor: activeTab === MetaTraderTabs.RealAccount ? "#5ED5A5" : "#B1B1B1", height: 16, width: 16, marginRight: 5, }} /><Text style={{ fontSize: 12, fontWeight: "bold", color: activeTab === MetaTraderTabs.RealAccount ? "#5ED5A5" : "#B1B1B1" }}> GERÇEK HESAP</Text></TabHeading>}>
+                            <Tab heading={<TabHeading style={{ backgroundColor: "white" }}><Image source={require("../../../../assets/images/icons/user-circle-regular.png")} style={{ tintColor: activeTab === MetaTraderTabs.RealAccount ? "#5ED5A5" : "#B1B1B1", height: 16, width: 16, marginRight: 5, }} /><Text style={{ fontSize: 12, fontWeight: "bold", color: activeTab === MetaTraderTabs.RealAccount ? "#5ED5A5" : "#B1B1B1" }}>{t(Locales.Accounts + ":REALACCOUNTS")}</Text></TabHeading>}>
 
 
                                 <FlatList
-                                    ListHeaderComponent={<CreateRealMetaTraderAccount version={version} />}
+                                    ListHeaderComponent={<CreateRealMetaTraderAccount t={t} version={version} />}
                                     data={version === MetaTraderVersion.MetaTrader4 ? context.mt4RealAccounts : context.mt5RealAccounts}
                                     renderItem={_renderRealAccounts}
                                     keyExtractor={(item) => item.user.toString()}
@@ -88,10 +93,10 @@ export default function AccountScreen({ navigation }: AccountStackNavProps<"Acco
                                 />
 
                             </Tab>
-                            <Tab heading={<TabHeading style={{ backgroundColor: "white" }}><Image source={require("../../../../assets/images/icons/candlestick.png")} style={{ tintColor: activeTab === MetaTraderTabs.DemoAccount ? "#5ED5A5" : "#B1B1B1", height: 16, width: 16, marginRight: 5, }} /><Text style={{ fontSize: 12, fontWeight: "bold", color: activeTab === MetaTraderTabs.DemoAccount ? "#5ED5A5" : "#B1B1B1" }}>DEMO HESAP</Text></TabHeading>}>
+                            <Tab heading={<TabHeading style={{ backgroundColor: "white" }}><Image source={require("../../../../assets/images/icons/candlestick.png")} style={{ tintColor: activeTab === MetaTraderTabs.DemoAccount ? "#5ED5A5" : "#B1B1B1", height: 16, width: 16, marginRight: 5, }} /><Text style={{ fontSize: 12, fontWeight: "bold", color: activeTab === MetaTraderTabs.DemoAccount ? "#5ED5A5" : "#B1B1B1" }}>{t(Locales.Accounts + ":DEMOACCOUNTS")}</Text></TabHeading>}>
 
                                 <FlatList
-                                    ListHeaderComponent={<CreateDemoMetaTraderAccount version={version} />}
+                                    ListHeaderComponent={<CreateDemoMetaTraderAccount t={t} version={version} />}
                                     data={version === MetaTraderVersion.MetaTrader4 ? context.mt4DemoAccounts : context.mt5DemoAccounts}
                                     renderItem={_renderDemoAccounts}
                                     keyExtractor={(item) => item.user.toString()}

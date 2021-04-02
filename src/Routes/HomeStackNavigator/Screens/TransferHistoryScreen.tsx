@@ -7,10 +7,14 @@ import ApiCalls from '../../../network/ApiCalls'
 import { TransferList, TransferListNetworkResponse } from '../../../models'
 import { useStateContext } from '../../../context/state'
 import { HomeStackNavProps } from '../HomeParamList'
+import { useTranslation } from 'react-i18next'
+import { Locales } from '../../../enums'
 
 
 export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<"TransferHistory">) {
     const { context } = useStateContext()
+    const { t } = useTranslation();
+
     const [deposits, setdeposits] = useState<TransferList[]>()
     useEffect(() => {
         ApiCalls.getTransferList(context.user!.customerAccountInfo.customerId).then((response) => {
@@ -34,7 +38,7 @@ export default function TransferHistoryScreen({ navigation }: HomeStackNavProps<
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar   ImageProp="history" title="Transfer Geçmişi" />
+                <NavBar   ImageProp="history" title={t(Locales.Transfer + ":TRANSFERHISTORY")} />
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

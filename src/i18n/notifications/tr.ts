@@ -1,8 +1,4 @@
 const NotificationLocaleTr = {
-	AnaSayfa:"Ana Sayfa",
-	Hesaplarim:"Hesaplarım",
-	ParaYatirma:"Para Yatırma",
-	ParaCekme:"Para Çekme",
 	SITETITLE: '{{name}} | Bildirimler',
 	TITLE: 'Bildirimler',
 	LOADING: 'Yükleniyor',

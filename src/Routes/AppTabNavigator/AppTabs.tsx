@@ -11,9 +11,10 @@ import { SideBar } from "../../components";
 import { DepositStack } from "../DepositStackNavigator/DepositStack";
 import { WithdrawStack } from "../WithdrawStackNavigator/WithdrawStack";
 import { RouteProp } from "@react-navigation/native";
-import i18n from 'i18n-js';
-
-
+ 
+import { useTranslation } from 'react-i18next';
+import i18n from "../../i18n";
+const initI18n = i18n;
 
 type DraverParamList = {
   Home: undefined;
@@ -28,6 +29,8 @@ type IconTypes = "Entypo" | "AntDesign" | "EvilIcons" | "Feather" | "FontAwesome
 
 
 const AppTabNavigator = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
@@ -52,7 +55,7 @@ const AppTabNavigator = () => {
 
         },
         header: null,
-        tabBarLabel:i18n.t(route.name),
+        tabBarLabel:i18n.t("Tabs:"+route.name),
       })}
 
       tabBarOptions={{

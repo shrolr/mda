@@ -10,7 +10,12 @@ import { DepositHistoryNetworkResponse,   DepositHistory  } from '../../../model
 import { useStateContext } from '../../../context/state'
 
 
-export default function DepositHistoryScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../i18n";
+import { Locales } from '../../../enums'
+ export default function DepositHistoryScreen({ navigation }: DepositsStackNavProps<"DepositsHistory">) {
+    const { t, i18n } = useTranslation();
+
     const { context } = useStateContext()
     const [deposits, setdeposits] = useState<DepositHistory[]>()
     useEffect(() => {
@@ -22,7 +27,7 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
         })
     }, [])
     const _renderDepositHistory: ListRenderItem<DepositHistory> = ({ item, index }) => (
-        <DepositsHistoryListItem item={item} index={index} />
+        <DepositsHistoryListItem t={t} item={item} index={index} />
     )
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
@@ -35,7 +40,7 @@ export default function DepositHistoryScreen({ navigation }: DepositsStackNavPro
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar  ImageProp="history" title="Yatırım Geçmişi" />
+                <NavBar  ImageProp="history" title={t(Locales.Deposits + ":DEPOSITHISTORY")}/>
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

@@ -1,4 +1,4 @@
-import { Button, Card,  Input, Item, Spinner, Toast } from 'native-base';
+import { Button, Card, Input, Item, Spinner, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native';
 import Colors from '../../constants/Colors';
@@ -7,20 +7,24 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useStateContext } from '../../context/state';
 import { DropDownPickerList, NetworkResponse } from '../../models';
 import { TransferAccountToWalletRequest } from '../../types/post/TransferAccountToWalletRequest';
-import { TransferTypeEnum } from '../../enums';
+import { Locales, TransferTypeEnum } from '../../enums';
 import ApiCalls from '../../network/ApiCalls';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { HomeParamList } from '../../Routes/HomeStackNavigator/HomeParamList';
+import { validateMoneyInput } from '../../utilities/functions';
+import { TFunction } from 'react-i18next';
 
 interface IAccountToWalletTransfer {
     navigation: StackNavigationProp<HomeParamList, "NewTransfer">
+    t: TFunction<"translation">
+
 }
 // TO DO IMPORTANT when drop down menu appears list ıtems zIndex are behind to buttons zIndex
 // Some item from list item will not appear on the screen
 // use dropdown menu list ref to give margin when its open
 const throttle = require('lodash.throttle');
 
-export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ navigation }) => {
+export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ t, navigation }) => {
     const [accounts, setaccounts] = useState<DropDownPickerList[]>([])
     const { context } = useStateContext()
     const [progressing, setprogressing] = useState(false)
@@ -57,62 +61,66 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ na
     }
 
     const TransferRequest = () => {
+        if (sourceAccount === undefined) {
+            Toast.show({ text: t(Locales.Transfer + ":ACCOUNTINPUTERROR"), type: "success", duration: 3000 })
+            return
+        }
+        if (currency === "") {
+            Toast.show({ text: t(Locales.Transfer + ":CURRENCYINPUTERROR"), type: "success", duration: 3000 })
+            return
+        }
+        if (amount === undefined) {
+            Toast.show({ text: t(Locales.Transfer + ":AMOUNTINPUTERROR"), type: "success", duration: 3000 })
+            return
+        }
+        setprogressing(true)
 
-        if (sourceAccount && amount && currency !== "") {
+        let transferAccountToAccountRequest: TransferAccountToWalletRequest = {
+            sourceAccountId: sourceAccount,
+            targetAccountId: null,
+            currency: currency,
+            typeId: TransferTypeEnum.AccountToWallet,
+            amount: amount,
+            customerId: context.user!.customerAccountInfo.customerId,
+        }
+        ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
+            if (response instanceof NetworkResponse) {
+                Toast.show({ text: t(Locales.Toast + ":POSTTRANSFERSUCCESS"), type: "success", duration: 3000 })
+                navigation.navigate("TransferHistory")
+                setprogressing(false)
 
-            let transferAccountToAccountRequest: TransferAccountToWalletRequest = {
-                sourceAccountId: sourceAccount,
-                targetAccountId: null,
-                currency: currency,
-                typeId: TransferTypeEnum.AccountToWallet,
-                amount: amount,
-                customerId: context.user!.customerAccountInfo.customerId,
             }
-            ApiCalls.postTransfer(transferAccountToAccountRequest).then((response) => {
-                if (response instanceof NetworkResponse) {
-                    Toast.show({ text: "Başarılı yönlendiriliyor", type: "success", duration: 3000 })
-                    navigation.replace("TransferHistory")
+            else {
+                 Toast.show({ text: t(Locales.Toast + ":POSTTRANSFERFAILED"), type: "danger", duration: 3000 })
+                setprogressing(false)
+            }
 
-                }
-                else {
-                    Toast.show({ text: "fail", type: "danger" })
-                    setprogressing(false)
-                }
+        })
 
-            })
-        }
-        else {
-            // show error
-            Toast.show({ text: "error", type: "warning" })
-            setprogressing(false)
-
-        }
 
     }
     let transferRequest = throttle(TransferRequest, 2000)
     const onTransferRequest = () => {
-        setprogressing(true)
         transferRequest()
     }
 
     const onAmountChange = ((amount: string) => {
-        try {
+        if (amount === "") {
+            setamount(undefined)
+        }
+        if (validateMoneyInput(amount)) {
             setamount(parseInt(amount))
-        } catch (error) {
-            // show warning amount must be number
-            Toast.show({ text: "amount must be number", type: "warning" })
-
         }
     })
     return (
         <View style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, backgroundColor: Colors.common.transferCardBg }}>
             <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>Hesaptan Cüzdana Transfer</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 12, textAlign: "center" }}>{t(Locales.Transfer + ":ACCOUNTTOWALLET")}</Text>
                 <View style={{ height: 3, backgroundColor: Colors.common.contentDivider, marginTop: 20, marginBottom: 20 }} />
 
                 <DropDownPicker
                     items={accounts}
-                    placeholder="Kaynak Hesap"
+                    placeholder={t(Locales.Transfer + ":ACCOUNT")}
                     onChangeItem={onChangeSourceAccounts}
 
                     containerStyle={{ height: 40 }}
@@ -127,7 +135,7 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ na
                     onChangeItem={onChangeCurrency}
 
                     items={context.CurrenciesDefault}
-                    placeholder="Para Birimi"
+                    placeholder={t(Locales.Transfer + ":CURRENCY")}
                     containerStyle={{ height: 40 }}
                     style={{ backgroundColor: '#fafafa' }}
                     itemStyle={{
@@ -137,13 +145,13 @@ export const AccountToWalletTransfer: React.FC<IAccountToWalletTransfer> = ({ na
                 />
 
                 <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                    <Input onChangeText={onAmountChange} keyboardType="numeric" placeholder='Miktar *' />
-                    <Image source={require("../../../assets/images/icons/presentation.png")}   style={{ marginRight: 20, height: 13, width: 13 }} />
+                    <Input value={amount ? amount.toString() : ""} onChangeText={onAmountChange} keyboardType="numeric" placeholder={t(Locales.Transfer + ":AMOUNT")} />
+                    <Image source={require("../../../assets/images/icons/presentation.png")} style={{ marginRight: 20, height: 13, width: 13 }} />
 
                 </Item>
                 {
                     progressing ? <Spinner /> : <Button onPress={onTransferRequest} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
-                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>TRANSFER ET</Text>
+                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Transfer + ":TRANSFER")}</Text>
 
                     </Button>
                 }

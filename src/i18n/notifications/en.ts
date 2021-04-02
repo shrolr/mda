@@ -1,8 +1,4 @@
 const NotificationLocaleEn = {
-	AnaSayfa:"Home",
-	Hesaplarim:"Accounts",
-	ParaYatirma:"Deposits",
-	ParaCekme:"Withdraws",
 	SITETITLE: '{{name}} | Notifications',
 	TITLE: 'Notifications',
 	LOADING: 'Loading',

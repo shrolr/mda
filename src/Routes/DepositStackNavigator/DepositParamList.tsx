@@ -5,6 +5,7 @@ export type DepositsParamList = {
   Deposits: undefined;
   DepositsHistory:undefined;
   NewDeposit:undefined;
+  NewDepositBankAccount:undefined;
 };
 
 export type DepositsStackNavProps<T extends keyof DepositsParamList> = {

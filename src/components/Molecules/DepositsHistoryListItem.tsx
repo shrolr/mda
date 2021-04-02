@@ -1,7 +1,9 @@
+import { Toast } from 'native-base';
 import React, { useState } from 'react'
+import { TFunction } from 'react-i18next';
 import { View, Image, Pressable, Alert } from 'react-native';
 import Colors from '../../constants/Colors';
-import { DepositStatusEnum } from '../../enums';
+import { DepositStatusEnum, Locales } from '../../enums';
 import { DepositHistory, NetworkResponse } from '../../models';
 import ApiCalls from '../../network/ApiCalls';
 import { convertUTCDateToLocalDate } from '../../utilities/functions';
@@ -10,26 +12,28 @@ import { Text } from '../atom';
 interface IDepositsHistoryListItem {
     index: number;
     item: DepositHistory;
+    t: TFunction<"translation">
 }
 // TO DO FİX dates
 
-export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ index, item }) => {
+export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ t, index, item }) => {
     const [shouldRefresh, setshouldRefresh] = useState(false)
 
     var localDate = convertUTCDateToLocalDate(new Date(item.createdDate))
     const cancelRequest = () => {
-        Alert.alert(
-            "Cancel Request",
-            "Are you sure to cancel",
-            [
-                {
-                    text: "İşlemi iptal Et",
-                    onPress: () => onConfirmCancelRequest(),
-                    style: "destructive"
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") }
-            ]
-        )
+        onConfirmCancelRequest()
+        // Alert.alert(
+        //     "Cancel Request",
+        //     "Are you sure to cancel",
+        //     [
+        //         {
+        //             text: "İşlemi iptal Et",
+        //             onPress: () => onConfirmCancelRequest(),
+        //             style: "destructive"
+        //         },
+        //         { text: "OK", onPress: () => console.log("OK Pressed") }
+        //     ]
+        // )
     }
     console.log(item.status)
     const onConfirmCancelRequest = () => {
@@ -37,10 +41,16 @@ export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ in
             if (response instanceof NetworkResponse) {
                 item.status = "Cancelled"
                 setshouldRefresh(!shouldRefresh)
+                Toast.show({ text: t(Locales.Toast + ":PUTDEPOSITSUCCESS"), buttonText: 'Ok', type: "success", })
+
+            }
+            else{
+                Toast.show({ text: t(Locales.Toast + ":PUTDEPOSITFAILED"), buttonText: 'Ok', type: "success", })
+
             }
         })
 
-       
+
 
     }
     return (
@@ -60,17 +70,19 @@ export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ in
                 <Text style={{ fontSize: 8, textAlign: "center", marginTop: 5 }}>{localDate.date}{"\n"}{localDate.time}</Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, }}>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>{item.type}</Text>
-                <Text style={{ fontSize: 7, color: Colors.common.gray }}>{item.status}</Text>
-                <Text style={{ marginTop: 5, fontSize: 8, color: Colors.common.gray }}>Cevap Yorumu: {item.responseComment}</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 12 }}>{t(Locales.Deposits + ":" + item.type.toUpperCase())}</Text>
+                <Text style={{ fontSize: 7, color: Colors.common.gray }}>{t(Locales.Deposits + ":" + item.status.toUpperCase())}</Text>
+                {
+                    item.responseComment && <Text style={{ marginTop: 5, fontSize: 8, color: Colors.common.gray }}>{t(Locales.Deposits + ":RESPONSECOMMENT")} : {item.responseComment}</Text>
+                }
                 <Text style={{ fontSize: 8, marginTop: 5 }}>{localDate.date}{" "}{localDate.time}</Text>
 
             </View>
             <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
                 <Text style={{ marginRight: 10, fontSize: 12, color: Colors.common.orangered, fontWeight: "bold", }}>+ {item.amount} $</Text>
-                 {
+                {
                     item.status === "Pending" ?
-                        <Pressable onPress={cancelRequest}>
+                        <Pressable style={{ padding:5}} onPress={cancelRequest}>
                             <Image source={require("../../../assets/images/icons/cancel.png")} style={{ tintColor: Colors.common.cancelGray, height: 15, width: 15 }} />
                         </Pressable> : null
                 }

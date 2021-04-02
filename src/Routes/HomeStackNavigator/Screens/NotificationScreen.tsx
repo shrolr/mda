@@ -9,9 +9,15 @@ import { HomeStackNavProps } from '../HomeParamList'
 import { useStateContext } from '../../../context/state'
 import { NotificationApiModel } from '../../../models/ApiModels/Notifications/NotificationApiModel'
 
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../i18n";
+
 
 export default function NotificationScreen({ navigation }: HomeStackNavProps<"NotificationScreen">) {
 
+
+    const { t, i18n } = useTranslation();
+   
     const { context } = useStateContext()
     const _renderDepositHistory: ListRenderItem<NotificationApiModel> = ({ item, index }) => (
         <NotificationListItem item={item} index={index} />
@@ -28,7 +34,7 @@ export default function NotificationScreen({ navigation }: HomeStackNavProps<"No
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar ImageProp="notification" title="Bildirimler" />
+                <NavBar ImageProp="notification" title={t("Notification:TITLE")} />
                 <View style={{ flex: 1 }}>
                     <FlatList
                         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}

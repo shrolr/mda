@@ -5,12 +5,16 @@ import Colors from '../../constants/Colors';
 import Clipboard from 'expo-clipboard';
 import { Text } from '../atom';
 import { Accounts } from '../../models/ApiModels/Account/AccountListApiModel';
+import { TFunction } from 'react-i18next';
+import { Locales } from '../../enums/Locales';
 
 interface IMetaTraderDemoAccountTab {
-    Account:Accounts
+    Account:Accounts,
+    t: TFunction<"translation">
+
 }
 
-export const MetaTraderDemoAccountTab: React.FC<IMetaTraderDemoAccountTab> = ({Account}) => {
+export const MetaTraderDemoAccountTab: React.FC<IMetaTraderDemoAccountTab> = ({t,Account}) => {
     const [visible, setvisible] = useState(false)
      const showAccountInfo = () => {
         setvisible(true)
@@ -20,14 +24,14 @@ export const MetaTraderDemoAccountTab: React.FC<IMetaTraderDemoAccountTab> = ({A
     }
     const copyToClipboard = (string: string) => {
         Clipboard.setString(string);
-        Toast.show({text: 'Kopyalandı',buttonText: 'Ok',type:"success",})
+        Toast.show({text:t(Locales.Accounts + ":COPY"),buttonText: 'Ok',type:"success",})
     }; 
     const renderAccountInfo = () => {
         if (visible) {
             return (
                 <>
                     <Button onPress={hideAccountInfo} style={{ height: 50, marginLeft: 20, marginRight: 20, marginTop: 20, marginBottom: 0, backgroundColor: Colors.common.buttonMistyRose }} full>
-                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>Hesap Bilgilerini Gizle</Text>
+                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Accounts + ":HIDEACCOUNTDETAILS")}</Text>
                         <View style={{ position: "absolute", right: 20 }}>
                             <Icon style={{ color: Colors.common.orangered }} name="chevron-with-circle-down" type="Entypo" />
                         </View>
@@ -35,14 +39,14 @@ export const MetaTraderDemoAccountTab: React.FC<IMetaTraderDemoAccountTab> = ({A
                     <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, }}>
                         <TouchableOpacity onPress={() => copyToClipboard(Account.user.toString())} style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
                             <View style={{ flex: 1 }}>
-                                <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.gray }}>Kullanıcı Adı</Text>
+                                <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.gray }}>{t(Locales.Accounts + ":USERNAME")}</Text>
                                 <Text style={{ flex: 1, fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.user}</Text>
                             </View>
                             <Icon style={{ color: Colors.common.walletHeader }} name="copy1" type="AntDesign" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => copyToClipboard(Account.password)} style={{ flex: 1, marginTop: 10, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
                             <View style={{ flex: 1 }}>
-                                <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.gray }}>Şifre</Text>
+                                <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.gray }}>{t(Locales.Accounts + ":PASSWORD")}</Text>
                                 <Text style={{ flex: 1, fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.password}</Text>
                             </View>
                             <Icon style={{ color: Colors.common.walletHeader }} name="copy1" type="AntDesign" />
@@ -52,7 +56,7 @@ export const MetaTraderDemoAccountTab: React.FC<IMetaTraderDemoAccountTab> = ({A
 
                 </>
             )
-        }
+        }  
     }
     const renderAccountCard = () => {
         if (!visible) {
@@ -61,20 +65,20 @@ export const MetaTraderDemoAccountTab: React.FC<IMetaTraderDemoAccountTab> = ({A
 
                     <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, }}>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#fff", alignItems: "center", flexDirection: "row" }}>
-                            <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Tipi</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>Standart</Text>
+                            <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>{t(Locales.Accounts + ":TYPE")}</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.type}</Text>
                         </View>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
-                            <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Kaldıraç</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>1:100</Text>
+                            <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>{t(Locales.Accounts + ":LEVERAGE")}</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.leverage}</Text>
                         </View>
                         <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#fff", alignItems: "center", flexDirection: "row" }}>
-                            <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>Para Birimi</Text>
-                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>USD</Text>
+                            <Text style={{ fontSize: 13, fontWeight: "bold", color: Colors.common.black }}>{t(Locales.Accounts + ":CURRENCY")}</Text>
+                            <Text style={{ flex: 1, textAlign: "right", fontSize: 13, color: Colors.common.black, fontWeight: "bold", }}>{Account.currency}</Text>
                         </View>
                     </View>
                     <Button onPress={showAccountInfo} style={{ height: 50, marginLeft: 20, marginRight: 20, marginTop: 10, marginBottom: 20, backgroundColor: Colors.common.buttonMistyRose }} full>
-                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>Hesap Bilgilerini Göster</Text>
+                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Accounts + ":SHOWACCOUNTDETAILS")}</Text>
                         <View style={{ position: "absolute", right: 20 }}>
                             <Icon style={{ color: Colors.common.orangered }} name="chevron-with-circle-up" type="Entypo" />
                         </View>

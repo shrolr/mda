@@ -8,9 +8,12 @@ import { useStateContext } from '../../../context/state'
 import ApiCalls from '../../../network/ApiCalls'
 import { WithdrawHistoryNetworkResponse } from '../../../models'
 import { WithdrawHistory } from '../../../models/ApiModels/Withdraw/WithdrawHistory'
+import { useTranslation } from 'react-i18next'
+import { Locales } from '../../../enums'
 
 
 export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavProps<"WithdrawHistory">) {
+    const { t } = useTranslation();
 
     const { context } = useStateContext()
     const [withdraws, setwithdraws] = useState<WithdrawHistory[]>()
@@ -28,7 +31,6 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
-
                 <StatusBar
                     animated={true}
                     backgroundColor={Colors.common.statusBarColor}
@@ -36,14 +38,13 @@ export default function WithdrawHistoryScreen({ navigation }: WithdrawStackNavPr
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar  ImageProp="history" title="Çekimler" />
+                <NavBar  ImageProp="history" title={t(Locales.Withdraw + ":WITHDRAWHISTORY")}  />
                 <View style={{ flex: 1 }}>
                     <FlatList
                         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
                         data={withdraws}
                         renderItem={_renderDepositHistory}
                         keyExtractor={(item) => item.id.toString()}
-
                     />
                 </View>
             </View>

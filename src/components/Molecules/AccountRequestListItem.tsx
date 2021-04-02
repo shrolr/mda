@@ -1,8 +1,10 @@
+import { Toast } from 'native-base';
 import React, { useState } from 'react'
+import { TFunction } from 'react-i18next';
 import { View, Image, Pressable } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useStateContext } from '../../context/state';
-import { AccountRequestStatusEnum } from '../../enums';
+import { AccountRequestStatusEnum, Locales } from '../../enums';
 import { NetworkResponse } from '../../models';
 import { AccountRequestList } from '../../models/ApiModels/Account/AccountRequestListApiModel';
 import ApiCalls from '../../network/ApiCalls';
@@ -12,11 +14,14 @@ import { Text } from '../atom';
 
 interface IAccountRequestListItem {
     index: number;
-    item: AccountRequestList
+    item: AccountRequestList;
+    t:TFunction<"translation">;
+    fetchUserAccountRequests:() => void;
 }
-
+ 
 // TO DO handle cancel request ,
-export const AccountRequestListItem: React.FC<IAccountRequestListItem> = ({ index, item }) => {
+export const AccountRequestListItem: React.FC<IAccountRequestListItem> = ({fetchUserAccountRequests,t, index, item }) => {
+ 
     var localDate = convertUTCDateToLocalDate(new Date(item.createdDate))
     var updatedDateLocal = convertUTCDateToLocalDate(new Date(item.updatedDate || item.createdDate))
 
@@ -32,12 +37,12 @@ export const AccountRequestListItem: React.FC<IAccountRequestListItem> = ({ inde
                     // to do show toast
                     item.status = AccountRequestStatusEnum[AccountRequestStatusEnum.Cancelled]
                     setUpdateView(!updateView)
-                    console.log("status suc", putAccountRequest)
+                    fetchUserAccountRequests()
+                    Toast.show({ text: t(Locales.Toast + ":PUTACCOUNTREQUESTSUCCESS"), buttonText: 'Ok', type: "success", })
                 }
                 else {
-                    // show error
+                    Toast.show({ text: t(Locales.Toast + ":PUTACCOUNTREQUESTFAILED"), buttonText: 'Ok', type: "success", })
 
-                    console.log("error")
                 }
             })
         }
@@ -54,8 +59,8 @@ export const AccountRequestListItem: React.FC<IAccountRequestListItem> = ({ inde
                 <Text style={{ fontSize: 8, textAlign: "center", marginTop: 5 }}>{localDate.date}{"\n"}{localDate.time}</Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, }}>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>Acc req</Text>
-                <Text style={{ fontSize: 9, color: Colors.common.gray }}>{item.status}</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 12 }}>{t(Locales.Accounts + ":ACCOUNTREQUESTTEXT")}</Text>
+                <Text style={{ fontSize: 9, color: Colors.common.gray }}>{t(Locales.Accounts + ":" + item.status.toUpperCase())}</Text>
                 <Text style={{ fontSize: 8, marginTop: 5, marginBottom: 5, }}>{updatedDateLocal.date}{"  "}{updatedDateLocal.time}</Text>
 
             </View>

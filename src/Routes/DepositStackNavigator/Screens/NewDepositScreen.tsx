@@ -7,7 +7,11 @@ import Colors from '../../../constants/Colors'
 import { DepositsStackNavProps } from '../DepositParamList'
 
 
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../i18n";
+import { Locales } from '../../../enums'
 export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"NewDeposit">) {
+    const { t, i18n } = useTranslation();
 
 
     return (
@@ -21,11 +25,11 @@ export default function NewDepositScreen({ navigation }: DepositsStackNavProps<"
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar  ImageProp="new-deposit" title="Yeni Para Yatırma" />
+                <NavBar  ImageProp="new-deposit" title={t(Locales.Deposits + ":CREATEDEPOSIT")} />
 
                 <ScrollView style={{ flex: 1 }}>
 
-                    <DepositFromBank navigation={navigation} />
+                    <DepositFromBank t={t} navigation={navigation} />
 
                 </ScrollView>
             </View>

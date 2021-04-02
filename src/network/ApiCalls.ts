@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Endpoints from '../constants/Endpoints';
 import { IUserResponse } from '../interfaces';
-import { AccountListNetworkResponse, AccountRequestListResponse, AccountTypesNetworkResponse, DepositHistoryNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
+import { AccountListNetworkResponse, AccountRequestListResponse, AccountTypesNetworkResponse, DepositAccountsNetworkResponsel, DepositHistoryNetworkResponse, LoginNetworkResponse, NetworkResponse, NetworkResponseFail, NotificationNetworkResponse, SystemDepositAccountsNetworkResponsel, TransferListNetworkResponse, WalletInfoNetworkResponse, WithdrawAccountsNetworkResponsel, WithdrawHistoryNetworkResponse } from '../models';
 import { LoginRequest } from '../types/post/LoginRequest';
 import { NewAccountRequest } from '../types/post/NewAccountRequest';
 import { TransferAccountToAccountRequest } from '../types/post/TransferAccountToAccountRequest';
@@ -10,11 +10,12 @@ import { TransferAccountToWalletRequest } from '../types/post/TransferAccountToW
 import { TransferWalletToAccountRequest } from '../types/post/TransferWalletToAccountRequest';
 import { MetatraderAccountChangePassword } from '../types/post/MetatraderAccountChangePassword';
 import { UpdateAccountInformation } from '../types/post/UpdateAccountInformation';
-import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
+import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerDepositAccountRequestModel';
 import { PostWithdrawRequestModel } from '../types/post/PostWithdrawRequestModel';
 import { PersonalInfoUpdateRequest } from '../types/post/PersonalInfoUpdateRequest';
 import { PutAccountRequest } from '../types/post/PutAccountRequest';
-import { PostAccountRequest } from '../types/post';
+import { PostAccountRequest, PostDepositRequestModel } from '../types/post';
+import { PostCustomerDepositAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
 const httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
@@ -89,7 +90,7 @@ class ApiCalls implements IApiCalls {
     })
   }
 
- 
+
   getWalletInfo = (customerId: number,) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.wallet.customer + urlSuffix).then((result) => {
@@ -177,6 +178,30 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  getDepositAccounts = () => {
+    return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-account'] ).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new SystemDepositAccountsNetworkResponsel(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+  getUserDepositAccounts = (customerId: number,) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.get(this.authenticated_server_link + Endpoints.deposit['customer-deposit-account-customer'] + urlSuffix).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new DepositAccountsNetworkResponsel(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+
   getCustomerAccountRequests = (customerId: number) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.account['request-customer'] + urlSuffix).then((result) => {
@@ -250,7 +275,19 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-
+  postUserDepositAccount = (payload: PostCustomerDepositAccountRequestModel) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.deposit['customer-deposit-account'], payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+	 
   updateAccountPassword = (payload: MetatraderAccountChangePassword) => {
     return httpClient.put(this.authenticated_server_link + Endpoints.account['change-password'], payload).then((result) => {
       let data = result.data
@@ -302,6 +339,19 @@ class ApiCalls implements IApiCalls {
     })
   }
 
+  postDeposit = (payload: PostDepositRequestModel) => {
+    return httpClient.post(this.authenticated_server_link + Endpoints.deposit.main, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+
+      return networkResponse;
+    })
+
+  }
   postAccount = (payload: NewAccountRequest) => {
     return httpClient.post(this.authenticated_server_link + Endpoints.account.main, payload).then((result) => {
       let data = result.data

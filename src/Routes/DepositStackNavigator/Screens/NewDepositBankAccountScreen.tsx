@@ -1,22 +1,30 @@
+import { Button, Input, Item, Text, Toast } from 'native-base'
 import React, { useState } from 'react'
 import { View, StatusBar, SafeAreaView, Image, ScrollView } from 'react-native'
-import { MenuCard, NavBar } from '../components'
-import { Text } from '../components/atom'
-import { TopBar } from '../components/Organisms/TopBar'
-import Colors from '../constants/Colors'
-import { Button, Card, Input, Item, Spinner } from 'native-base'
-import { WithdrawStackNavProps } from '../Routes/WithdrawStackNavigator/WithdrawParamList'
-import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel'
 import DropDownPicker from 'react-native-dropdown-picker'
-import { DropDownPickerList, NetworkResponseFail } from '../models'
-import { useStateContext } from '../context/state'
-import ApiCalls from '../network/ApiCalls'
+import { NavBar } from '../../../components'
+import { TopBar } from '../../../components/Organisms/TopBar'
+import Colors from '../../../constants/Colors'
+import { useStateContext } from '../../../context/state'
+import { Locales } from '../../../enums'
+import { DepositAccountsNetworkResponsel, DropDownPickerList, NetworkResponseFail } from '../../../models'
+import ApiCalls from '../../../network/ApiCalls'
+import { PostCustomerWithdrawAccountRequestModel } from '../../../types/post/PostCustomerDepositAccountRequestModel'
+import { DepositsStackNavProps } from '../DepositParamList'
 
+
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../i18n";
+import { PostCustomerDepositAccountRequestModel } from '../../../types/post/PostCustomerWithdrawAccountRequestModel'
+import { ActionType } from '../../../context/reducer'
 // to do handle network response show taost 
+const throttle = require('lodash.throttle');
 
-export default function AddNewBankAccountScreen({ navigation }: WithdrawStackNavProps<"AddNewBankAccountScreen">) {
+export default function NewDepositBankAccountScreen({ navigation }: DepositsStackNavProps<"NewDepositBankAccount">) {
+    const { t } = useTranslation();
+
     const [currency, setCurrency] = useState("")
-    const { context } = useStateContext()
+    const { context ,dispatch} = useStateContext()
     const [isloading, setisloading] = useState(false)
     const [accountName, setaccountName] = useState("")
     const [accountNumber, setaccountNumber] = useState("")
@@ -26,22 +34,69 @@ export default function AddNewBankAccountScreen({ navigation }: WithdrawStackNav
     const [adress, setadress] = useState("")
     const [details, setDetails] = useState("")
     const [label, setlabel] = useState("")
-    const addNewBankAccount = () => {
+    const addNewBankAccountThrottleFunction = () => {
+        if (accountName === "") {
+            Toast.show({ text: t(Locales.Toast + ":ACCOUNTNAMEINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (accountNumber === "") {
+            Toast.show({ text: t(Locales.Toast + ":ACCOUNTNUMBERINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (bankName === "") {
+            Toast.show({ text: t(Locales.Toast + ":BANKNAMEINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (label === "") {
+            Toast.show({ text: t(Locales.Toast + ":LABELINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (iban === "") {
+            Toast.show({ text: t(Locales.Toast + ":IBANINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (swift === "") {
+            Toast.show({ text: t(Locales.Toast + ":SWIFTINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (currency === "") {
+            Toast.show({ text: t(Locales.Toast + ":CURRENCYINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
+        if (currency === "") {
+            Toast.show({ text: t(Locales.Toast + ":CURRENCYINPUTERROR"), buttonText: 'Ok', type: "warning", })
+            return
+        }
         setisloading(true)
-        let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel =
+        let UserWithdrawAccount: PostCustomerDepositAccountRequestModel =
         {
             AccountName: accountName, Address: adress, AccountNumber: accountNumber,
             BankName: bankName, CustomerId: context.user!.customerAccountInfo.customerId, Details: details,
             Iban: iban, Swift: swift,
-            Currency: currency, Label: label, TypeId: 2
+            Currency: currency, Label: label, TypeId: 1
         }
-        ApiCalls.postUserWithdrawAccount(UserWithdrawAccount).then((response) => {
+        ApiCalls.postUserDepositAccount(UserWithdrawAccount).then((response) => {
             setisloading(false)
-            if(response instanceof NetworkResponseFail){
-                // show error
+            if (response instanceof NetworkResponseFail) {
+                Toast.show({ text: t(Locales.Toast + ":POSTUSERDEPOSITACCOUNTFAILED"), buttonText: 'Ok', type: "danger", })
             }
             else {
-                // success show alert clear inputs and go back
+                Toast.show({ text: t(Locales.Toast + ":POSTUSERDEPOSITACCOUNTSUCCESS"), buttonText: 'Ok', type: "success", })
+                updateAccounts()
+
+            }
+        })
+    }
+    let addNewBankAccount = throttle(addNewBankAccountThrottleFunction, 2000)
+
+    const updateAccounts = () =>{
+        ApiCalls.getUserDepositAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
+            if (response instanceof DepositAccountsNetworkResponsel) {
+
+                let depositAccounts = response.data;
+                dispatch!({ type: ActionType.SET_USER_DEPOSIT_ACCOUNTS, payload: { depositAccounts } })
+                navigation.goBack()
+
             }
         })
     }
@@ -83,29 +138,29 @@ export default function AddNewBankAccountScreen({ navigation }: WithdrawStackNav
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar  ImageProp="new-deposit"   title="Banka Hesabı Ekle" />
+                <NavBar ImageProp="new-deposit" title={t(Locales.Deposits + ":ADDUSERDEPOSITACCOUNT")} />
                 <ScrollView style={{ paddingHorizontal: 20, }}>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onAccountNameChange} placeholder='AccountName *' />
+                        <Input onChangeText={onAccountNameChange} placeholder={t(Locales.Deposits + ":ACCOUNTNAME")} />
                     </Item>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onAccountNumberChange} placeholder='AccountNumber *' />
+                        <Input onChangeText={onAccountNumberChange} placeholder={t(Locales.Deposits + ":ACCOUNTNUMBER")} />
                     </Item>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onBankNameChange} placeholder='BankName *' />
+                        <Input onChangeText={onBankNameChange} placeholder={t(Locales.Deposits + ":BANKNAME")} />
                     </Item>
 
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onIbanChange} placeholder='Iban *' />
+                        <Input onChangeText={onIbanChange} placeholder={t(Locales.Deposits + ":IBAN")} />
                     </Item>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onSwiftChange} placeholder='Swift *' />
+                        <Input onChangeText={onSwiftChange} placeholder={t(Locales.Deposits + ":SWIFT")} />
                     </Item>
                     <View style={{ marginTop: 20 }}>
                         <DropDownPicker
                             onChangeItem={onChangeCurrency}
                             items={context.CurrenciesDefault}
-                            placeholder="Para Birimi"
+                            placeholder={t(Locales.Deposits + ":CURRENCY")}
                             containerStyle={{ height: 40 }}
                             style={{ backgroundColor: '#fafafa' }}
                             itemStyle={{
@@ -114,31 +169,19 @@ export default function AddNewBankAccountScreen({ navigation }: WithdrawStackNav
                             dropDownStyle={{ backgroundColor: '#fafafa' }}
                         />
                     </View>
-                    <View style={{ marginTop: 20 }}>
-                        <DropDownPicker
 
-                            items={context.CurrenciesDefault}
-                            placeholder="Hesap Tipi"
-                            containerStyle={{ height: 40 }}
-                            style={{ backgroundColor: '#fafafa' }}
-                            itemStyle={{
-                                justifyContent: 'flex-start'
-                            }}
-                            dropDownStyle={{ backgroundColor: '#fafafa' }}
-                        />
-                    </View>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onAdressChange} placeholder='Address *' />
+                        <Input onChangeText={onAdressChange} placeholder={t(Locales.Deposits + ":ADDRESS")} />
                     </Item>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onDetailsChange} placeholder='Detay *' />
+                        <Input onChangeText={onDetailsChange} placeholder={t(Locales.Deposits + ":DETAILS")} />
                     </Item>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onLabelChange} placeholder='label *' />
+                        <Input onChangeText={onLabelChange} placeholder={t(Locales.Deposits + ":LABEL")} />
                     </Item>
 
                     <Button onPress={addNewBankAccount} style={{ borderRadius: 5, height: 50, marginBottom: 20, marginTop: 20, backgroundColor: Colors.common.buttonOrange }} full>
-                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>Ekle</Text>
+                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Deposits + ":SAVE")}</Text>
 
                     </Button>
                 </ScrollView>

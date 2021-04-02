@@ -1,6 +1,8 @@
 import { IUserResponse } from "../interfaces";
 import { DropDownPickerList } from "../models";
 import { Accounts } from "../models/ApiModels/Account/AccountListApiModel";
+import { DepositAccount } from "../models/ApiModels/Deposit/DepositAccountList";
+import { SystemDepositAccounts } from "../models/ApiModels/Deposit/SystemDepositAccounts";
 import { CustomerNotificationInfoModel } from "../models/ApiModels/Notifications/NotificationApiModel";
 import { WalletInfoData } from "../models/ApiModels/Wallet/WalletInfoApiModel";
 import { WithdrawAccount } from "../models/ApiModels/Withdraw/WithdrawAccountList";
@@ -12,6 +14,8 @@ export enum ActionType {
   SET_USER_ACCOUNTS = 'SET USER ACCOUNTS',
   SET_WALLET_INFO = 'SET WALLET INFO',
   SET_USER_WITHDRAW_ACCOUNTS = 'SET USER WITHDRAW ACCOUNTS',
+  SET_USER_DEPOSIT_ACCOUNTS = 'SET USER DEPOSIT ACCOUNTS',
+  SET_SYSTEM_DEPOSIT_ACCOUNTS = "SET SYSTEM DEPOSIT ACCOUNTS",
   SET_NOTIFICATIONS = "SET NOTIFICATIONS",
   SET_LOCALE = "SET LOCALE",
 }
@@ -23,6 +27,8 @@ export type Action =
   | { type: ActionType.SET_USER_ACCOUNTS, payload: { accounts: Accounts[] } }
   | { type: ActionType.SET_WALLET_INFO, payload: { walletInfo: WalletInfoData[] } }
   | { type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts: WithdrawAccount[] } }
+  | { type: ActionType.SET_USER_DEPOSIT_ACCOUNTS, payload: { depositAccounts: DepositAccount[] } }
+  | { type: ActionType.SET_SYSTEM_DEPOSIT_ACCOUNTS, payload: { systemDepositAccounts: SystemDepositAccounts[] } }
   | { type: ActionType.SET_NOTIFICATIONS, payload: { notifications: CustomerNotificationInfoModel } }
   | { type: ActionType.SET_LOCALE, payload: { locale: "en" | "tr" } }
 
@@ -42,6 +48,10 @@ export const reducer = (state: StateContext, action: Action) => {
       return { ...state, locale: action.payload.locale }
     case ActionType.SET_USER_WITHDRAW_ACCOUNTS:
       return { ...state, withdrawAccounts: action.payload.withdrawAccounts }
+    case ActionType.SET_USER_DEPOSIT_ACCOUNTS:
+      return { ...state, depositAccounts: action.payload.depositAccounts }
+    case ActionType.SET_SYSTEM_DEPOSIT_ACCOUNTS:
+      return { ...state, systemDepositAccounts: action.payload.systemDepositAccounts }
     case ActionType.SET_NOTIFICATIONS:
       return { ...state, notifications: action.payload.notifications }
     case ActionType.SET_USER_ACCOUNTS:

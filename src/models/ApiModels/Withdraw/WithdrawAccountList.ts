@@ -1,4 +1,4 @@
-import { CustomerWithdrawAccountTypeEnum } from "../../../types/post/PostCustomerWithdrawAccountRequestModel";
+import { CustomerWithdrawAccountTypeEnum } from "../../../types/post/PostCustomerDepositAccountRequestModel";
 
 export interface WithdrawAccountsApiModel {
     status: number;

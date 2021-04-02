@@ -9,15 +9,18 @@ import { useIsDrawerOpen } from '@react-navigation/drawer'
 import { Text } from '../atom';
 import { AppTabs } from '../../enums';
 import { useStateContext } from '../../context/state';
-import i18n from 'i18n-js';
 import { ActionType } from '../../context/reducer';
-
+import { useTranslation } from 'react-i18next';
+import i18n from "../../i18n";
 interface ITopBar {
 
 }
+const initI18n = i18n;
 
 export const TopBar: React.FC<ITopBar> = () => {
-    const { context ,dispatch} = useStateContext()
+    const { t, i18n } = useTranslation();
+
+    const { context, dispatch } = useStateContext()
     const navigation = useNavigation();
     if (Platform.OS === 'android') {
         if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -35,9 +38,18 @@ export const TopBar: React.FC<ITopBar> = () => {
         navigation.navigate(AppTabs.AnaSayfa, { screen: "NotificationScreen" });
     }
     const changeLocale = () => {
-        console.log("locale change completed")
-        i18n.locale = "en"
-        dispatch!({ type: ActionType.SET_LOCALE, payload: { locale:"en" } })
+        if (context.locale === "en") {
+            dispatch!({ type: ActionType.SET_LOCALE, payload: { locale: "tr" } })
+            i18n.changeLanguage("tr")
+        }
+        else {
+            dispatch!({ type: ActionType.SET_LOCALE, payload: { locale: "en" } })
+            i18n.changeLanguage("en")
+
+        }
+     
+        console.log("locale change completed",context.locale)
+
     }
     return (
         <View>
@@ -66,7 +78,8 @@ export const TopBar: React.FC<ITopBar> = () => {
                 <Pressable onPress={navigateToNotification} style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <ImageBackground source={require("../../../assets/images/icons/bell.png")} style={{ paddingLeft: 12, paddingTop: 10, marginLeft: 5, height: 20, width: 18 }}>
                         {
-                            context.notifications?.count && context.notifications?.count > 0 && <View>
+                             
+                            (typeof context.notifications?.count === 'number') && (context.notifications?.count) > 0 && <View>
                                 <View style={{ width: 15, height: 15, justifyContent: "center", backgroundColor: "red", borderRadius: 7.5, alignItems: "center" }}>
                                     <Text style={{ color: "white", fontSize: 8 }}>{context.notifications?.count}</Text>
                                 </View>
@@ -77,7 +90,7 @@ export const TopBar: React.FC<ITopBar> = () => {
                 </Pressable>
                 <Pressable onPress={changeLocale} style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <Image source={require("../../../assets/images/icons/flag_uk.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
-                    <Text>EN</Text>
+                    <Text>{context.locale}</Text>
                 </Pressable>
             </View>
         </View>

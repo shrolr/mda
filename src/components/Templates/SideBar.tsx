@@ -30,7 +30,6 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const [walletActive, setwalletActive] = useState(false)
 
     const onLogoutPress = async () => {
-
         await SecureStore.deleteItemAsync("auth")
 
         dispatch!({ type: ActionType.SIGN_OUT })

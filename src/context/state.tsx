@@ -3,13 +3,15 @@ import { AccountTypesDefault, CurrenciesDefault, initialDepositDefault, leverage
 import { IUserResponse } from '../interfaces';
 import { DropDownPickerList } from '../models';
 import { Accounts } from '../models/ApiModels/Account/AccountListApiModel';
+import { DepositAccount } from '../models/ApiModels/Deposit/DepositAccountList';
+import { SystemDepositAccounts } from '../models/ApiModels/Deposit/SystemDepositAccounts';
 import { CustomerNotificationInfoModel } from '../models/ApiModels/Notifications/NotificationApiModel';
 import { WalletInfoData } from '../models/ApiModels/Wallet/WalletInfoApiModel';
 import { WithdrawAccount } from '../models/ApiModels/Withdraw/WithdrawAccountList';
 import { reducer, Action } from './reducer';
 
 export interface StateContext {
-  locale:"en"|"tr",
+  locale: "en" | "tr",
   isAuthenticated: boolean;
   token?: string;
   user?: IUserResponse;
@@ -21,9 +23,11 @@ export interface StateContext {
   mt5RealAccounts: Accounts[],
   mt4DemoAccounts: Accounts[],
   mt5DemoAccounts: Accounts[],
-  walletInfo:WalletInfoData[],
-  withdrawAccounts:WithdrawAccount[],
-  notifications?:CustomerNotificationInfoModel,
+  walletInfo: WalletInfoData[],
+  withdrawAccounts: WithdrawAccount[],
+  depositAccounts:DepositAccount[],
+  systemDepositAccounts:SystemDepositAccounts[]
+  notifications?: CustomerNotificationInfoModel,
 }
 
 export interface Store {
@@ -37,12 +41,16 @@ const defaultState: StateContext = {
   CurrenciesDefault: CurrenciesDefault,
   leveragesDefault: leveragesDefault,
   initialDepositDefault: initialDepositDefault,
-  mt4RealAccounts:[],
-  mt5RealAccounts:[],
-  mt4DemoAccounts:[],
-  mt5DemoAccounts:[],
-  walletInfo:[],
-  withdrawAccounts:[],
+  mt4RealAccounts: [],
+  mt5RealAccounts: [],
+  mt4DemoAccounts: [],
+  mt5DemoAccounts: [],
+  walletInfo: [],
+  systemDepositAccounts:[],
+  locale:"en",
+  withdrawAccounts: [],
+  depositAccounts: [],
+
 
 };
 const myContext = React.createContext<Store>({ context: defaultState });

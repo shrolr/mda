@@ -2,6 +2,8 @@ import { AccountTypes, AccountTypesApiModel, DepositHistoryNetworkResponseApi, D
 import { IUserResponse } from "../../interfaces";
 import { AccountListApiModel, Accounts } from "./Account/AccountListApiModel";
 import { AccountRequestList, AccountRequestListAPIModel } from "./Account/AccountRequestListApiModel";
+import { DepositAccount, DepositAccountsApiModel } from "./Deposit/DepositAccountList";
+import { SystemDepositAccounts, SystemDepositAccountsApiModel } from "./Deposit/SystemDepositAccounts";
 import {  CustomerNotificationInfoModel, NotificationApiModel } from "./Notifications/NotificationApiModel";
 import { TransferListData } from "./Transfer/TransferListApiModel";
 import { WalletInfoAPIModel, WalletInfoData } from "./Wallet/WalletInfoApiModel";
@@ -104,6 +106,27 @@ export class WithdrawAccountsNetworkResponsel implements WithdrawAccountsApiMode
         this.data = data;
     }
 }
+
+
+export class DepositAccountsNetworkResponsel implements DepositAccountsApiModel {
+    status: number;
+    data: DepositAccount[];
+    constructor(status:number,data:DepositAccount[]) {
+        this.status = status;
+        this.data = data;
+    }
+}
+
+export class SystemDepositAccountsNetworkResponsel implements SystemDepositAccountsApiModel {
+    status: number;
+    data: SystemDepositAccounts[];
+    constructor(status:number,data:SystemDepositAccounts[]) {
+        this.status = status;
+        this.data = data;
+    }
+}
+
+
 
 export class WithdrawHistoryNetworkResponse implements WithdrawHistoryNetworkResponseApi {
     status: number;

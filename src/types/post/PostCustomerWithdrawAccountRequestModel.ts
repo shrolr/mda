@@ -1,6 +1,6 @@
-export type PostCustomerWithdrawAccountRequestModel = {
+export type PostCustomerDepositAccountRequestModel = {
     CustomerId: number;
-    TypeId: CustomerWithdrawAccountTypeEnum;
+    TypeId: number;
     Label: string;
     AccountName: string;
     AccountNumber: string;
@@ -11,7 +11,7 @@ export type PostCustomerWithdrawAccountRequestModel = {
     Swift: string | null;
     Currency: string;
 }
-export enum CustomerWithdrawAccountTypeEnum {
-    BankAccount = 1,
-    CreditCard = 2
+export enum CustomerDepositAccountTypeEnum {
+    BankAccount = "BankAccount",
+    CreditCard = "CreditCard"
 }
