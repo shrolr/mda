@@ -19,7 +19,6 @@ interface IAccountRequestListItem {
     fetchUserAccountRequests:() => void;
 }
  
-// TO DO handle cancel request ,
 export const AccountRequestListItem: React.FC<IAccountRequestListItem> = ({fetchUserAccountRequests,t, index, item }) => {
  
     var localDate = convertUTCDateToLocalDate(new Date(item.createdDate))
@@ -34,7 +33,6 @@ export const AccountRequestListItem: React.FC<IAccountRequestListItem> = ({fetch
             let putAccountRequest: PutAccountRequest = { customerId, statusId: AccountRequestStatusEnum.Cancelled }
             ApiCalls.putAccountRequest(putAccountRequest, item.id).then((response) => {
                 if (response instanceof NetworkResponse) {
-                    // to do show toast
                     item.status = AccountRequestStatusEnum[AccountRequestStatusEnum.Cancelled]
                     setUpdateView(!updateView)
                     fetchUserAccountRequests()

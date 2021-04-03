@@ -11,7 +11,6 @@ import { AccountRequestList } from '../../../models/ApiModels/Account/AccountReq
 import ApiCalls from '../../../network/ApiCalls';
 import { PostAccountRequest } from '../../../types/post';
 import { AccountStackNavProps } from '../AccountParamList';
-// TO DO CHECK REAL ACCOUNT REQUEST BUTTONS ACTIVE OR DISABLED 
 
 
 import { useTranslation } from 'react-i18next';

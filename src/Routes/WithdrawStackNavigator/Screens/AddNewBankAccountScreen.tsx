@@ -15,7 +15,6 @@ import { Locales } from '../../../enums'
 import { useTranslation } from 'react-i18next'
 import { ActionType } from '../../../context/reducer'
 
-// to do handle network response show taost 
 const throttle = require('lodash.throttle');
 
 export default function AddWithDrawBankAccountScreen({ navigation }: WithdrawStackNavProps<"AddWithDrawBankAccountScreen">) {
@@ -76,7 +75,6 @@ export default function AddWithDrawBankAccountScreen({ navigation }: WithdrawSta
             Currency: currency, Label: label, TypeId: 1
         }
         ApiCalls.postUserWithdrawAccount(UserWithdrawAccount).then((response) => {
-            console.log(response)
             setisloading(false)
             if (response instanceof NetworkResponseFail) {
                 Toast.show({ text: t(Locales.Toast + ":POSTUSERWITHDRAWACCOUNTFAILED"), buttonText: 'Ok', type: "danger", })

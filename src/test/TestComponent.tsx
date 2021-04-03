@@ -48,9 +48,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
 
         ApiCalls.getUserWithdrawAccounts(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WithdrawAccountsNetworkResponsel) {
-
                 let withdrawAccounts = response.data;
-                console.log(withdrawAccounts)
                 dispatch!({ type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts } })
 
             }

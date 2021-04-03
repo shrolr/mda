@@ -14,7 +14,6 @@ interface INotificationListItem {
     index: number;
     item: NotificationApiModel;
 }
-// TO DO FİX dates
 const initI18n = i18n;
 
 export const NotificationListItem: React.FC<INotificationListItem> = ({ index, item }) => {

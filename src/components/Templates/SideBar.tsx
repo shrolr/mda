@@ -37,7 +37,6 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
 
     const onLogoutPress = async () => {
         DrawerNavigation.navigation.closeDrawer()
-        console.log("sign out called")
         await SecureStore.deleteItemAsync("auth")
 
         dispatch!({ type: ActionType.SIGN_OUT })

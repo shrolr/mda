@@ -45,14 +45,12 @@ export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({t
         setpasswordConfirmHidden(!passwordConfirmHidden)
     }
     const changePassword = () => {
-        // TO DO CHANGE PASSWORD
         if(password === ""){
             Toast.show({ type: "warning", text: t(Locales.Accounts + ":PASSWORDINPUTERROR"), buttonText: "Ok" })
             return
         }
         if(passwordConfirmation === ""){
             Toast.show({ type: "warning", text: t(Locales.Accounts + ":NEWPASSWORDINPUTERROR"), buttonText: "Ok" })
-
             return
         }
         if (password === passwordConfirmation) {
@@ -70,7 +68,6 @@ export const MetaTraderRealAccountTab: React.FC<IMetaTraderRealAccountTab> = ({t
                     Toast.show({ type: "warning", text: t(Locales.Accounts + ":CONFIRMED"), buttonText: "Ok" })
                 }
                 else {
-                    console.log("fail")
                     Toast.show({ type: "warning", text: t(Locales.Accounts + ":PASSWORDHASCHANGED"), buttonText: "Ok" })
                 }
             })

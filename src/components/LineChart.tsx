@@ -25,7 +25,6 @@ export const LineChart: React.FC<ILineChart> = ({ ismt4Active, accountGraph }) =
             arrayData.push(0)
         }
         setgraphData(arrayData)
-        console.log(arrayData)
     }, [accountGraph, ismt4Active])
 
     const Decorator = ({ x, y, data }) => {

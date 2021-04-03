@@ -14,28 +14,14 @@ interface IDepositsHistoryListItem {
     item: DepositHistory;
     t: TFunction<"translation">
 }
-// TO DO FİX dates
-
+ 
 export const DepositsHistoryListItem: React.FC<IDepositsHistoryListItem> = ({ t, index, item }) => {
     const [shouldRefresh, setshouldRefresh] = useState(false)
 
     var localDate = convertUTCDateToLocalDate(new Date(item.createdDate))
     const cancelRequest = () => {
         onConfirmCancelRequest()
-        // Alert.alert(
-        //     "Cancel Request",
-        //     "Are you sure to cancel",
-        //     [
-        //         {
-        //             text: "İşlemi iptal Et",
-        //             onPress: () => onConfirmCancelRequest(),
-        //             style: "destructive"
-        //         },
-        //         { text: "OK", onPress: () => console.log("OK Pressed") }
-        //     ]
-        // )
     }
-    console.log(item.status)
     const onConfirmCancelRequest = () => {
         ApiCalls.putDeposit({ StatusId: DepositStatusEnum.Cancelled }, item.id).then((response) => {
             if (response instanceof NetworkResponse) {

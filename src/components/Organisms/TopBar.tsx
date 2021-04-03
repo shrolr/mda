@@ -48,7 +48,6 @@ export const TopBar: React.FC<ITopBar> = () => {
 
         }
 
-        console.log("locale change completed", context.locale)
 
     }
     return (

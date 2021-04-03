@@ -73,7 +73,6 @@ export const WithdrawFromWallet: React.FC<IWithdrawFromWallet> = ({ t, navigatio
                 IsWalletWithdraw: true,
                 TypeId: selectedAccount.type === CustomerWithdrawAccountTypeEnum.BankAccount ? 1 : 2
             };
-            // TO DO HANDLE response
             ApiCalls.postWithdraw(postWithdrawRequestModel).then((response) => {
                 if (response instanceof NetworkResponse) {
                     Toast.show({ text: t(Locales.Toast + ":POSTWITHDRAWSUCCESS"), buttonText: 'Ok', type: "success", })

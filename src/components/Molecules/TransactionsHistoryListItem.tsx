@@ -32,7 +32,6 @@ export const TransactionsHistoryListItem: React.FC<ITransactionsHistoryListItem>
         setloading(true)
         switch (Type) {
             case "TransferList":
-                console.log("TransferList sil", item)
                 ApiCalls.putTransfer({ StatusId: TransferStatusEnum.Cancelled }, item.id).then((response) => {
                     if (response instanceof NetworkResponse) {
                         item.status = "Cancelled"
@@ -48,7 +47,6 @@ export const TransactionsHistoryListItem: React.FC<ITransactionsHistoryListItem>
                 break;
             case "WithdrawHistory":
                 ApiCalls.putWithdraw({ StatusId: WithdrawStatusEnum.Cancelled }, item.id).then((response) => {
-                    console.log(response)
                     if (response instanceof NetworkResponse) {
                         item.status = "Cancelled"
                         setshouldRefresh(!shouldRefresh)

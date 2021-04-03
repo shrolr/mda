@@ -37,7 +37,6 @@ export const AccountInfo: React.FC<IAccountInfo> = ({ t,updateUserInfo }) => {
         setisEditingPhone(false)
     }
     const onUpdateUserInfo = () => {
-        // TO DO handle UpdateUserInfo
 
         if (MobilePhoneInputError) {
             Toast.show({ text: t(Locales.Profile + ":MOBILEPHONEINPUTERROR"), buttonText: 'Ok', type: "danger", })

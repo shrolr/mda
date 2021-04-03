@@ -79,7 +79,6 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
                 dispatch!({ type: ActionType.SET_USER_ACCOUNTS, payload: { accounts } })
             }
         })
-        // TO DO FETCH ACC LİST
     }
     const newAccount = () => {
         if (newDemoAccountRequest.currency === undefined) {
@@ -109,14 +108,10 @@ export const CreateRealMetaTraderAccount: React.FC<ICreateRealMetaTraderAccount>
             actionSheetRef.current?.setModalVisible(false)
 
             if (response instanceof NetworkResponse) {
-                // TO DO success
                 Toast.show({ type: "success", text: t(Locales.Accounts + ":CONFIRMED"), buttonText: "ok" })
-                updateAccountList()
-                
+                updateAccountList() 
             }
             else {
-                // show error alert
-                
                 Toast.show({ type: "danger", text: t(Locales.Accounts + ":PASSWORDHASCHANGED"), buttonText: "Ok" })
             }
         })
