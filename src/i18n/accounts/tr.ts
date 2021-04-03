@@ -130,7 +130,11 @@ const accountsLocaleTr = {
 	CONFIRMED: 'Onaylandı',
 	ONHOLD: 'Durduruldu',
 	REJECTED: 'Reddedildi',
-	CANCELLED: 'İptal edildi'
+	CANCELLED: 'İptal edildi',
+
+	// widget
+	WIDGETACCOUNTCOUNTERTITLE: 'Aylık free marjin toplamı',
+
 };
 
 export default accountsLocaleTr;

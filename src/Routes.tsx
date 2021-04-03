@@ -12,7 +12,7 @@ import { Spinner } from "native-base";
 interface RoutesProps { }
 
 export const Routes: React.FC<RoutesProps> = ({ }) => {
-  const { context ,dispatch} = useStateContext();
+  const { context, dispatch } = useStateContext();
   const [loading, setloading] = useState(true)
   useEffect(() => {
     loginWithToken()
@@ -22,15 +22,14 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     setloading(false)
     if (result) {
       dispatch!({ type: ActionType.SIGN_IN, payload: { user: JSON.parse(result) } })
-    }  
+    }
   }
   if (loading) {
-    return <Spinner style={{flex:1}} />
+    return <Spinner style={{ flex: 1 }} />
   }
-  const isAuthenticated = context.isAuthenticated;
   return (
-    <NavigationContainer>
-      { isAuthenticated ? <AppTabs /> : <AuthStack />}
+    <NavigationContainer >
+      { context.isAuthenticated ? <AppTabs /> : <AuthStack />}
     </NavigationContainer>
   );
 };

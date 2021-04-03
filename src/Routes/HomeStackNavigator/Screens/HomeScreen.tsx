@@ -9,8 +9,11 @@ import { TestComponent } from "../../../test";
 import { useStateContext } from "../../../context/state";
 import { AccountGraphInfo, DepositGraphInfo, NetworkResponse, WithdrawGraphInfo } from "../../../models";
 import ApiCalls from "../../../network/ApiCalls";
+import { useTranslation } from "react-i18next";
 
 function HomeScreen({ }: HomeStackNavProps<"Home">) {
+  const { t } = useTranslation();
+
   const { context } = useStateContext()
   const [wthdrawGraph, setwthdrawGraph] = useState<WithdrawGraphInfo>()
   const [depositGraph, setdepositGraph] = useState<DepositGraphInfo>()
@@ -56,8 +59,8 @@ function HomeScreen({ }: HomeStackNavProps<"Home">) {
         <TopBar />
         <TestComponent />
         <ScrollView style={{ flex: 1 }}>
-          <ChartCard accountGraph={accountGraph}  />
-          <GraphCard TransactionGraphInfo={context.walletInfo.length > 0 ? context.walletInfo[0].transactionGraphInfo : undefined} balance={context.walletInfo.length > 0 ? context.walletInfo[0].wallet.balance : 0} title="Cüzdan" colorActive={Colors.common.cardHeader} color={Colors.common.walletBar} />
+          <ChartCard t={t} accountGraph={accountGraph} />
+          <GraphCard TransactionGraphInfo={context.walletInfo?.transactionGraphInfo} balance={context.walletInfo ? context.walletInfo.wallet.balance : 0} title="Cüzdan" colorActive={Colors.common.cardHeader} color={Colors.common.walletBar} />
           {
             depositGraph && <GraphCard TransactionGraphInfo={depositGraph} balance={depositGraph?.data.length > 0 ? depositGraph?.data.reduce((prevValue, currentValue) => prevValue + currentValue) : 0} title="Yatırımlar" colorActive={Colors.common.cardHeaderAlt} color={Colors.common.depositBar} />
 

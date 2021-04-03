@@ -17,7 +17,10 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
     const navigateToWalletInfoScreen = () => {
         navigation.navigate("WalletInfoScreen")
     }
-    var localTime = convertUTCDateToLocalDate(new Date(context.walletInfo[0].wallet.createdDate))
+    var localTime = { date : "",time :""}
+    if (context.walletInfo) {
+        localTime = convertUTCDateToLocalDate(new Date(context.walletInfo?.wallet.createdDate))
+    }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
@@ -29,7 +32,7 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar   ImageProp="wallet" title={t(Locales.Wallet + ":TITLE")} />
+                <NavBar ImageProp="wallet" title={t(Locales.Wallet + ":TITLE")} />
                 <View style={{ flex: 1 }}>
 
 
@@ -46,7 +49,7 @@ export default function WalletScreen({ navigation }: HomeStackNavProps<"Wallet">
                         <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, flexDirection: "row" }}>
                             <View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: "#f7f7f6", alignItems: "center", flexDirection: "row" }}>
                                 <Text style={{ fontSize: 13, color: Colors.common.gray }}>{localTime.date}   |   {localTime.time}</Text>
-                                <Text style={{ flex: 1, textAlign: "right", fontSize: 20, color: Colors.common.walletHeader, fontWeight: "bold", }}>{context.walletInfo[0].wallet.balance} $</Text>
+                                <Text style={{ flex: 1, textAlign: "right", fontSize: 20, color: Colors.common.walletHeader, fontWeight: "bold", }}>{context.walletInfo?.wallet.balance} $</Text>
                             </View>
                         </View>
                     </Card>

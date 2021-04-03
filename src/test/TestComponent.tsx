@@ -24,13 +24,13 @@ export const TestComponent: React.FC<ITestComponent> = () => {
 
         loadToContext()
     }, [])
-   
+
     const loadToContext = () => {
         //let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel = { AccountName: "test", Address: "test adres", AccountNumber: "1234", BankNmae: "garanti test", Currency: "USD", CustomerId: 4, Details: "detay", Iban: "123123", Label: "label", Swift: "SWıFT3", TypeId: 2 }
         //  ApiCalls.postUserWithdrawAccount(UserWithdrawAccount)
 
         ApiCalls.getDepositAccounts().then((response) => {
-            if (response instanceof SystemDepositAccountsNetworkResponsel ) {
+            if (response instanceof SystemDepositAccountsNetworkResponsel) {
                 let systemDepositAccounts = response.data;
                 dispatch!({ type: ActionType.SET_SYSTEM_DEPOSIT_ACCOUNTS, payload: { systemDepositAccounts } })
             }
@@ -40,7 +40,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
             if (response instanceof NotificationNetworkResponse) {
 
                 let notifications = response.data;
-                
+
                 dispatch!({ type: ActionType.SET_NOTIFICATIONS, payload: { notifications } })
 
             }
@@ -78,8 +78,10 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         })
         ApiCalls.getWalletInfo(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WalletInfoNetworkResponse) {
-                let walletInfo = response.data;
-                dispatch!({ type: ActionType.SET_WALLET_INFO, payload: { walletInfo } })
+                let walletInfo = response.data.pop()
+                if(walletInfo){
+                 dispatch!({ type: ActionType.SET_WALLET_INFO, payload: { walletInfo } })
+                }
             }
         })
 

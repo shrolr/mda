@@ -23,18 +23,12 @@ export interface StateContext {
   mt5RealAccounts: Accounts[],
   mt4DemoAccounts: Accounts[],
   mt5DemoAccounts: Accounts[],
-  walletInfo: WalletInfoData[],
+  walletInfo?: WalletInfoData,
   withdrawAccounts: WithdrawAccount[],
-  depositAccounts:DepositAccount[],
-  systemDepositAccounts:SystemDepositAccounts[]
+  depositAccounts: DepositAccount[],
+  systemDepositAccounts: SystemDepositAccounts[]
   notifications?: CustomerNotificationInfoModel,
 }
-
-export interface Store {
-  context: StateContext;
-  dispatch?: React.Dispatch<Action>;
-}
-
 const defaultState: StateContext = {
   isAuthenticated: false,
   accountTpyes: AccountTypesDefault,
@@ -45,14 +39,19 @@ const defaultState: StateContext = {
   mt5RealAccounts: [],
   mt4DemoAccounts: [],
   mt5DemoAccounts: [],
-  walletInfo: [],
-  systemDepositAccounts:[],
-  locale:"en",
+  systemDepositAccounts: [],
+  locale: "en",
   withdrawAccounts: [],
   depositAccounts: [],
 
-
 };
+
+export interface Store {
+  context: StateContext;
+  dispatch?: React.Dispatch<Action>;
+}
+
+
 const myContext = React.createContext<Store>({ context: defaultState });
 
 export const useStateContext = () => useContext(myContext);

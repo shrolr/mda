@@ -8,20 +8,26 @@ import { AccountGraphInfo } from '../models'
 
 interface ILineChart {
     accountGraph: AccountGraphInfo | undefined
+    ismt4Active: boolean
 }
 
-export const LineChart: React.FC<ILineChart> = ({ accountGraph }) => {
+export const LineChart: React.FC<ILineChart> = ({ ismt4Active, accountGraph }) => {
     const [graphData, setgraphData] = useState<number[]>([])
     useEffect(() => {
         let arrayData: number[] = [];
-        Object.assign(arrayData, accountGraph?.metaTrader4.balanceData)
+        if (ismt4Active) {
+            Object.assign(arrayData, accountGraph?.metaTrader4.balanceData)
+        }
+        else {
+            Object.assign(arrayData, accountGraph?.metaTrader5.balanceData)
+        }
         while (arrayData.length < 15) {
             arrayData.push(0)
         }
         setgraphData(arrayData)
-    }, [accountGraph])
-    const data = [50, 10, 40, 95, 0, 24, 85, 91, 35, 53, 53, 24, 50, 0, 80]
-   
+        console.log(arrayData)
+    }, [accountGraph, ismt4Active])
+
     const Decorator = ({ x, y, data }) => {
         return data.map((value, index) => (
             <Circle
@@ -48,9 +54,9 @@ export const LineChart: React.FC<ILineChart> = ({ accountGraph }) => {
     return (
         <AreaChart
             style={{ height: 200, }}
-            data={ graphData}
+            data={graphData}
             svg={{ fill: '#7F7741' }}
-            contentInset={{left:5, top: 10, bottom: 30,right:5, }}
+            contentInset={{ left: 5, top: 10, bottom: 30, right: 5, }}
         >
             <Line />
             <Decorator />

@@ -11,7 +11,7 @@ import { SideBar } from "../../components";
 import { DepositStack } from "../DepositStackNavigator/DepositStack";
 import { WithdrawStack } from "../WithdrawStackNavigator/WithdrawStack";
 import { RouteProp } from "@react-navigation/native";
- 
+
 import { useTranslation } from 'react-i18next';
 import i18n from "../../i18n";
 const initI18n = i18n;
@@ -33,7 +33,9 @@ const AppTabNavigator = () => {
 
   return (
     <Tabs.Navigator
+      
       screenOptions={({ route }) => ({
+
 
         tabBarIcon: ({ color }) => {
           let IconComponent = Icon;
@@ -55,11 +57,10 @@ const AppTabNavigator = () => {
 
         },
         header: null,
-        tabBarLabel:i18n.t("Tabs:"+route.name),
+        tabBarLabel: i18n.t("Tabs:" + route.name),
       })}
 
       tabBarOptions={{
-        
         activeTintColor: '#000',
         inactiveTintColor: '#737576',
         inactiveBackgroundColor: '#fff',

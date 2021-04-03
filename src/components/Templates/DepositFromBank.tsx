@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Input, Item, Switch, Toast } from 'native-base';
+import { Button, Card, Icon, Input, Item, Spinner, Switch, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
 import { View, Image, Pressable } from 'react-native';
 import Colors from '../../constants/Colors';
@@ -106,10 +106,9 @@ export const DepositFromBank: React.FC<IDepositFromBank> = ({ t, navigation }) =
                 TypeId: selectedAccount.type === CustomerDepositAccountTypeEnum.BankAccount ? 1 : 2,
                 statusId: 1,
             };
-            console.log(postWithdrawRequestModel)
-
+            setprogressing(true)
             ApiCalls.postDeposit(postWithdrawRequestModel).then((response) => {
-                console.log(response)
+                setprogressing(false)
                 if (response instanceof NetworkResponse) {
                     Toast.show({ text: t(Locales.Toast + ":POSTDEPOSITSUCCESS"), buttonText: 'Ok', type: "success", })
 
@@ -117,7 +116,7 @@ export const DepositFromBank: React.FC<IDepositFromBank> = ({ t, navigation }) =
 
                 }
                 else {
-                    Toast.show({ text: t(Locales.Toast + ":POSTDEPOSITFAILED"), buttonText: 'Ok', type: "success", })
+                    Toast.show({ text: t(Locales.Toast + ":POSTDEPOSITFAILED"), buttonText: 'Ok', type: "danger", })
                 }
 
             })
@@ -176,7 +175,11 @@ export const DepositFromBank: React.FC<IDepositFromBank> = ({ t, navigation }) =
     const newBankAccount = () => {
         navigation.navigate("NewDepositBankAccount")
     }
-
+    if(progressing){
+        return(
+            <Spinner />
+        )
+    }
     return (
         <View style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, backgroundColor: Colors.common.transferCardBg }}>
             <Card style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}>

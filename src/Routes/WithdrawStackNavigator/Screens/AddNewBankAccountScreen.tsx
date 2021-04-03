@@ -139,7 +139,7 @@ export default function AddWithDrawBankAccountScreen({ navigation }: WithdrawSta
                     showHideTransition="slide"
                 />
                 <TopBar />
-                <NavBar ImageProp="new-deposit" title="Banka Hesabı Ekle" />
+                <NavBar ImageProp="new-deposit" title={t(Locales.Withdraw + ":ADDUSERWITHDRAWACCOUNT")} />
                 <ScrollView style={{ paddingHorizontal: 20, }}>
                     <Item style={{ height: 35, borderTopEndRadius: 5, borderTopLeftRadius: 5, borderTopRightRadius: 5, borderTopStartRadius: 5, borderBottomEndRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderBottomStartRadius: 5, paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
                         <Input onChangeText={onAccountNameChange} placeholder={t(Locales.Deposits + ":ACCOUNTNAME")} />

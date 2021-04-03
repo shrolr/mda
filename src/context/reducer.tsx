@@ -25,7 +25,7 @@ export type Action =
   | { type: ActionType.SIGN_OUT }
   | { type: ActionType.SET_ACCOUNT_TYPES, payload: { accountTpyes: DropDownPickerList[] } }
   | { type: ActionType.SET_USER_ACCOUNTS, payload: { accounts: Accounts[] } }
-  | { type: ActionType.SET_WALLET_INFO, payload: { walletInfo: WalletInfoData[] } }
+  | { type: ActionType.SET_WALLET_INFO, payload: { walletInfo: WalletInfoData  } }
   | { type: ActionType.SET_USER_WITHDRAW_ACCOUNTS, payload: { withdrawAccounts: WithdrawAccount[] } }
   | { type: ActionType.SET_USER_DEPOSIT_ACCOUNTS, payload: { depositAccounts: DepositAccount[] } }
   | { type: ActionType.SET_SYSTEM_DEPOSIT_ACCOUNTS, payload: { systemDepositAccounts: SystemDepositAccounts[] } }
@@ -39,7 +39,16 @@ export const reducer = (state: StateContext, action: Action) => {
     case ActionType.SIGN_IN:
       return { ...state, isAuthenticated: true, user: action.payload.user }
     case ActionType.SIGN_OUT:
-      return { ...state, isAuthenticated: false }
+      return {
+        ...state, isAuthenticated: false,
+        mt4RealAccounts: [],
+        mt5RealAccounts: [],
+        mt4DemoAccounts: [],
+        mt5DemoAccounts: [],
+        systemDepositAccounts: [],
+        withdrawAccounts: [],
+        depositAccounts: [],
+      }
     case ActionType.SET_ACCOUNT_TYPES:
       return { ...state, accountTpyes: action.payload.accountTpyes }
     case ActionType.SET_WALLET_INFO:

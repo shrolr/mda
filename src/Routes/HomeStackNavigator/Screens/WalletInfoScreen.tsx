@@ -31,7 +31,7 @@ export default function WalletInfoScreen({ navigation }: HomeStackNavProps<"Wall
                 <View style={{ flex: 1}}>
                     <FlatList
                         contentContainerStyle={{paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
-                        data={context.walletInfo[0].transactions}
+                        data={context.walletInfo?.transactions}
                         renderItem={_renderWalletTransactions}
                         keyExtractor={(item) => item.id.toString()}
 

@@ -1,17 +1,21 @@
 import { Button, Card, Icon, Input, Item, Toast } from 'native-base';
 import React, { useState } from 'react'
+import { TFunction } from 'react-i18next';
 import { View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useStateContext } from '../../context/state';
+import { Locales } from '../../enums';
+import { NetworkResponse } from '../../models';
 import ApiCalls from '../../network/ApiCalls';
 import { UpdateAccountInformation } from '../../types/post/UpdateAccountInformation';
 import { Text } from '../atom';
 
 interface IAccountInfo {
-
+    t: TFunction<"translation">
+    updateUserInfo: () => void
 }
 
-export const AccountInfo: React.FC<IAccountInfo> = () => {
+export const AccountInfo: React.FC<IAccountInfo> = ({ t,updateUserInfo }) => {
     const { context } = useStateContext()
     const [isEditinPhone, setisEditingPhone] = useState(false)
     const [isEditingEmail, setisEditingEmail] = useState(false)
@@ -28,20 +32,38 @@ export const AccountInfo: React.FC<IAccountInfo> = () => {
     }
     const cancelEditing = () => {
         setisEditingEmail(false)
+        setMobilePhoneInputError(false)
+        setEmailInputError(false)
         setisEditingPhone(false)
     }
     const onUpdateUserInfo = () => {
         // TO DO handle UpdateUserInfo
-        if (MobilePhoneInputError || emailInputError) {
-            Toast.show({ text: "hata" })
+
+        if (MobilePhoneInputError) {
+            Toast.show({ text: t(Locales.Profile + ":MOBILEPHONEINPUTERROR"), buttonText: 'Ok', type: "danger", })
+            return
         }
-        else {
-            let updateAccountInformation: UpdateAccountInformation = { email: email, mobilePhone: phone }
-            ApiCalls.updateUserIdentifiers(updateAccountInformation, context.user!.customerAccountInfo.customerId)
-            // update user acc info
-            // handle response
+        if (emailInputError) {
+            Toast.show({ text: t(Locales.Profile + ":EMAILINPUTERROR"), buttonText: 'Ok', type: "danger", })
+            return
         }
-        
+
+        let updateAccountInformation: UpdateAccountInformation = { email: email, mobilePhone: phone }
+        ApiCalls.updateUserIdentifiers(updateAccountInformation, context.user!.customerAccountInfo.customerId).then((response) => {
+            if (response instanceof NetworkResponse) {
+                Toast.show({ text: t(Locales.Toast + ":PUTUSERIDENTIFIERSSUCCESS"), buttonText: 'Ok', type: "success", })
+                updateUserInfo()
+                cancelEditing()
+            }
+            else {
+                Toast.show({ text: t(Locales.Toast + ":PUTUSERIDENTIFIERSFAILED"), buttonText: 'Ok', type: "danger", })
+
+            }
+        })
+        // update user acc info
+        // handle response
+
+
     }
     const onPhoneChange = (phone: string) => {
         let pattern = /^[1-9]\d{1,14}$/;
@@ -65,7 +87,7 @@ export const AccountInfo: React.FC<IAccountInfo> = () => {
     return (
         <Card style={{ marginLeft: 20, marginTop: 15, paddingBottom: 40, marginRight: 20, borderRadius: 10, overflow: "hidden" }}>
             <View style={{ paddingLeft: 20, height: 40, backgroundColor: Colors.common.walletHeader, alignItems: "center", flexDirection: "row" }}>
-                <Text style={{ flex: 1, textAlign: "left", color: Colors.common.white, fontWeight: "bold", fontSize: 18 }}>{"Hesap Bilgileri"}</Text>
+                <Text style={{ flex: 1, textAlign: "left", color: Colors.common.white, fontWeight: "bold", fontSize: 18 }}>{t(Locales.Profile + ":USERACCOUNTDETAILS")}</Text>
                 <Image source={require("../../../assets/images/icons/secure.png")} resizeMode="contain" style={{ marginRight: 20, height: 20, width: 20 }} />
             </View>
             <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, alignItems: "center" }}>
@@ -115,10 +137,10 @@ export const AccountInfo: React.FC<IAccountInfo> = () => {
             {
                 (isEditingEmail || isEditinPhone) && <View style={{ marginTop: 10, height: 44, justifyContent: "space-evenly", flexDirection: "row", }}>
                     <Button onPress={cancelEditing} style={{ flex: 3, borderRadius: 10, height: 44, marginLeft: 20, marginRight: 10, marginBottom: 20, marginTop: 10, backgroundColor: Colors.common.buttonMistyRose }} full>
-                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>İPTAL</Text>
+                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Profile + ":CANCEL")}</Text>
                     </Button>
                     <Button onPress={onUpdateUserInfo} style={{ flex: 4, borderRadius: 10, height: 44, marginLeft: 10, marginRight: 20, marginBottom: 20, marginTop: 10, backgroundColor: Colors.common.loginButton }} full>
-                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}> GÜNCELLE</Text>
+                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}> {t(Locales.Profile + ":UPDATE")}</Text>
                     </Button>
                 </View>
             }

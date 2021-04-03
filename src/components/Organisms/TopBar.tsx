@@ -47,8 +47,8 @@ export const TopBar: React.FC<ITopBar> = () => {
             i18n.changeLanguage("en")
 
         }
-     
-        console.log("locale change completed",context.locale)
+
+        console.log("locale change completed", context.locale)
 
     }
     return (
@@ -78,7 +78,7 @@ export const TopBar: React.FC<ITopBar> = () => {
                 <Pressable onPress={navigateToNotification} style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <ImageBackground source={require("../../../assets/images/icons/bell.png")} style={{ paddingLeft: 12, paddingTop: 10, marginLeft: 5, height: 20, width: 18 }}>
                         {
-                             
+
                             (typeof context.notifications?.count === 'number') && (context.notifications?.count) > 0 && <View>
                                 <View style={{ width: 15, height: 15, justifyContent: "center", backgroundColor: "red", borderRadius: 7.5, alignItems: "center" }}>
                                     <Text style={{ color: "white", fontSize: 8 }}>{context.notifications?.count}</Text>
@@ -89,8 +89,15 @@ export const TopBar: React.FC<ITopBar> = () => {
                     </ImageBackground>
                 </Pressable>
                 <Pressable onPress={changeLocale} style={{ marginLeft: 15, flexDirection: "row", alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
-                    <Image source={require("../../../assets/images/icons/flag_uk.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
-                    <Text>{context.locale}</Text>
+                    {context.locale === "en" ?
+                        <Image source={require("../../../assets/images/icons/flag_uk.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
+                        :
+                        <Image source={require("../../../assets/images/icons/flag_tr.png")} style={{ marginRight: 5, height: 20, width: 20 }} />
+
+                    }
+                    <View style={{ width: 20 }}>
+                        <Text>{context.locale.toUpperCase()}</Text>
+                    </View>
                 </Pressable>
             </View>
         </View>

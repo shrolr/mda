@@ -46,8 +46,20 @@ class ApiCalls implements IApiCalls {
     });
   }
 
-  login = (LoginRequest: LoginRequest) => {
+  getUserInfoWithToken = () => {
+    return httpClient.get(this.server_link + Endpoints['auth-with-token']).then((result) => {
+      let user: IUserResponse = result.data
+      let status = result.status
+      let NetworkResponse = new LoginNetworkResponse(status, user)
 
+      return NetworkResponse;
+    }).catch(() => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+
+  }
+  login = (LoginRequest: LoginRequest) => {
     return httpClient.post(this.server_link + Endpoints.auth, LoginRequest).then((result) => {
       let user: IUserResponse = result.data
       let status = result.status
@@ -179,7 +191,7 @@ class ApiCalls implements IApiCalls {
     })
   }
   getDepositAccounts = () => {
-    return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-account'] ).then((result) => {
+    return httpClient.get(this.authenticated_server_link + Endpoints.deposit['deposit-account']).then((result) => {
       let data = result.data
       let status = result.status
       let _networkResponse = new SystemDepositAccountsNetworkResponsel(status, data);
@@ -287,7 +299,7 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
-	 
+
   updateAccountPassword = (payload: MetatraderAccountChangePassword) => {
     return httpClient.put(this.authenticated_server_link + Endpoints.account['change-password'], payload).then((result) => {
       let data = result.data

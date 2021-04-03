@@ -130,7 +130,11 @@ const accountsLocaleEn = {
 	CONFIRMED: 'Confirmed',
 	ONHOLD: 'On hold',
 	REJECTED: 'Rejected',
-	CANCELLED: 'Cancelled'
+	CANCELLED: 'Cancelled',
+
+	// widget
+	WIDGETACCOUNTCOUNTERTITLE: 'Monthly total free margin',
+
 };
 
 export default accountsLocaleEn;

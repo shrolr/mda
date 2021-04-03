@@ -1,18 +1,21 @@
-import { Button, Card, Input, Item, Spinner } from 'native-base';
+import { Button, Card, Input, Item, Spinner, Toast } from 'native-base';
 import React, { useEffect, useState } from 'react'
+import { TFunction } from 'react-i18next';
 import { View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useStateContext } from '../../context/state';
+import { Locales } from '../../enums';
 import { NetworkResponse } from '../../models';
 import ApiCalls from '../../network/ApiCalls';
 import { PersonalInfoUpdateRequest } from '../../types/post/PersonalInfoUpdateRequest';
 import { Text } from '../atom';
 
 interface IPersonalInfo {
-
+    t: TFunction<"translation">
+    updateUserInfo: () => void
 }
 
-export const PersonalInfo: React.FC<IPersonalInfo> = () => {
+export const PersonalInfo: React.FC<IPersonalInfo> = ({ t, updateUserInfo }) => {
     const { context } = useStateContext()
     const [isLoading, setLoading] = useState(false);
 
@@ -56,18 +59,18 @@ export const PersonalInfo: React.FC<IPersonalInfo> = () => {
         setisEditing(false)
     }
     const validateInputs = () => {
-        if (lastNameInput === "") {
-            setLastNameInputError(true);
-            // TO DO 
-            // toast last name input error
-            return false;
-        }
-
+          
         if (firstNameInput === "") {
             setFirstNameInputError(true);
-            // toast first name input error
+            Toast.show({ text: t(Locales.Profile + ":FIRSTNAMEINPUTERROR"), buttonText: 'Ok', type: "danger", })
             return false;
         }
+        if (lastNameInput === "") {
+            setLastNameInputError(true);
+            Toast.show({ text: t(Locales.Profile + ":LASTNAMEINPUTERROR"), buttonText: 'Ok', type: "danger", })
+            return false;
+        }
+       
 
         return true;
     }
@@ -78,12 +81,11 @@ export const PersonalInfo: React.FC<IPersonalInfo> = () => {
             setLoading(true);
             ApiCalls.updateUserProfile(personalInfoUpdateRequest, context.user!.customerAccountInfo.customerId).then((response) => {
                 if (response instanceof NetworkResponse) {
-                    console.log("succes")
-                    // RE auth
+                    updateUserInfo()
+                    Toast.show({ text: t(Locales.Toast + ":PUTUSERIDENTIFIERSSUCCESS"), buttonText: 'Ok', type: "success", })
                 }
                 else {
-                    // TO DO SHOW ERROR
-                    console.log("fail")
+                    Toast.show({ text: t(Locales.Toast + ":PUTUSERIDENTIFIERSFAILED"), buttonText: 'Ok', type: "danger", })
                 }
                 setLoading(false);
                 setisEditing(false)
@@ -96,7 +98,7 @@ export const PersonalInfo: React.FC<IPersonalInfo> = () => {
     return (
         <Card style={{ marginLeft: 20, marginTop: 15, paddingBottom: 40, marginRight: 20, borderRadius: 10, overflow: "hidden" }}>
             <View style={{ paddingLeft: 20, height: 40, backgroundColor: Colors.common.walletHeader, alignItems: "center", flexDirection: "row" }}>
-                <Text style={{ flex: 1, textAlign: "left", color: Colors.common.white, fontWeight: "bold", fontSize: 18 }}>{"Kişisel Bilgiler"}</Text>
+                <Text style={{ flex: 1, textAlign: "left", color: Colors.common.white, fontWeight: "bold", fontSize: 18 }}>{t(Locales.Profile + ":CUSTOMERINFODETAILS")}</Text>
             </View>
 
             {
@@ -105,45 +107,45 @@ export const PersonalInfo: React.FC<IPersonalInfo> = () => {
                     <View style={{ height: 40, width: 50, backgroundColor: "#E5E5E5", alignItems: "center", justifyContent: "center" }}>
                         <Image source={require("../../../assets/images/icons/user-circle-regular.png")} resizeMode="contain" style={{ tintColor: "black", height: 20, width: 20 }} />
                     </View>
-                    <Text style={{ marginLeft: 20, flex: 1, fontWeight: "bold" }}>{context.user?.customerAccountInfo.displayName}</Text>
+                    <Text style={{ marginLeft: 20, flex: 1, fontWeight: "bold" }}>{context.user?.customerInfo.firstName} {context.user?.customerInfo.lastName}</Text>
                     <Image source={require("../../../assets/images/icons/edit.png")} resizeMode="contain" style={{ marginRight: 20, height: 13, width: 13 }} />
                 </TouchableOpacity>
             }
             { !isLoading && isEditing &&
                 <View style={{ paddingRight: 20, paddingLeft: 20 }}>
                     <Item error={firstNameInputError} style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setFirstNameInput(text)} defaultValue={context.user?.customerInfo.firstName} autoCapitalize="none" autoCorrect={false} placeholder='Adınız' />
+                        <Input onChangeText={(text) => setFirstNameInput(text)} defaultValue={context.user?.customerInfo.firstName} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":FIRSTNAME")} />
                     </Item>
                     <Item error={lastNameInputError} style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setLastNameInput(text)} defaultValue={context.user?.customerInfo.lastName} autoCapitalize="none" autoCorrect={false} placeholder='Soyadınız' />
+                        <Input onChangeText={(text) => setLastNameInput(text)} defaultValue={context.user?.customerInfo.lastName} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":LASTNAME")} />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setCountryInput(text)} defaultValue={context.user?.customerInfo.country} autoCapitalize="none" autoCorrect={false} placeholder='Ülke' />
+                        <Input onChangeText={(text) => setCountryInput(text)} defaultValue={context.user?.customerInfo.country} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":COUNTRY")} />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setStateInput(text)} defaultValue={context.user?.customerInfo.state} autoCapitalize="none" autoCorrect={false} placeholder='Bölge' />
+                        <Input onChangeText={(text) => setStateInput(text)} defaultValue={context.user?.customerInfo.state} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":STATE")} />
                     </Item>
 
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setCityInput(text)} defaultValue={context.user?.customerInfo.city} autoCapitalize="none" autoCorrect={false} placeholder='Şehir' />
+                        <Input onChangeText={(text) => setCityInput(text)} defaultValue={context.user?.customerInfo.city} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":CITY")} />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setZipCodeInput(text)} defaultValue={context.user?.customerInfo.zipCode} autoCapitalize="none" autoCorrect={false} placeholder='Posta kodu' />
+                        <Input onChangeText={(text) => setZipCodeInput(text)} defaultValue={context.user?.customerInfo.zipCode} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":ZIPCODE")} />
                     </Item>
                     <Item style={{ height: 43, paddingLeft: 10, borderRadius: 5, marginTop: 30 }} rounded>
-                        <Input onChangeText={(text) => setAddressInput(text)} defaultValue={context.user?.customerInfo.address} autoCapitalize="none" autoCorrect={false} placeholder='Adres' />
+                        <Input onChangeText={(text) => setAddressInput(text)} defaultValue={context.user?.customerInfo.address} autoCapitalize="none" autoCorrect={false} placeholder={t(Locales.Profile + ":ADDRESS")} />
                     </Item>
                 </View>
             }
 
             {
                 !isLoading && isEditing &&
-                <View style={{ marginTop: 10,paddingRight: 20, paddingLeft: 20 }}>
-                    <Button onPress={onUpdateUserInfo} style={{   borderRadius: 5, height: 44,  marginBottom: 10, marginTop: 10, backgroundColor: Colors.common.loginButton }} full>
-                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}> GÜNCELLE</Text>
+                <View style={{ marginTop: 10, paddingRight: 20, paddingLeft: 20 }}>
+                    <Button onPress={onUpdateUserInfo} style={{ borderRadius: 5, height: 44, marginBottom: 10, marginTop: 10, backgroundColor: Colors.common.loginButton }} full>
+                        <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Profile + ":UPDATE")}</Text>
                     </Button>
-                    <Button onPress={cancelEditing} style={{   borderRadius: 5, height: 44,   marginBottom: 10, marginTop: 10, backgroundColor: Colors.common.buttonMistyRose }} full>
-                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>İPTAL</Text>
+                    <Button onPress={cancelEditing} style={{ borderRadius: 5, height: 44, marginBottom: 10, marginTop: 10, backgroundColor: Colors.common.buttonMistyRose }} full>
+                        <Text style={{ color: Colors.common.orangered, fontWeight: "bold", fontSize: 14 }}>{t(Locales.Profile + ":CANCEL")}</Text>
                     </Button>
 
                 </View>

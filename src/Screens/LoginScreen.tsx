@@ -55,7 +55,7 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
 
         <View style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 50, paddingTop: 50, backgroundColor: Colors.light.background, borderRadius: 10, marginLeft: 20, marginRight: 20 }}>
           <View>
-            <Image source={{ uri: "https://i.hizliresim.com/TtqzTs.png" }} resizeMode="contain" style={{ alignSelf: "center", height: 100, width: 250 }} />
+            <Image source={{ uri: "https://i.hizliresim.com/TtqzTs.png" }}   style={{ alignSelf: "center", height: 60, width: 153 }} />
           </View>
           <View style={{ height: 0.5, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
           <Text style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}>Giriş yap</Text>
