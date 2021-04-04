@@ -4,8 +4,7 @@ import { ActionType } from '../context/reducer';
 import { useStateContext } from '../context/state';
 import { DropDownPickerList, AccountTypesNetworkResponse, NetworkResponseFail, WalletInfoNetworkResponse, AccountListNetworkResponse, WithdrawAccountsNetworkResponsel, NetworkResponse, NotificationNetworkResponse, DepositAccountsNetworkResponsel, SystemDepositAccountsNetworkResponsel } from '../models';
 import ApiCalls from '../network/ApiCalls';
-import NotificationLocaleEn from '../i18n/notifications/en';
-import NotificationLocaleTr from '../i18n/notifications/tr';
+
 
 interface ITestComponent {
 
@@ -17,7 +16,6 @@ export const TestComponent: React.FC<ITestComponent> = () => {
     useEffect(() => {
         ApiCalls.setToken(context.user!.token)
 
-        ApiCalls.getNotificationInfo(context.user!.customerAccountInfo.customerId)
         ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.customerId)
         ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.customerId)
         ApiCalls.getUserDepositList(context.user!.customerAccountInfo.customerId)
@@ -42,6 +40,17 @@ export const TestComponent: React.FC<ITestComponent> = () => {
                 let notifications = response.data;
 
                 dispatch!({ type: ActionType.SET_NOTIFICATIONS, payload: { notifications } })
+
+            }
+        })
+
+        ApiCalls.getNotificationList(context.user!.customerAccountInfo.customerId).then((response) => {
+            console.log(response)
+            if (response instanceof NotificationNetworkResponse) {
+
+                let notifications = response.data;
+
+               // dispatch!({ type: ActionType.SET_NOTIFICATIONS, payload: { notifications } })
 
             }
         })
@@ -77,8 +86,8 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         ApiCalls.getWalletInfo(context.user!.customerAccountInfo.customerId).then((response) => {
             if (response instanceof WalletInfoNetworkResponse) {
                 let walletInfo = response.data.pop()
-                if(walletInfo){
-                 dispatch!({ type: ActionType.SET_WALLET_INFO, payload: { walletInfo } })
+                if (walletInfo) {
+                    dispatch!({ type: ActionType.SET_WALLET_INFO, payload: { walletInfo } })
                 }
             }
         })

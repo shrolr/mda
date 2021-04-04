@@ -1,7 +1,7 @@
 import { Button, Card, Icon, Input, Item, Toast } from 'native-base';
 import React, { useState } from 'react'
 import { TFunction } from 'react-i18next';
-import { View, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Image, ImageBackground, TouchableOpacity, Pressable, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useStateContext } from '../../context/state';
 import { Locales } from '../../enums';
@@ -9,13 +9,14 @@ import { NetworkResponse } from '../../models';
 import ApiCalls from '../../network/ApiCalls';
 import { UpdateAccountInformation } from '../../types/post/UpdateAccountInformation';
 import { Text } from '../atom';
+import * as ImagePicker from 'expo-image-picker';
 
 interface IAccountInfo {
     t: TFunction<"translation">
     updateUserInfo: () => void
 }
 
-export const AccountInfo: React.FC<IAccountInfo> = ({ t,updateUserInfo }) => {
+export const AccountInfo: React.FC<IAccountInfo> = ({ t, updateUserInfo }) => {
     const { context } = useStateContext()
     const [isEditinPhone, setisEditingPhone] = useState(false)
     const [isEditingEmail, setisEditingEmail] = useState(false)
@@ -83,6 +84,40 @@ export const AccountInfo: React.FC<IAccountInfo> = ({ t,updateUserInfo }) => {
 
         setemail(email)
     }
+    const requestPermission = async () => {
+        if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+            }
+        }
+    }
+    const onPressPhotoChange = async () => {
+        await requestPermission()
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+            base64: true,
+        });
+
+
+        if (!result.cancelled) {
+            let payload = new FormData();
+            /* tslint:disable-next-line */
+            payload.append("file", { uri: result.uri, name: 'image.jpg', type: 'image/jpeg' });
+            ApiCalls.updateUserPicture(context.user!.customerAccountInfo.customerId, payload).then((response) => {
+                if (response instanceof NetworkResponse) {
+                    Toast.show({ text: t(Locales.Toast + ":PUTUSERPICTURESUCCESS"), buttonText: 'Ok', type: "success", })
+                    updateUserInfo()
+                }
+                else {
+                    Toast.show({ text: t(Locales.Toast + ":PUTUSERPICTUREFAILED"), buttonText: 'Ok', type: "warning", })
+
+                }
+            })
+        }
+    }
     return (
         <Card style={{ marginLeft: 20, marginTop: 15, paddingBottom: 40, marginRight: 20, borderRadius: 10, overflow: "hidden" }}>
             <View style={{ paddingLeft: 20, height: 40, backgroundColor: Colors.common.walletHeader, alignItems: "center", flexDirection: "row" }}>
@@ -90,9 +125,11 @@ export const AccountInfo: React.FC<IAccountInfo> = ({ t,updateUserInfo }) => {
                 <Image source={require("../../../assets/images/icons/secure.png")} resizeMode="contain" style={{ marginRight: 20, height: 20, width: 20 }} />
             </View>
             <View style={{ backgroundColor: "#fff", paddingLeft: 20, paddingRight: 20, paddingBottom: 20, paddingTop: 20, alignItems: "center" }}>
-                <ImageBackground style={{ justifyContent: "flex-end", alignItems: "flex-end", marginBottom: 10, height: 82, width: 82 }} source={{ uri: context.user?.customerInfo.picture }} resizeMode="contain" >
-                    <Image source={require("../../../assets/images/icons/camera.png")} resizeMode="contain" style={{ height: 25, width: 25 }} />
-                </ImageBackground>
+                <Pressable onPress={onPressPhotoChange}>
+                    <ImageBackground style={{ justifyContent: "flex-end", alignItems: "flex-end", marginBottom: 10, height: 82, width: 82 }} source={{ uri: context.user?.customerInfo.picture }} resizeMode="contain" >
+                        <Image source={require("../../../assets/images/icons/camera.png")} resizeMode="contain" style={{ height: 25, width: 25 }} />
+                    </ImageBackground>
+                </Pressable>
                 <Text style={{ fontFamily: "Roboto", fontSize: 12, fontWeight: "bold", textAlign: "right", color: Colors.common.black }}>{context.user?.customerAccountInfo.displayName}</Text>
             </View>
 

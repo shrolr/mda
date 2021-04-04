@@ -10,6 +10,7 @@ import { ActionType } from '../../context/reducer';
 import { AppTabs, CustomerAccountTypeEnum, Locales } from '../../enums';
 import { useTranslation } from 'react-i18next';
 import { CustomerDepositAccountTypeEnum } from '../../types/post';
+import { downloadMetaTrader } from '../../utilities/functions';
 
 interface ISideBar {
     DrawerNavigation: DrawerContentComponentProps<DrawerContentOptions>
@@ -374,7 +375,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
 
                     </View>
 
-                    <Button style={{ height: 35, borderRadius: 5, backgroundColor: Colors.common.menuBackgroundColor }} full>
+                    <Button onPress={downloadMetaTrader} style={{ height: 35, borderRadius: 5, backgroundColor: Colors.common.menuBackgroundColor }} full>
                         <Icon style={{ marginLeft: 0, fontSize: 13, color: "black", alignSelf: "center" }} type="AntDesign" name="download" />
 
                         <Text style={{ color: Colors.common.black, fontWeight: "bold", fontSize: 12 }}>META TRADER</Text>

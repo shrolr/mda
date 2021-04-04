@@ -28,7 +28,6 @@ function ProfileScreen({ navigation }: HomeStackNavProps<"ProfileScreen">) {
         dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
       }
     })
-
   }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>

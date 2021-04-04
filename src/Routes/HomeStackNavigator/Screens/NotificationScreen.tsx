@@ -17,11 +17,12 @@ export default function NotificationScreen({ navigation }: HomeStackNavProps<"No
 
 
     const { t, i18n } = useTranslation();
-   
+
     const { context } = useStateContext()
-    const _renderDepositHistory: ListRenderItem<NotificationApiModel> = ({ item, index }) => (
+    const _renderNotificationHistory: ListRenderItem<NotificationApiModel> = ({ item, index }) => (
         <NotificationListItem item={item} index={index} />
     )
+    console.log(context.notifications)
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.common.statusBarColor }}>
             <View style={{ flex: 1, backgroundColor: Colors.common.white }}>
@@ -39,7 +40,7 @@ export default function NotificationScreen({ navigation }: HomeStackNavProps<"No
                     <FlatList
                         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
                         data={context.notifications?.notifications}
-                        renderItem={_renderDepositHistory}
+                        renderItem={_renderNotificationHistory}
                         keyExtractor={(item) => item.id.toString()}
 
                     />

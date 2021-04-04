@@ -5,6 +5,7 @@ import { Root, Spinner } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import { enableScreens } from 'react-native-screens';
+import * as SecureStore from 'expo-secure-store';
 
 
 enableScreens();
@@ -15,14 +16,10 @@ export const Providers: React.FC<ProvidersProps> = ({ }) => {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     loadFonts()
-    loadLocale()
 
   }, [])
 
 
-  const loadLocale = () => {
-
-  }
   const loadFonts = async () => {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),

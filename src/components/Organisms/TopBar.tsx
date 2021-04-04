@@ -12,11 +12,12 @@ import { useStateContext } from '../../context/state';
 import { ActionType } from '../../context/reducer';
 import { useTranslation } from 'react-i18next';
 import i18n from "../../i18n";
+import * as SecureStore from 'expo-secure-store';
+import { downloadMetaTrader } from '../../utilities/functions';
 interface ITopBar {
 
 }
-const initI18n = i18n;
-
+ 
 export const TopBar: React.FC<ITopBar> = () => {
     const { t, i18n } = useTranslation();
 
@@ -41,15 +42,15 @@ export const TopBar: React.FC<ITopBar> = () => {
         if (context.locale === "en") {
             dispatch!({ type: ActionType.SET_LOCALE, payload: { locale: "tr" } })
             i18n.changeLanguage("tr")
+            SecureStore.setItemAsync("locale", JSON.stringify({locale:"tr"}))
         }
         else {
             dispatch!({ type: ActionType.SET_LOCALE, payload: { locale: "en" } })
             i18n.changeLanguage("en")
-
+            SecureStore.setItemAsync("locale", JSON.stringify({locale:"en"}))
         }
-
-
     }
+    
     return (
         <View>
             <View style={{ height: 15, backgroundColor: Colors.common.statusBarColor }} />
@@ -71,9 +72,9 @@ export const TopBar: React.FC<ITopBar> = () => {
                 <View style={{ flex: 1, justifyContent: "center" }}>
                     <Image source={require("../../../assets/images/icons/logo.png")} style={{ marginLeft: 10, height: 35, width: 100 }} />
                 </View>
-                <View style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
+                <Pressable onPress={downloadMetaTrader} style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <Image source={require("../../../assets/images/icons/download_orange.png")} style={{ height: 22, width: 22 }} />
-                </View>
+                </Pressable>
                 <Pressable onPress={navigateToNotification} style={{ marginLeft: 5, alignSelf: "center", justifyContent: "center", backgroundColor: Colors.common.white, }}>
                     <ImageBackground source={require("../../../assets/images/icons/bell.png")} style={{ paddingLeft: 12, paddingTop: 10, marginLeft: 5, height: 20, width: 18 }}>
                         {

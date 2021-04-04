@@ -73,8 +73,8 @@ class ApiCalls implements IApiCalls {
 
   }
 
-  resetPassword = ( domain: string, identifier: string ) => {
-    return httpClient.post(this.server_link + Endpoints['forgot-password'], {domain,identifier}).then((result) => {
+  resetPassword = (domain: string, identifier: string) => {
+    return httpClient.post(this.server_link + Endpoints['forgot-password'], { domain, identifier }).then((result) => {
 
       let data = result.data
       let status = result.status
@@ -85,7 +85,20 @@ class ApiCalls implements IApiCalls {
       return networkResponse;
     })
   }
+  updateUserPicture = (customerId: number, payload: any) => {
+    let urlSuffix = `/${customerId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.customer['upload-picture'] + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
 
+
+  }
 
   getNotificationInfo = (customerId: number,) => {
     let urlSuffix = `/${customerId}`

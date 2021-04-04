@@ -1,14 +1,7 @@
 --TO DO--
 
-bildirimler sayfası
-profil fotosu yükleme onesignal
-register
-
-metatrader indirme butonu
----- 
-   
+bildirimler sayfası okunmamış bildirimleri listele
+onesignal
+register page
 localization --  register
 
- 
- notificationlar sayfasına bir bak
- 

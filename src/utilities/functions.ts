@@ -1,3 +1,4 @@
+import { Linking, Platform } from "react-native";
 import { DropDownPickerList } from "../models";
 import { Accounts } from "../models/ApiModels/Account/AccountListApiModel";
 
@@ -16,6 +17,27 @@ const convertUTCDateToLocalDate = (date: Date) => {
     return { date: _date, time }
 }
 
+const downloadMetaTrader = async () => {
+    if (Platform.OS === "android") {
+        let url = "https://play.google.com/store/apps/details?id=net.metaquotes.metatrader4&hl=tr&gl=US"
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+        }
+    }
+    else if (Platform.OS === "ios") {
+        let url = "https://apps.apple.com/us/app/metatrader-4/id496212596"
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+        }
+
+    }
+}
 
 const validateMoneyInput = (value: string) => {
     if (value === "") return true;
@@ -24,7 +46,7 @@ const validateMoneyInput = (value: string) => {
     return pattern.test(value);
 }
 
-const createDataProviderForAccounts = (mt4RealAccounts:Accounts[],mt5RealAccounts:Accounts[]) => {
+const createDataProviderForAccounts = (mt4RealAccounts: Accounts[], mt5RealAccounts: Accounts[]) => {
     let mtRealAccounts = mt4RealAccounts.concat(mt5RealAccounts)
     let AccountList: DropDownPickerList[] = []
     mtRealAccounts.forEach((account) => {
@@ -38,4 +60,4 @@ const createDataProviderForAccounts = (mt4RealAccounts:Accounts[],mt5RealAccount
     return AccountList
 }
 
-export { convertUTCDateToLocalDate, validateMoneyInput,createDataProviderForAccounts }
+export { convertUTCDateToLocalDate, validateMoneyInput, createDataProviderForAccounts, downloadMetaTrader }
