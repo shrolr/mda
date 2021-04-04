@@ -23,7 +23,7 @@ export const TestComponent: React.FC<ITestComponent> = () => {
         ApiCalls.getUserDepositList(context.user!.customerAccountInfo.customerId)
 
         loadToContext()
-    }, [])
+    }, [context.user!.token])
 
     const loadToContext = () => {
         //let UserWithdrawAccount: PostCustomerWithdrawAccountRequestModel = { AccountName: "test", Address: "test adres", AccountNumber: "1234", BankNmae: "garanti test", Currency: "USD", CustomerId: 4, Details: "detay", Iban: "123123", Label: "label", Swift: "SWıFT3", TypeId: 2 }

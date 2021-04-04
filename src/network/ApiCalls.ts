@@ -73,6 +73,20 @@ class ApiCalls implements IApiCalls {
 
   }
 
+  resetPassword = ( domain: string, identifier: string ) => {
+    return httpClient.post(this.server_link + Endpoints['forgot-password'], {domain,identifier}).then((result) => {
+
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch(() => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+  }
+
+
   getNotificationInfo = (customerId: number,) => {
     let urlSuffix = `/${customerId}`
     return httpClient.get(this.authenticated_server_link + Endpoints.notification.info + urlSuffix).then((result) => {

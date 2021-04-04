@@ -134,6 +134,7 @@ const accountsLocaleTr = {
 
 	// widget
 	WIDGETACCOUNTCOUNTERTITLE: 'Aylık free marjin toplamı',
+	WIDGETWALLETCOUNTERTITLE: 'Aylık bakiye',
 
 };
 

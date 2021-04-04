@@ -24,6 +24,8 @@ import accountsLocaleTr from "./i18n/accounts/tr";
 import ToastlocaleEn from "./i18n/toast/en";
 import ToastlocaleTr from "./i18n/toast/tr";
 import transferlocaleEn from "./i18n/transfer/en";
+import loginlocaleEn from "./i18n/login/en";
+import loginlocaleTr from "./i18n/login/tr";
 
 i18n
     .use(initReactI18next)
@@ -44,6 +46,7 @@ i18n
                 Errors:ErrorslocaleEn,
                 Profile:ProfilelocaleEn,
                 Toast:ToastlocaleEn,
+                Login:loginlocaleEn,
             },
             tr: {
                 Notification: NotificationLocaleTr,
@@ -57,7 +60,8 @@ i18n
                 Deposits:DepositsLocaleTr,
                 Errors:ErrorslocaleTr,
                 Profile:ProfilelocaleTr,
-                Toast:ToastlocaleTr
+                Toast:ToastlocaleTr,
+                Login:loginlocaleTr,
             },
         },
         debug: true,

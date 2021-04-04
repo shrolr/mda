@@ -11,4 +11,5 @@ export enum Locales {
     Errors = "Errors",
     Profile = "Profile",
     Toast= "Toast",
+    Login ="Login",
 }

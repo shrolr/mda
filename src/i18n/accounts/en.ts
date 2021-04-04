@@ -134,6 +134,7 @@ const accountsLocaleEn = {
 
 	// widget
 	WIDGETACCOUNTCOUNTERTITLE: 'Monthly total free margin',
+	WIDGETWALLETCOUNTERTITLE: 'Monthly balance ',
 
 };
 

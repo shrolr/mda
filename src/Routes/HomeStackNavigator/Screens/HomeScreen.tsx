@@ -10,6 +10,7 @@ import { useStateContext } from "../../../context/state";
 import { AccountGraphInfo, DepositGraphInfo, NetworkResponse, WithdrawGraphInfo } from "../../../models";
 import ApiCalls from "../../../network/ApiCalls";
 import { useTranslation } from "react-i18next";
+import { Locales } from "../../../enums";
 
 function HomeScreen({ }: HomeStackNavProps<"Home">) {
   const { t } = useTranslation();
@@ -60,13 +61,13 @@ function HomeScreen({ }: HomeStackNavProps<"Home">) {
         <TestComponent />
         <ScrollView style={{ flex: 1 }}>
           <ChartCard t={t} accountGraph={accountGraph} />
-          <GraphCard TransactionGraphInfo={context.walletInfo?.transactionGraphInfo} balance={context.walletInfo ? context.walletInfo.wallet.balance : 0} title="Cüzdan" colorActive={Colors.common.cardHeader} color={Colors.common.walletBar} />
+          <GraphCard t={t} TransactionGraphInfo={context.walletInfo?.transactionGraphInfo} balance={context.walletInfo ? context.walletInfo.wallet.balance : 0} title={t(Locales.Wallet + ":TITLE")} colorActive={Colors.common.cardHeader} color={Colors.common.walletBar} />
           {
-            depositGraph && <GraphCard TransactionGraphInfo={depositGraph} balance={depositGraph?.data.length > 0 ? depositGraph?.data.reduce((prevValue, currentValue) => prevValue + currentValue) : 0} title="Yatırımlar" colorActive={Colors.common.cardHeaderAlt} color={Colors.common.depositBar} />
+            depositGraph && <GraphCard t={t} TransactionGraphInfo={depositGraph} balance={depositGraph?.data.length > 0 ? depositGraph?.data.reduce((prevValue, currentValue) => prevValue + currentValue) : 0} title={t(Locales.Tranactions + ":DEPOSITS")} colorActive={Colors.common.cardHeaderAlt} color={Colors.common.depositBar} />
 
           }
           {
-            wthdrawGraph && <GraphCard TransactionGraphInfo={wthdrawGraph} balance={wthdrawGraph?.data.length > 0 ? wthdrawGraph?.data.reduce((prevValue, currentValue) => prevValue + currentValue) : 0} title="Çekimler" colorActive={Colors.common.cardHeaderAlt2} color={Colors.common.withdrawBar} />
+            wthdrawGraph && <GraphCard t={t} TransactionGraphInfo={wthdrawGraph} balance={wthdrawGraph?.data.length > 0 ? wthdrawGraph?.data.reduce((prevValue, currentValue) => prevValue + currentValue) : 0} title={t(Locales.Tranactions + ":WITHDRAWS")} colorActive={Colors.common.cardHeaderAlt2} color={Colors.common.withdrawBar} />
           }
         </ScrollView>
       </View>
