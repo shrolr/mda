@@ -1,7 +1,4 @@
 --TO DO--
-
 bildirimler sayfası okunmamış bildirimleri listele
-onesignal
-register page
-localization --  register
-
+expo notificaitons
+register page localization --  register

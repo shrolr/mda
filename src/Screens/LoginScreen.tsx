@@ -27,7 +27,9 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
   const onChangeText = (identifier: string) => {
     setstate({ identifier, password: state.password })
   }
-
+  const navigateToRegister = () => {
+    navigation.navigate("Register")
+  }
 
   const onForgotInputChange = (email: string) => {
     setresetPassword(email)
@@ -61,7 +63,7 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
       return
     }
     ApiCalls.resetPassword("https://albaclient.com", resetPassword).then((response) => {
-      if(response instanceof NetworkResponse){
+      if (response instanceof NetworkResponse) {
         Toast.show({ text: t(Locales.Login + ":SUCCESSSUBMITINFO"), buttonText: 'Ok', type: "success", })
       }
       else {
@@ -90,13 +92,17 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
           <Pressable onPress={() => setrememberMe(!rememberMe)}>
             <Text style={{ marginLeft: 20, color: Colors.common.lightBlue }}>{t(Locales.Login + ":REMEMBERME")}</Text>
           </Pressable>
-          <Pressable onPress={() => setforgotPassword(true)} style={{ marginLeft: 50, flex: 1, }}>
+          <Pressable onPress={() => setforgotPassword(true)} style={{ flex: 1, }}>
             <Text style={{ flex: 1, textAlign: "right", color: Colors.common.textOrange }}>{t(Locales.Login + ":FORGOTPASSWORD")}</Text>
           </Pressable>
         </View>
         <Button onPress={onLoginPress} style={{ borderRadius: 10, backgroundColor: Colors.common.loginButton }} full>
           <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 16 }}>{t(Locales.Login + ":LOGINBUTTON")}</Text>
         </Button>
+        <Pressable onPress={navigateToRegister} style={{marginTop:20}}>
+          <Text style={{   textAlign: "center", color: Colors.common.textOrange }}>{t(Locales.Login + ":REGISTER")}</Text>
+        </Pressable>
+
       </>
     )
   }
@@ -129,7 +135,7 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
       />
       <ImageBackground style={{ flex: 1, justifyContent: "center" }} source={require("../../assets/images/icons/login_bg.png")}>
 
-        <View style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 50, paddingTop: 50, backgroundColor: Colors.light.background, borderRadius: 10, marginLeft: 20, marginRight: 20 }}>
+        <View style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 30, paddingTop: 50, backgroundColor: Colors.light.background, borderRadius: 10, marginLeft: 20, marginRight: 20 }}>
           <View>
             <Image source={{ uri: "https://i.hizliresim.com/TtqzTs.png" }} style={{ alignSelf: "center", height: 60, width: 153 }} />
           </View>
