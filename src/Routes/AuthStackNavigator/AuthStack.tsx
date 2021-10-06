@@ -4,10 +4,12 @@ import { AuthParamList } from "./AuthParamList";
 import RegisterScreen from "../../Screens/RegisterScreen";
 import LoignScreen from "../../Screens/LoginScreen";
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import AuthValidationScreen from "../../Screens/AuthValidationScreen";
 
 interface AuthStackProps { }
 
 const Stack = createNativeStackNavigator<AuthParamList>();
+
 
 export const AuthStack: React.FC<AuthStackProps> = ({ }) => {
   return (
@@ -20,7 +22,7 @@ export const AuthStack: React.FC<AuthStackProps> = ({ }) => {
     >
       <Stack.Screen
         options={{ headerShown: false }}
-        name="Login"
+        name='Login'
         component={LoignScreen}
       />
       <Stack.Screen
@@ -28,6 +30,12 @@ export const AuthStack: React.FC<AuthStackProps> = ({ }) => {
 
         name="Register"
         component={RegisterScreen}
+      />
+       <Stack.Screen
+        options={{ headerShown: false }}
+
+        name="Validation"
+        component={AuthValidationScreen}
       />
 
     </Stack.Navigator>

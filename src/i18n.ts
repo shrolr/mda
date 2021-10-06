@@ -26,6 +26,11 @@ import ToastlocaleTr from "./i18n/toast/tr";
 import transferlocaleEn from "./i18n/transfer/en";
 import loginlocaleEn from "./i18n/login/en";
 import loginlocaleTr from "./i18n/login/tr";
+import ValidationlocaleEn from "./i18n/validations/en";
+import ValidationlocaleTr from "./i18n/validations/tr";
+import registerLocaleEn from "./i18n/register/en";
+import registerLocaleTr from "./i18n/register/tr";
+
 
 i18n
     .use(initReactI18next)
@@ -47,6 +52,8 @@ i18n
                 Profile:ProfilelocaleEn,
                 Toast:ToastlocaleEn,
                 Login:loginlocaleEn,
+                Validation:ValidationlocaleEn,
+                Register:registerLocaleEn,
             },
             tr: {
                 Notification: NotificationLocaleTr,
@@ -62,6 +69,9 @@ i18n
                 Profile:ProfilelocaleTr,
                 Toast:ToastlocaleTr,
                 Login:loginlocaleTr,
+                Validation:ValidationlocaleTr,
+                Register:registerLocaleTr,
+
             },
         },
         debug: true,

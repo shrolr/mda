@@ -41,6 +41,8 @@ export const reducer = (state: StateContext, action: Action) => {
     case ActionType.SIGN_OUT:
       return {
         ...state, isAuthenticated: false,
+        user:undefined,
+        token:"",
         mt4RealAccounts: [],
         mt5RealAccounts: [],
         mt4DemoAccounts: [],

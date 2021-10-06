@@ -43,7 +43,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     if (result) {
       let user: IUserResponse = JSON.parse(result)
       await ApiCalls.setToken(user.token)
-      ApiCalls.getUserInfoWithToken().then((response) => {
+      ApiCalls.getUserInfoWithToken(user.token).then((response) => {
         if (response instanceof LoginNetworkResponse) {
           dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
         }

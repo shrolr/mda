@@ -17,7 +17,6 @@ interface ISideBar {
 }
 
 
-var capitalize = require('capitalize')
 
 
 
@@ -69,7 +68,19 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
         setwithdrawActive(!withdrawActive)
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }
-
+    const words = (text:string)=> {
+        try {
+            let _text = text.toLowerCase().split(" ")
+            let capitalizedText = "";
+            _text.forEach(element => {
+                capitalizedText += element.substring(0,1).toUpperCase() + element.substring(1) + " "
+            });
+            capitalizedText = capitalizedText.substring(-1)
+            return capitalizedText
+        } catch (error) {
+            return text
+        }
+    }
     const onPress = () => {
         DrawerNavigation.navigation.navigate("ProfileScreen")
     }
@@ -122,14 +133,14 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
     const getCustomerAccountType = (type: number | undefined) => {
 
         if (type === CustomerAccountTypeEnum.Demo) {
-            return capitalize.words(t(Locales.Tabs + ":DEMO"))
+            return words(t(Locales.Tabs + ":DEMO"))
         }
         if (type === CustomerAccountTypeEnum.Ib) {
-            return capitalize.words(t(Locales.Tabs + ":INVESTOR"))
+            return words(t(Locales.Tabs + ":INVESTOR"))
 
         }
         if (type === CustomerAccountTypeEnum.Investor) {
-            return capitalize.words(t(Locales.Tabs + ":IB"))
+            return words(t(Locales.Tabs + ":IB"))
 
         }
         return  ""
@@ -156,7 +167,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         <Pressable onPress={onPressHome}>
                             <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                 <Image source={require("../../../assets/images/icons/home.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>{capitalize.words(t(Locales.Tabs + ":AnaSayfa"))}</Text>
+                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>{words(t(Locales.Tabs + ":AnaSayfa"))}</Text>
                             </View>
                         </Pressable>
 
@@ -171,34 +182,33 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                             <Pressable onPress={toggleWallet} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                     <Image source={require("../../../assets/images/icons/walletgray.png")} resizeMode="contain" style={{ tintColor: walletActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: walletActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{capitalize.words(t(Locales.Wallet + ":TITLE"))}</Text>
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: walletActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{words(t(Locales.Wallet + ":TITLE"))}</Text>
                                     <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
                                         <Icon style={{ fontSize: 12, color: "white" }} name={walletActive ? "minus" : "plus"} type="AntDesign" />
                                     </View>
                                 </View>
                             </Pressable>
                             {
-                                walletActive ?
+                                walletActive &&
                                     <View style={{ paddingLeft: 20, flexDirection: "row" }}>
                                         <View>
                                             <Pressable onPress={NavigateToWallet} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words((t(Locales.Wallet + ":TITLE")))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words((t(Locales.Wallet + ":TITLE")))}</Text>
                                                 </View>
                                             </Pressable>
-
                                             <Pressable onPress={NavigateToWalletHistory} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{(capitalize.words(t(Locales.Wallet + ":WALLETTRANSACTIONS")))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{(words(t(Locales.Wallet + ":WALLETTRANSACTIONS")))}</Text>
                                                 </View>
                                             </Pressable>
 
 
                                         </View>
                                     </View>
-                                    : null}
+                                   }
                         </View>
                     </View>
 
@@ -207,7 +217,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                             <Pressable onPress={toggleAccount} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                     <Image source={require("../../../assets/images/icons/bank.png")} resizeMode="contain" style={{ tintColor: accountsActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: accountsActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{(capitalize.words(t(Locales.Accounts + ":TITLE")))}</Text>
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: accountsActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{(words(t(Locales.Accounts + ":TITLE")))}</Text>
                                     <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
                                         <Icon style={{ fontSize: 12, color: "white" }} name={accountsActive ? "minus" : "plus"} type="AntDesign" />
                                     </View>
@@ -220,14 +230,14 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                                             <Pressable onPress={NavigateToAccounts} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{(capitalize.words(t(Locales.Accounts + ":TITLE")))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{(words(t(Locales.Accounts + ":TITLE")))}</Text>
                                                 </View>
                                             </Pressable>
 
                                             <Pressable onPress={NavigateToRealAccountRequest} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Accounts + ":ACCOUNTREQUESTTEXT"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Accounts + ":ACCOUNTREQUESTTEXT"))}</Text>
                                                 </View>
                                             </Pressable>
 
@@ -238,14 +248,14 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         </View>
                     </View>
 
-                    <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: Colors.common.gray }}>{capitalize.words(t(Locales.Tabs + ":MoneyTransactions"))}</Text>
+                    <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: Colors.common.gray }}>{words(t(Locales.Tabs + ":MoneyTransactions"))}</Text>
 
                     <View style={{ paddingTop: 10, marginTop: 10, backgroundColor: depositActive ? Colors.common.sideBarGrayBg : 'transparent', marginLeft: -20, marginRight: -20, paddingLeft: 30, paddingRight: 30 }}>
                         <View>
                             <Pressable onPress={toggleDeposit} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                     <Image source={require("../../../assets/images/icons/sidebar_deposit.png")} resizeMode="contain" style={{ tintColor: depositActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: depositActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{capitalize.words(t(Locales.Deposits + ":TITLE"))}</Text>
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: depositActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{words(t(Locales.Deposits + ":TITLE"))}</Text>
                                     <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
                                         <Icon style={{ fontSize: 12, color: "white" }} name={depositActive ? "minus" : "plus"} type="AntDesign" />
                                     </View>
@@ -258,20 +268,20 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                                             <Pressable onPress={navigateToDepositScreen} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Deposits + ":TITLE"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Deposits + ":TITLE"))}</Text>
                                                 </View>
                                             </Pressable>
 
                                             <Pressable onPress={navigateToNewDeposit} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Deposits + ":CREATEDEPOSIT"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Deposits + ":CREATEDEPOSIT"))}</Text>
                                                 </View>
                                             </Pressable>
                                             <Pressable onPress={navigateToDepositHistory} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Deposits + ":DEPOSITHISTORY"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Deposits + ":DEPOSITHISTORY"))}</Text>
                                                 </View>
                                             </Pressable>
 
@@ -286,7 +296,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                             <Pressable onPress={toggleTransfer} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                     <Image source={require("../../../assets/images/icons/sidebar_transfer.png")} resizeMode="contain" style={{ tintColor: transferActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: transferActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{capitalize.words(t(Locales.Transfer + ":TRANSFERDASHBOARD"))}</Text>
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: transferActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{words(t(Locales.Transfer + ":TRANSFERDASHBOARD"))}</Text>
                                     <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
                                         <Icon style={{ fontSize: 12, color: "white" }} name={transferActive ? "minus" : "plus"} type="AntDesign" />
                                     </View>
@@ -299,20 +309,20 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                                             <Pressable onPress={NavigateToTransfer} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Transfer + ":TITLE"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Transfer + ":TITLE"))}</Text>
                                                 </View>
                                             </Pressable>
 
                                             <Pressable onPress={NavigateToNewTransfer} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Transfer + ":CREATETRANSFER"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Transfer + ":CREATETRANSFER"))}</Text>
                                                 </View>
                                             </Pressable>
                                             <Pressable onPress={NavigateToTransferHistory} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Transfer + ":TRANSFERHISTORY"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Transfer + ":TRANSFERHISTORY"))}</Text>
                                                 </View>
                                             </Pressable>
 
@@ -327,7 +337,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                             <Pressable onPress={toggleWithdraw} >
                                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                     <Image source={require("../../../assets/images/icons/atm.png")} resizeMode="contain" style={{ tintColor: withdrawActive ? "#F7B92D" : "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: withdrawActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{capitalize.words(t(Locales.Withdraw + ":WITHDRAWDASHBOARD"))}</Text>
+                                    <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: withdrawActive ? Colors.common.sidebarActiveMenu : Colors.common.white }}>{words(t(Locales.Withdraw + ":WITHDRAWDASHBOARD"))}</Text>
                                     <View style={{ flex: 1, alignItems: "flex-end", marginBottom: 5, }}>
                                         <Icon style={{ fontSize: 12, color: "white" }} name={withdrawActive ? "minus" : "plus"} type="AntDesign" />
                                     </View>
@@ -340,20 +350,20 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                                             <Pressable onPress={NavigateToWithdraw} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_info.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Withdraw + ":TITLE"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Withdraw + ":TITLE"))}</Text>
                                                 </View>
                                             </Pressable>
 
                                             <Pressable onPress={NavigateToNewWithdraw} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_new.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Withdraw + ":CREATEWITHDRAW"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Withdraw + ":CREATEWITHDRAW"))}</Text>
                                                 </View>
                                             </Pressable>
                                             <Pressable onPress={NavigateToWithdrawHistory} >
                                                 <View style={{ height: 44, flexDirection: "row", alignItems: "center" }}>
                                                     <Image source={require("../../../assets/images/icons/sidebar_history.png")} resizeMode="contain" style={{ marginRight: 10, height: 14, width: 14 }} />
-                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{capitalize.words(t(Locales.Withdraw + ":WITHDRAWHISTORY"))}</Text>
+                                                    <Text style={{ fontSize: 11, color: Colors.common.white }}>{words(t(Locales.Withdraw + ":WITHDRAWHISTORY"))}</Text>
                                                 </View>
                                             </Pressable>
 
@@ -369,7 +379,7 @@ export const SideBar: React.FC<ISideBar> = ({ DrawerNavigation }) => {
                         <Pressable onPress={onLogoutPress}>
                             <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                                 <Image source={require("../../../assets/images/icons/user-circle-regular.png")} resizeMode="contain" style={{ tintColor: "#737576", marginRight: 10, height: 29, width: 24 }} />
-                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>{capitalize.words(t(Locales.Tabs + ":LOGOUT"))}</Text>
+                                <Text style={{ marginBottom: 5, fontSize: 12, fontWeight: "normal", color: Colors.common.white }}>{words(t(Locales.Tabs + ":LOGOUT"))}</Text>
                             </View>
                         </Pressable>
 

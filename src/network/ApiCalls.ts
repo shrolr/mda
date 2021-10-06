@@ -14,9 +14,9 @@ import { PostCustomerWithdrawAccountRequestModel } from '../types/post/PostCusto
 import { PostWithdrawRequestModel } from '../types/post/PostWithdrawRequestModel';
 import { PersonalInfoUpdateRequest } from '../types/post/PersonalInfoUpdateRequest';
 import { PutAccountRequest } from '../types/post/PutAccountRequest';
-import { PostAccountRequest, PostDepositRequestModel } from '../types/post';
+import { PostAccountRequest, PostDepositRequestModel, RegisterRequest, VerificationRequest, VerifyRequest } from '../types/post';
 import { PostCustomerDepositAccountRequestModel } from '../types/post/PostCustomerWithdrawAccountRequestModel';
-const httpClient = axios.create({
+var httpClient = axios.create({
   httpsAgent: {
     rejectUnauthorized: false
   },
@@ -40,14 +40,28 @@ class ApiCalls implements IApiCalls {
   }
 
   setToken = async (token: string) => {
-    httpClient.interceptors.request.use(function (config) {
+    const newHttpClient = axios.create({
+      httpsAgent: {
+        rejectUnauthorized: false
+      },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + token
+      },
+    });
+    newHttpClient.defaults.timeout = 15000;
+
+    newHttpClient.interceptors.request.use(function (config) {
       config.headers.Authorization = token ? `Bearer ${token}` : '';
       return config;
     });
+    httpClient = newHttpClient
   }
 
-  getUserInfoWithToken = () => {
-    return httpClient.get(this.server_link + Endpoints['auth-with-token']).then((result) => {
+  getUserInfoWithToken = (token: string) => {
+    console.log("get user info with token", token)
+    return httpClient.get(this.server_link + Endpoints['auth-with-token'], { headers: { 'Authorization': `Bearer ${token}` } }).then((result) => {
       let user: IUserResponse = result.data
       let status = result.status
       let NetworkResponse = new LoginNetworkResponse(status, user)
@@ -59,14 +73,70 @@ class ApiCalls implements IApiCalls {
     })
 
   }
+  register = (registerRequest: RegisterRequest) => {
+    return httpClient.post(this.server_link + Endpoints.register, registerRequest).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch(({ response }) => {
+      try {
+        if (response.data.code) {
+          let networkResponse = new NetworkResponseFail(response.data.code)
+          return networkResponse;
+
+        }
+      } catch (error) {
+
+      }
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+
+  }
+  requestVerification = (verificationRequest: VerificationRequest) => {
+    return httpClient.post(this.server_link + Endpoints['request-verification-with-email'], verificationRequest).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch(() => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+
+  }
+
+  verifyUser = (verifyRequest: VerifyRequest) => {
+    return httpClient.post(this.server_link + Endpoints['verify-user'], verifyRequest).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch(() => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
+      return networkResponse;
+    })
+
+  }
+
+
   login = (LoginRequest: LoginRequest) => {
     return httpClient.post(this.server_link + Endpoints.auth, LoginRequest).then((result) => {
       let user: IUserResponse = result.data
       let status = result.status
       let NetworkResponse = new LoginNetworkResponse(status, user)
-
       return NetworkResponse;
-    }).catch(() => {
+    }).catch(({ response }) => {
+      try {
+        if (response.data.code) {
+          let networkResponse = new NetworkResponseFail(response.data.code)
+          return networkResponse;
+
+        }
+      } catch (error) {
+
+      }
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       return networkResponse;
     })
@@ -110,7 +180,6 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }
@@ -124,7 +193,19 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
+      return networkResponse;
+    })
+  }
+  updateNotificationListStatus = (customerId: number, payload: { ids: number[], statusId: number }) => {
+    // statusId 2 
+    let urlSuffix = `/${customerId}`
+    return httpClient.put(this.authenticated_server_link + Endpoints.notification['update-list-status'] + urlSuffix, payload).then((result) => {
+      let data = result.data
+      let status = result.status
+      let _networkResponse = new NetworkResponse(status, data);
+      return _networkResponse;
+    }).catch((err) => {
+      let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
       return networkResponse;
     })
   }
@@ -262,7 +343,6 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }
@@ -310,7 +390,6 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }
@@ -322,7 +401,6 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }
@@ -360,7 +438,6 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }
@@ -399,7 +476,6 @@ class ApiCalls implements IApiCalls {
       return _networkResponse;
     }).catch((err) => {
       let networkResponse = new NetworkResponseFail(SERVER_REQUEST_FAILED)
-      console.log("fail", err)
       return networkResponse;
     })
   }

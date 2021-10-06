@@ -14,7 +14,6 @@ interface ITestComponent {
 export const TestComponent: React.FC<ITestComponent> = () => {
     let { context, dispatch } = useStateContext()
     useEffect(() => {
-        ApiCalls.setToken(context.user!.token)
 
         ApiCalls.getWalletTransactionsInfo(context.user!.customerAccountInfo.customerId)
         ApiCalls.getUserWithdrawList(context.user!.customerAccountInfo.customerId)

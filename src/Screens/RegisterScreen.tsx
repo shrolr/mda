@@ -12,49 +12,72 @@ import { ActionType } from '../context/reducer';
 import * as SecureStore from 'expo-secure-store';
 import { useTranslation } from 'react-i18next';
 import { Locales } from '../enums';
+import { RegisterRequest } from '../types/post';
 
 
 export default function RegisterScreen({ navigation }: AuthNavProps<"Register">) {
     const { t } = useTranslation();
-    const [rememberMe, setrememberMe] = useState(false)
 
-    const [state, setstate] = useState({} as LoginRequest)
     const { dispatch } = useStateContext();
     const [lastNameInputError, setLastNameInputError] = useState(false);
     const [firstNameInputError, setFirstNameInputError] = useState(false);
-    const [INVALIDMEAIL, setINVALIDMEAIL] = useState(false)
-    const [INVLADPASSOWRD, setINVLADPASSOWRD] = useState(false)
+    const [INVALIDMEAIL, setEmailInputError] = useState(false)
     const [firstNameInput, setFirstNameInput] = useState("");
-    const [countryInput, setCountryInput] = useState("");
-    const [stateInput, setStateInput] = useState("");
+
     const [lastNameInput, setLastNameInput] = useState("");
-    const [cityInput, setCityInput] = useState("");
-    const [zipcodeInput, setZipCodeInput] = useState("");
-    const [addressInput, setAddressInput] = useState("");
+    const [password, setpassword] = useState("")
+    const [passwordConfirmation, setpasswordConfirmation] = useState("")
+    const [emailInput, setEmailInput] = useState("");
     const [phone, setPhone] = useState("")
     const [MobilePhoneInputError, setMobilePhoneInputError] = useState(false)
-    const onChangeText = (identifier: string) => {
-        setstate({ identifier, password: state.password })
-    }
+
 
     const onPasswordChange = (password: string) => {
-        setstate({ identifier: state.identifier, password })
+        setpassword(password)
     }
-    const onLoginPress = async () => {
+    const onPasswordConfirmationChange = (password: string) => {
+        setpasswordConfirmation(password)
+    }
+    const onRegisterPress = async () => {
+        if (passwordConfirmation !== password) {
+            Toast.show({ text: t(Locales.Register + ":PASSWORDMISMATCHERROR"), buttonText: 'Ok', type: "danger", })
+            return
+        }
+        if (password.length < 6) {
+            Toast.show({ text: t(Locales.Register + ":PASSWORDMINLENGTHERROR"), buttonText: 'Ok', type: "danger", })
+            return
 
-        ApiCalls.login(state).then((response) => {
+        }
+        if (emailInput.length < 4 || INVALIDMEAIL) {
+            Toast.show({ text: t(Locales.Register + ":EMAILVALIDATIONERROR"), buttonText: 'Ok', type: "danger", })
+            return
+            // 
+        }
+        if (MobilePhoneInputError) {
+            Toast.show({ text: t(Locales.Register + ":EMAILVALIDATIONERROR"), buttonText: 'Ok', type: "danger", })
+            return
+            // MOBILEPHONEVALIDATIONERROR
+        }
+        let register: RegisterRequest = {
+            firstname: firstNameInput,
+            lastname: lastNameInput,
+            email: emailInput,
+            mobilePhone: phone,
+            password,
+            ref: null,
+            typeId: 1,
+        }
+        ApiCalls.register(register).then((response) => {
             if (response instanceof NetworkResponseFail) {
-                // show error
-
-            }
-            else {
-                if (response.data.isAuthenticated) {
-                    if (rememberMe) {
-                        SecureStore.setItemAsync("auth", JSON.stringify(response.data))
-                    }
-                    dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
+                console.log("response error", response)
+                if (response.status === 102) {
+                    Toast.show({ text: t(Locales.Register + ":EMAILDUPLICATEERROR") + "\n" + t(Locales.Register + ":MOBILEPHONEDUPLICATEERROR"), buttonText: 'Ok', type: "danger", duration:5000})
                 }
-
+                 
+            } else {
+                //                Toast.show({ text: t(Locales.Register + ":VERIFICATIONINFO"), buttonText: 'Ok', type: "success", })
+              
+                navigation.navigate("Validation", { identifier: emailInput })
             }
         })
     }
@@ -66,6 +89,19 @@ export default function RegisterScreen({ navigation }: AuthNavProps<"Register">)
             setMobilePhoneInputError(true);
         }
         setPhone(phone)
+    }
+    const onEmailChange = (email: string) => {
+        let pattern = /^\S+@\S+\.\S+$/;
+        if (pattern.test(email)) {
+            setEmailInputError(false);
+        } else {
+            setEmailInputError(true);
+        }
+
+        setEmailInput(email)
+    }
+    const goBackToLogin = ()=> {
+        navigation.navigate("Login")
     }
     return (
         <View style={{ justifyContent: "center", flex: 1 }}>
@@ -90,25 +126,31 @@ export default function RegisterScreen({ navigation }: AuthNavProps<"Register">)
                     </Item>
 
                     <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 30 }} rounded>
-                        <Input autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onChangeText} placeholder={"email"} />
+                        <Input autoCapitalize="none" autoCorrect={false} keyboardType="email-address" onChangeText={onEmailChange} placeholder={"email"} />
                     </Item>
                     {
-                        INVALIDMEAIL && <Text style={{ paddingLeft: 10, color: Colors.common.fontOrangeRed, marginTop: 5 }}>{t(Locales.Login + ":INVALIDEMAILERROR")}</Text>
+                        INVALIDMEAIL && <Text style={{ paddingLeft: 10, color: Colors.common.fontOrangeRed, marginTop: 5 }}>{t(Locales.Register + ":EMAILVALIDATIONERROR")}</Text>
                     }
                     <Item error={MobilePhoneInputError} style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input placeholder={"cep telefonu"} onChangeText={onPhoneChange} />
+                        <Input keyboardType="phone-pad" placeholder={t(Locales.Profile + ":MOBILEPHONE")} onChangeText={onPhoneChange} />
                     </Item>
+                    {
+                        MobilePhoneInputError && <Text style={{ paddingLeft: 10, color: Colors.common.fontOrangeRed, marginTop: 5 }}>{t(Locales.Register + ":MOBILEPHONEVALIDATIONERROR")}</Text>
+                    }
                     <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
                         <Input onChangeText={onPasswordChange} secureTextEntry placeholder={t(Locales.Login + ":PASSWORDLABEL")} />
                     </Item>
                     <Item style={{ paddingLeft: 10, borderRadius: 10, marginTop: 20 }} rounded>
-                        <Input onChangeText={onPasswordChange} secureTextEntry placeholder={t(Locales.Login + ":PASSWORDLABEL")} />
+                        <Input onChangeText={onPasswordConfirmationChange} secureTextEntry placeholder={t(Locales.Login + ":PASSWORDLABEL")} />
                     </Item>
 
 
-                    <Button onPress={onLoginPress} style={{ marginTop: 20, borderRadius: 10, backgroundColor: Colors.common.loginButton }} full>
+                    <Button onPress={onRegisterPress} style={{ marginTop: 20, borderRadius: 10, backgroundColor: Colors.common.loginButton }} full>
                         <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 16 }}>{t(Locales.Login + ":REGISTER")}</Text>
                     </Button>
+                    <Pressable onPress={goBackToLogin} style={{ marginTop: 20 }}>
+                        <Text style={{ textAlign: "center", color: Colors.common.textOrange }}><Text style={{color:Colors.common.fontGray}}>{t(Locales.Register + ":ALREADYHASACCOUNT")} </Text>  {t(Locales.Register + ":LOGIN")}</Text>
+                    </Pressable>
                 </View>
             </ImageBackground>
 

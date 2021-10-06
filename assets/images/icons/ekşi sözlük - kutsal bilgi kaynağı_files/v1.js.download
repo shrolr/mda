@@ -1,0 +1,48 @@
+
+window.NativeAdPub = window.NativeAdPub || [];
+
+var _NativeAdPub = _NativeAdPub || {};
+
+_NativeAdPub.render = function(options) {
+    var adTarget = options.target;
+    var adDivid = options.id;
+    if (adTarget>0) {
+        var divElNumbers = document.getElementById(adDivid).getBoundingClientRect();
+        var divIsVisible = true;
+        if (divElNumbers.bottom === 0 && divElNumbers.top === 0 && divElNumbers.left === 0 && divElNumbers.right === 0 && divElNumbers.width === 0){
+            divIsVisible = false;
+        }
+        if (typeof adDivid !== "undefined" && divIsVisible === true && (typeof document.getElementById(adDivid) !== "null" || typeof document.getElementById(adDivid) !== "undefined")) {
+            var adrxhttp = new XMLHttpRequest();
+            var url = 'https://serv.nspot.co/unit/'+adTarget+"?t="+new Date().getTime();
+            adrxhttp.onreadystatechange = function() {
+                if (adrxhttp.readyState === 4 && adrxhttp.status === 200) {
+                    var adrRes = JSON.parse(adrxhttp.responseText);
+                    if (adrRes.s === '1') {
+                        document.getElementById(adDivid).innerHTML = adrRes.c;
+                    }
+                }
+            };
+            adrxhttp.open("GET", url, true);
+            adrxhttp.send();
+        }
+    }
+};
+
+NativeAdPub.push = function (){
+    for (var i=0; i<arguments.length; i++) {
+        callNativeAdPubMethods(arguments);
+    }
+};
+
+
+var callNativeAdPubMethods = function (tempObj) {
+    for(var i=0; i<tempObj.length; i++) {
+        _NativeAdPub.render(tempObj[i]);
+    }
+};
+
+var NativeAdPubInit = function () {
+    callNativeAdPubMethods(window.NativeAdPub);
+};
+NativeAdPubInit();

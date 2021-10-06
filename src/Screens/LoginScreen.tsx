@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, ImageBackground, Image, StatusBar, Pressable } from 'react-native'
 import Colors from '../constants/Colors';
-import { Button, CheckBox, Input, Item, Toast } from 'native-base';
+import { Button, CheckBox, Icon, Input, Item, Toast } from 'native-base';
 
 import { AuthNavProps } from '../Routes/AuthStackNavigator/AuthParamList';
 import ApiCalls from '../network/ApiCalls';
@@ -41,16 +41,24 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
     setINVALIDMEAIL(false)
     setINVLADPASSOWRD(false)
     ApiCalls.login(state).then((response) => {
+      console.log(JSON.stringify(response))
       if (response instanceof NetworkResponseFail) {
-        // show error
-        setINVALIDMEAIL(true)
-        setINVLADPASSOWRD(true)
+        if (response.status === 101) {
+          navigation.navigate("Validation", { identifier: state.identifier })
+        }
+        else {
+          setINVALIDMEAIL(true)
+          setINVLADPASSOWRD(true)
+        }
+
       }
       else {
         if (response.data.isAuthenticated) {
           if (rememberMe) {
             SecureStore.setItemAsync("auth", JSON.stringify(response.data))
           }
+          ApiCalls.setToken(response.data.token)
+          console.log("loggin token",response.data.token)
           dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
         }
 
@@ -99,8 +107,8 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
         <Button onPress={onLoginPress} style={{ borderRadius: 10, backgroundColor: Colors.common.loginButton }} full>
           <Text style={{ color: Colors.common.white, fontWeight: "bold", fontSize: 16 }}>{t(Locales.Login + ":LOGINBUTTON")}</Text>
         </Button>
-        <Pressable onPress={navigateToRegister} style={{marginTop:20}}>
-          <Text style={{   textAlign: "center", color: Colors.common.textOrange }}>{t(Locales.Login + ":REGISTER")}</Text>
+        <Pressable onPress={navigateToRegister} style={{ marginTop: 20 }}>
+          <Text style={{ textAlign: "center", color: Colors.common.textOrange }}>{t(Locales.Login + ":REGISTER")}</Text>
         </Pressable>
 
       </>
@@ -137,7 +145,7 @@ export default function LoignScreen({ navigation }: AuthNavProps<"Login">) {
 
         <View style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 30, paddingTop: 50, backgroundColor: Colors.light.background, borderRadius: 10, marginLeft: 20, marginRight: 20 }}>
           <View>
-            <Image source={{ uri: "https://i.hizliresim.com/TtqzTs.png" }} style={{ alignSelf: "center", height: 60, width: 153 }} />
+            <Image source={require("./../../assets/images/icons/logo.png")} style={{ alignSelf: "center", height: 60, width: 153 }} />
           </View>
           <View style={{ height: 0.5, marginTop: 30, marginBottom: 30, backgroundColor: Colors.common.gray }} />
           {forgotPassword ? renderForgotPassword() : renderLogin()}

@@ -15,7 +15,7 @@ import { HomeStackNavProps } from "../HomeParamList";
 function ProfileScreen({ navigation }: HomeStackNavProps<"ProfileScreen">) {
   const [tabState, setTabState] = useState<Tabs>(Tabs.AccountInfo)
   const { t } = useTranslation();
-  const { dispatch } = useStateContext();
+  const { context, dispatch } = useStateContext();
   const switchToPersonalInfoTab = () => {
     setTabState(Tabs.PersonalInfo)
   }
@@ -23,7 +23,7 @@ function ProfileScreen({ navigation }: HomeStackNavProps<"ProfileScreen">) {
     setTabState(Tabs.AccountInfo)
   }
   const updateUserInfo = () => {
-    ApiCalls.getUserInfoWithToken().then((response) => {
+    ApiCalls.getUserInfoWithToken(context.user!.token).then((response) => {
       if (response instanceof LoginNetworkResponse) {
         dispatch!({ type: ActionType.SIGN_IN, payload: { user: response.data } })
       }

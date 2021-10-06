@@ -11,6 +11,7 @@ import { NotificationApiModel } from '../../../models/ApiModels/Notifications/No
 
 import { useTranslation } from 'react-i18next';
 import i18n from "../../../i18n";
+import { NotificationListHeader } from '../../../components/Molecules/NotificationListHeader'
 
 
 export default function NotificationScreen({ navigation }: HomeStackNavProps<"NotificationScreen">) {
@@ -38,6 +39,7 @@ export default function NotificationScreen({ navigation }: HomeStackNavProps<"No
                 <NavBar ImageProp="notification" title={t("Notification:TITLE")} />
                 <View style={{ flex: 1 }}>
                     <FlatList
+                        ListHeaderComponent={<NotificationListHeader />}
                         contentContainerStyle={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}
                         data={context.notifications?.notifications}
                         renderItem={_renderNotificationHistory}
